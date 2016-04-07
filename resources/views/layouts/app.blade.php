@@ -40,7 +40,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Educomser SRL
+                    <i class="fa fa-btn fa-laptop"></i>Educomser SRL
                 </a>
             </div>
 
