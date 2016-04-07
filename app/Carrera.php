@@ -16,4 +16,10 @@ class Carrera extends Model
     protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_mensual'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    // Relationships
+    // N -> (N:N)
+    public function cursos(){
+        return $this->belongsToMany('App\Curso', 'carrera_curso', 'curso_codigo', 'carrera_codigo')->withPivot('orde');
+    }
 }

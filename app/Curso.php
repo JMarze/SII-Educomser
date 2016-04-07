@@ -30,4 +30,9 @@ class Curso extends Model
     public function capitulos(){
         return $this->hasMany('App\Capitulo');
     }
+
+    // N -> (N:N)
+    public function carreras(){
+        return $this->belongsToMany('App\Carrera', 'carrera_curso', 'carrera_codigo', 'curso_codigo')->withPivot('orde');
+    }
 }

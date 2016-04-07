@@ -33,6 +33,16 @@ class CreateCursosTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::create('carrera_curso', function (Blueprint $table) {
+            $table->tinyInteger('orden')->default(1);
+
+            // Foreign Keys
+            $table->string('carrera_codigo', 15)->index();
+            $table->foreign('carrera_codigo')->references('codigo')->on('carreras');
+            $table->string('curso_codigo', 15)->index();
+            $table->foreign('curso_codigo')->references('codigo')->on('cursos');
+        });
     }
 
     /**
@@ -42,6 +52,7 @@ class CreateCursosTable extends Migration
      */
     public function down()
     {
+        Schema::drop('carrera_curso');
         Schema::drop('cursos');
     }
 }
