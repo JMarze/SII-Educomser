@@ -15,7 +15,6 @@ class CreateDificultadesTable extends Migration
         Schema::create('dificultades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 25)->unique();
-            $table->integer('nivel')->unique();
         });
     }
 

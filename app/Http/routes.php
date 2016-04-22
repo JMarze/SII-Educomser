@@ -18,3 +18,9 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+// Backend - Restful
+Route::group(['prefix' => 'admin'], function(){
+    // Backend Carrera
+    Route::resource('carrera', 'CarreraController');
+});

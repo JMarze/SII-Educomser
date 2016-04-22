@@ -9,7 +9,7 @@ class Dificultad extends Model
     protected $table = 'dificultades';
     public $timestamps = false;
 
-    protected $fillable = ['nombre', 'nivel'];
+    protected $fillable = ['nombre'];
 
     // Relationships
     // N -> (1:N)
