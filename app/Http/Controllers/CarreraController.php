@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 
 use App\Carrera;
+use App\Http\Requests\CarreraRequest;
 
 class CarreraController extends Controller
 {
@@ -22,7 +23,7 @@ class CarreraController extends Controller
      */
     public function index(Request $request)
     {
-        $carreras = Carrera::orderBy('created_at', 'DESC')->paginate(1);
+        $carreras = Carrera::orderBy('created_at', 'DESC')->paginate(10);
         if ($request->ajax()){
             return response()->json(view('admin.carrera.partial.table')->with('carreras', $carreras)->render());
         }
@@ -45,11 +46,22 @@ class CarreraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CarreraRequest $request)
     {
         if ($request->ajax()){
             $carrera = new Carrera($request->all());
-            $carrera->save();
+            try{
+                $carrera->save();
+                flash()->success('Se agregó la carrera: '.$carrera->nombre);
+                return response()->json([
+                    'mensaje' => $carrera->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
         }
     }
 

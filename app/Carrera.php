@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Carbon\Carbon;
+
 class Carrera extends Model
 {
     use SoftDeletes;
@@ -16,6 +18,13 @@ class Carrera extends Model
     protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_mensual'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    // Mutator
+    public function setLogoAttribute($ruta){
+        $nombreLogo = Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
+        $this->attributes['logo'] = $nombreLogo;
+        \Storage::disk('local')->put($nombreLogo, \File::get($ruta));
+    }
 
     // Relationships
     // N -> (N:N)

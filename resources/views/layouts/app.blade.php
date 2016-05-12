@@ -72,11 +72,15 @@
         </div>
     </nav>
 
+    <div class="container">@include('flash::message')</div>
+
     @yield('content')
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- JQuery Form -->
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
     @yield('script')

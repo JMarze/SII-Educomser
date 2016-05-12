@@ -14,7 +14,7 @@
         <td>{{ $carrera->codigo }}</td>
         <td>{{ $carrera->nombre }}</td>
         <td>
-            <span class="label label-default" style="background-color: {{ $carrera->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span class="label" style="background-color: {{ $carrera->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </td>
         <td>Bs {{ number_format($carrera->costo_mensual, 2, '.', ',') }}</td>
         <td>{{ $carrera->created_at->diffForHumans() }}</td>
@@ -35,3 +35,24 @@
 <div class="panel-footer">
     <div class="text-center">{{ $carreras->render() }}</div>
 </div>
+
+@section('script')
+@parent
+<script>
+    // Paginación
+    $(document).on('click', '.pagination a', function (e){
+        e.preventDefault();
+        var href = $(this).attr('href').split('?');
+        var url = href[0];
+        var data = href[1];
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'JSON',
+            data: data
+        }).done(function (response){
+            $('.content-ajax').html(response);
+        });
+    });
+</script>
+@endsection

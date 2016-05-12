@@ -55,39 +55,3 @@
 </div>
 @include('admin.carrera.partial.create')
 @endsection
-
-@section('script')
-<script>
-    // Paginación
-    $(document).on('click', '.pagination a', function (e){
-        e.preventDefault();
-        var href = $(this).attr('href').split('?');
-        var url = href[0];
-        var data = href[1];
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'JSON',
-            data: data,
-            success: function(response){
-                $('.content-ajax').html(response);
-            }
-        });
-    });
-    // Crear
-    $(document).on('click', '#btn-agregar', function (){
-        var form = $('#form');
-        var data = form.serialize();
-        var ruta = '/admin/carrera';
-        $.ajax({
-            url: ruta,
-            type: 'POST',
-            dataType: 'JSON',
-            data: data,
-            success: function(){
-                window.location.href = "/admin/carrera";
-            }
-        });
-    });
-</script>
-@endsection

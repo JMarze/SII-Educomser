@@ -15,7 +15,7 @@ class CreateCarrerasTable extends Migration
         Schema::create('carreras', function (Blueprint $table) {
             $table->string('codigo', 15)->primary();
             $table->string('nombre', 25)->unique();
-            $table->string('logo', 25)->unique();
+            $table->string('logo', 25)->nullable();
             $table->string('color_hexa', 7)->nullable();
             $table->decimal('costo_mensual', 6, 2)->default(0);
             $table->timestamps();
