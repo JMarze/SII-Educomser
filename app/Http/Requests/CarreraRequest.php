@@ -26,7 +26,6 @@ class CarreraRequest extends Request
         return [
             'codigo' => 'required|string|min:5|max:15',
             'nombre' => 'required|string|min:2|max:25',
-            'logo' => 'image',
             'color_hexa' => 'string|min:3|max:7',
             'costo_mensual' => 'required|numeric|min:0',
         ];

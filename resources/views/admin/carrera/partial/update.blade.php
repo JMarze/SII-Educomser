@@ -1,17 +1,22 @@
-<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="Agregar">
+<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="Editar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="Agregar">
-                    <i class="fa fa-btn fa-cubes"></i>Agregar Carrera
+                <h4 class="modal-title" id="Editar">
+                    <i class="fa fa-btn fa-cubes"></i>Editar Carrera
                 </h4>
             </div>
 
             <div class="modal-body">
-                {!! Form::open(['route' => 'admin.carrera.store', 'method' => 'POST', 'id' => 'form-create', 'class' => 'form-horizontal']) !!}
+                <div class="alert alert-warning" role="alert" id="msg-update">
+                    <i class="fa fa-btn fa-spin fa-refresh"></i>
+                    <strong>Cargando!!!</strong> Un momento por favor...
+                </div>
+
+                {!! Form::open(['route' => ['admin.carrera.update', 'IDCARRERA'], 'method' => 'PUT', 'id' => 'form-update', 'class' => 'form-horizontal']) !!}
 
                 @include('admin.carrera.partial.form')
 
@@ -22,7 +27,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     <i class="fa fa-btn fa-close"></i>Cancelar
                 </button>
-                <button id="btn-agregar" type="button" class="btn btn-default">
+                <button id="btn-editar" type="button" class="btn btn-default">
                     <i class="fa fa-btn fa-save"></i>Guardar
                 </button>
             </div>
@@ -34,32 +39,34 @@
 @parent
 <script>
     // Reset Form
-    $('.modal#create').on('show.bs.modal', function(e){
+    $('.modal#update').on('show.bs.modal', function(e){
         resetForm($(this));
     });
-    $('.modal#create').on('hidden.bs.modal', function(e){
+    $('.modal#update').on('hidden.bs.modal', function(e){
         resetForm($(this));
     });
-    // Crear
-    var formCreate = $('#form-create');
+    // Editar
+    var formUpdate = $('#form-update');
     var progressBar = $('.progress .progress-bar');
-    $(document).on('click', '#btn-agregar', function(){
-        //formCreate.submit();
-        var url = formCreate.attr('action');
-        var data = formCreate.serialize();
+    $(document).on('click', '#btn-editar', function(){
+        //formUpdate.submit();
+        var url = formUpdate.attr('action').split('/');
+        url[url.length-1] = formUpdate.data('id');
+        url = url.join("/");
+        var data = formUpdate.serialize();
         $.ajax({
             url: url,
-            method: 'POST',
+            method: 'PUT',
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            window.location.href = "/admin/carrera";
+            location.reload();
         }).fail (function (response){
             validation(response);
         });
     });
     // Ajax
-    /*formCreate.ajaxForm({
+    /*formUpdate.ajaxForm({
         beforeSend: function (){
             progressBar.width('0%');
             progressBar.attr('aria-valuenow', '0');
@@ -74,10 +81,11 @@
             progressBar.width('100%');
             progressBar.attr('aria-valuenow', '100');
             progressBar.html('100%');
-            window.location.href = "/admin/carrera";
+            location.reload();
         },
         complete: function (response){},
         error: function (response){
+            console.log(response);
             if(response.responseJSON['codigo']){
                 $('#w-codigo').addClass('has-error');
                 $('#w-codigo .help-block>strong').html(response.responseJSON['codigo']);

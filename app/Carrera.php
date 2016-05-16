@@ -21,9 +21,11 @@ class Carrera extends Model
 
     // Mutator
     public function setLogoAttribute($ruta){
-        $nombreLogo = Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
-        $this->attributes['logo'] = $nombreLogo;
-        \Storage::disk('local')->put($nombreLogo, \File::get($ruta));
+        if($ruta){
+            $nombreLogo = Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
+            $this->attributes['logo'] = $nombreLogo;
+            \Storage::disk('local')->put($nombreLogo, \File::get($ruta));
+        }
     }
 
     // Relationships

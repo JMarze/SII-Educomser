@@ -23,7 +23,7 @@ class CarreraController extends Controller
      */
     public function index(Request $request)
     {
-        $carreras = Carrera::orderBy('created_at', 'DESC')->paginate(10);
+        $carreras = Carrera::orderBy('updated_at', 'DESC')->paginate(10);
         if ($request->ajax()){
             return response()->json(view('admin.carrera.partial.table')->with('carreras', $carreras)->render());
         }
@@ -49,8 +49,8 @@ class CarreraController extends Controller
     public function store(CarreraRequest $request)
     {
         if ($request->ajax()){
-            $carrera = new Carrera($request->all());
             try{
+                $carrera = new Carrera($request->all());
                 $carrera->save();
                 flash()->success('Se agregó la carrera: '.$carrera->nombre);
                 return response()->json([
@@ -82,9 +82,21 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                return response()->json([
+                    'carrera' => $carrera,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
+        }
     }
 
     /**
@@ -94,9 +106,24 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CarreraRequest $request, $id)
     {
-        //
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                $carrera->fill($request->all());
+                $carrera->update();
+                flash()->warning('Se modificó la carrera: '.$carrera->nombre);
+                return response()->json([
+                    'mensaje' => $carrera->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
+        }
     }
 
     /**

@@ -54,4 +54,5 @@
     </div>
 </div>
 @include('admin.carrera.partial.create')
+@include('admin.carrera.partial.update')
 @endsection
