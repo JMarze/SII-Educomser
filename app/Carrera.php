@@ -19,6 +19,11 @@ class Carrera extends Model
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    // Scopes
+    public function scopeSearch($query, $filtro){
+        return $query->where('codigo', 'LIKE', "%$filtro%")->orWhere('nombre', 'LIKE', "%$filtro%");
+    }
+
     // Mutator
     public function setLogoAttribute($ruta){
         if($ruta){

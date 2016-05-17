@@ -97,9 +97,13 @@
             url: url,
             method: 'GET',
             dataType: 'JSON',
-            data: data
+            data: data,
+            beforeSend: function(e){
+                $('#msg-index').css('display', 'block');
+            }
         }).done(function (response){
             $('.content-ajax').html(response);
+            $('#msg-index').css('display', 'none');
         });
     });
 

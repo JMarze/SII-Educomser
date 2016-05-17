@@ -23,7 +23,13 @@ class CarreraController extends Controller
      */
     public function index(Request $request)
     {
-        $carreras = Carrera::orderBy('updated_at', 'DESC')->paginate(10);
+        if ($request->buscar_carrera){
+            $carreras = Carrera::search($request->buscar_carrera)->orderBy('updated_at', 'DESC')->paginate(10);
+            $carreras->appends(['buscar_carrera' => $request->buscar_carrera]);
+        }else{
+            $carreras = Carrera::orderBy('updated_at', 'DESC')->paginate(10);
+        }
+
         if ($request->ajax()){
             return response()->json(view('admin.carrera.partial.table')->with('carreras', $carreras)->render());
         }

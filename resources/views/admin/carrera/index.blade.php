@@ -45,6 +45,11 @@
                </div>
             </nav>
 
+            <div class="alert alert-warning" role="alert" id="msg-index" style="display: none;">
+                <i class="fa fa-btn fa-spin fa-refresh"></i>
+                <strong>Cargando!!!</strong> Un momento por favor...
+            </div>
+
             <div class="content-ajax">
                 @include('admin.carrera.partial.table')
             </div>
