@@ -132,8 +132,22 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                $carrera->delete();
+                flash()->error('Se eliminó la carrera: '.$carrera->nombre);
+                return response()->json([
+                    'mensaje' => $carrera->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@
                     <i class="fa fa-edit"></i>
                     <span class="sr-only">Editar</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#delete" data-codigo="{{ $carrera->codigo }}" title="Eliminar">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy" data-codigo="{{ $carrera->codigo }}" title="Eliminar">
                     <i class="fa fa-trash"></i>
                     <span class="sr-only">Eliminar</span>
                 </button>
@@ -125,6 +125,29 @@
             $('#msg-update').css('display', 'none');
             $('#form-update').css('display', 'block');
             $('#form-update').attr('data-id', codigoCarrera);
+        });
+    });
+
+    // Llenar Form -> Eliminar
+    $(document).on('click', 'button[data-target="#destroy"]', function(e){
+        var codigoCarrera = $(this).data('codigo');
+        var url = '/admin/carrera/' + codigoCarrera + '/edit';
+        var data = 'carrera=' + codigoCarrera;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-destroy').css('display', 'block');
+                $('#form-destroy').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#question-destroy').html("¿Está seguro de eliminar la carrera: <i>"+ response['carrera']['nombre'] +"</i>?<br/><h6>* La carrera quedará archivada por seguridad, esto implica que no podrá utilizar este código de carrera: <i>"+ response['carrera']['codigo'] +"</i> para asignarselo a otra.</h6>");
+            $('#msg-destroy').css('display', 'none');
+            $('#form-destroy').css('display', 'block');
+            $('#form-destroy').attr('data-id', codigoCarrera);
         });
     });
 </script>
