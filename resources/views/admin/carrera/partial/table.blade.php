@@ -7,6 +7,7 @@
         <th>Costo Mensual</th>
         <th>Creación</th>
         <th>Última modificación</th>
+        <th>Logo</th>
         <th></th>
     </tr>
     @foreach($carreras as $carrera)
@@ -19,6 +20,17 @@
         <td>Bs {{ number_format($carrera->costo_mensual, 2, '.', ',') }}</td>
         <td>{{ $carrera->created_at->diffForHumans() }}</td>
         <td>{{ $carrera->updated_at->diffForHumans() }}</td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#upload" data-codigo="{{ $carrera->codigo }}" title="Subir Logo">
+                    @if($carrera->logo == null || $carrera->logo == '')
+                    <i class="fa fa-btn fa-upload"></i>Subir Logo
+                    @else
+                    <i class="fa fa-btn fa-upload"></i>Editar Logo
+                    @endif
+                </button>
+            </div>
+        </td>
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update" data-codigo="{{ $carrera->codigo }}" title="Editar">
@@ -38,7 +50,7 @@
 <div class="panel-body">
     <div class="alert alert-warning" role="alert">
         <i class="fa fa-btn fa-database"></i>
-        <strong>Oops!!!</strong> No se encontraron carreras en la base de datos. Intenta <a href="{{ route('admin.carrera.create') }}" class="alert-link">agregar una nueva carrera</a>
+        <strong>Oops!!!</strong> No se encontraron carreras en la base de datos. Intenta <strong>agregar una nueva carrera</strong>
     </div>
 </div>
 @endif
@@ -109,7 +121,7 @@
 
     // Llenar Form -> Editar
     $(document).on('click', 'button[data-target="#update"]', function(e){
-        var codigoCarrera = $(this).data('codigo');
+        var codigoCarrera = $(this).attr('data-codigo');
         var url = '/admin/carrera/' + codigoCarrera + '/edit';
         var data = 'carrera=' + codigoCarrera;
         $.ajax({
@@ -124,7 +136,9 @@
             }
         }).done(function (response){
             $.each(response['carrera'], function(key, value){
-                $('input[name="'+key+'"]').val(value);
+                if(key != 'logo'){
+                    $('input[name="'+key+'"]').val(value);
+                }
             });
             $('#msg-update').css('display', 'none');
             $('#form-update').css('display', 'block');
@@ -134,7 +148,7 @@
 
     // Llenar Form -> Eliminar
     $(document).on('click', 'button[data-target="#destroy"]', function(e){
-        var codigoCarrera = $(this).data('codigo');
+        var codigoCarrera = $(this).attr('data-codigo');
         var url = '/admin/carrera/' + codigoCarrera + '/edit';
         var data = 'carrera=' + codigoCarrera;
         $.ajax({
@@ -152,6 +166,35 @@
             $('#msg-destroy').css('display', 'none');
             $('#form-destroy').css('display', 'block');
             $('#form-destroy').attr('data-id', codigoCarrera);
+        });
+    });
+
+    // Llenar Form -> Upload
+    $(document).on('click', 'button[data-target="#upload"]', function(e){
+        var codigoCarrera = $(this).attr('data-codigo');
+        var url = '/admin/carrera/' + codigoCarrera + '/edit';
+        var data = 'carrera=' + codigoCarrera;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-upload').css('display', 'block');
+                $('#form-upload').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#msg-upload').css('display', 'none');
+            $('#form-upload').css('display', 'block');
+            $('#form-upload').attr('data-id', codigoCarrera);
+            if(response['carrera']['logo'] != null && response['carrera']['logo'] != ''){
+                $('#logo-nombre').html(response['carrera']['logo']);
+                $('#logo-success').html('Nombre del Archivo');
+            }else{
+                $('#logo-nombre').html('');
+                $('#logo-success').html('');
+            }
         });
     });
 </script>

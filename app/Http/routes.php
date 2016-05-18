@@ -23,4 +23,5 @@ Route::get('/home', 'HomeController@index');
 Route::group(['prefix' => 'admin'], function(){
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
+    Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
 });

@@ -124,7 +124,37 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Upload Logo
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request, $id)
+    {
+        $this->validate($request, [
+            'logo' => 'required|image',
+        ]);
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                $carrera->logo = $request->logo;
+                $carrera->update();
+                flash()->warning('Se modificó la carrera: '.$carrera->nombre);
+                return response()->json([
+                    'mensaje' => $carrera->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
                 return response()->json([
                     'mensaje' => $ex,
                 ]);
@@ -144,6 +174,7 @@ class CarreraController extends Controller
             try{
                 $carrera = Carrera::find($id);
                 $carrera->delete();
+                \Storage::disk('local')->delete($carrera->logo);
                 flash()->error('Se eliminó la carrera: '.$carrera->nombre);
                 return response()->json([
                     'mensaje' => $carrera->codigo,

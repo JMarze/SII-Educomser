@@ -41,7 +41,7 @@ $factory->define(App\Carrera::class, function (Faker\Generator $faker) {
     return [
         'codigo' => $faker->bothify('???-??#####??'),
         'nombre' => $faker->catchPhrase(),
-        'logo' => $faker->date('Ymd_His', 'now').".png",
+        /*'logo' => $faker->date('Ymd_His', 'now').".png",*/
         'color_hexa' => $faker->hexcolor(),
         'costo_mensual' => $faker->randomFloat(2, 100, 300),
     ];

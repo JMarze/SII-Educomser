@@ -61,4 +61,5 @@
 @include('admin.carrera.partial.create')
 @include('admin.carrera.partial.update')
 @include('admin.carrera.partial.destroy')
+@include('admin.carrera.partial.upload')
 @endsection

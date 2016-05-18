@@ -47,10 +47,9 @@
     });
     // Eliminar
     var formDestroy = $('#form-destroy');
-    var progressBar = $('.progress .progress-bar');
     $(document).on('click', '#btn-eliminar', function(){
         var url = formDestroy.attr('action').split('/');
-        url[url.length-1] = formDestroy.data('id');
+        url[url.length-1] = formDestroy.attr('data-id');
         url = url.join("/");
         var data = formDestroy.serialize();
         $.ajax({
