@@ -6,14 +6,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Agregar">
-                    <i class="fa fa-btn fa-th-large"></i>Agregar Área
+                    <i class="fa fa-btn fa-level-up"></i>Agregar Dificultad
                 </h4>
             </div>
 
             <div class="modal-body">
-                {!! Form::open(['route' => 'admin.area.store', 'method' => 'POST', 'id' => 'form-create', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => 'admin.dificultad.store', 'method' => 'POST', 'id' => 'form-create', 'class' => 'form-horizontal']) !!}
 
-                @include('admin.area.partial.form')
+                @include('admin.dificultad.partial.form')
 
                 {!! Form::close() !!}
             </div>
@@ -51,7 +51,7 @@
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            window.location.href = "/admin/area";
+            window.location.href = "/admin/dificultad";
         }).fail (function (response){
             validation(response);
         });

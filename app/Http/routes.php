@@ -24,6 +24,9 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Area
     Route::resource('area', 'AreaController');
 
+    // Backend Dificultad
+    Route::resource('dificultad', 'DificultadController');
+
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
     Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
