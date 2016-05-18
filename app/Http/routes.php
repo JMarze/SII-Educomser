@@ -21,7 +21,14 @@ Route::get('/home', 'HomeController@index');
 
 // Backend - Restful
 Route::group(['prefix' => 'admin'], function(){
+    // Backend Area
+    Route::resource('area', 'AreaController');
+
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
     Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
+
+    // Backend Curso
+    Route::resource('curso', 'CursoController');
+    Route::put('curso/upload/{curso}', 'CursoController@upload')->name('admin.curso.upload');
 });

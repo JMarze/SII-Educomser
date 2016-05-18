@@ -17,6 +17,20 @@ class Curso extends Model
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
+    // Scopes
+    public function scopeSearch($query, $filtro){
+        return $query->where('codigo', 'LIKE', "%$filtro%")->orWhere('nombre', 'LIKE', "%$filtro%");
+    }
+
+    // Mutator
+    public function setLogoAttribute($ruta){
+        if($ruta){
+            $nombreLogo = "CUR_" . Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
+            $this->attributes['logo'] = $nombreLogo;
+            \Storage::disk('local')->put($nombreLogo, \File::get($ruta));
+        }
+    }
+
     // Relationships
     // 1 -> (1:N)
     public function area(){
@@ -33,6 +47,6 @@ class Curso extends Model
 
     // N -> (N:N)
     public function carreras(){
-        return $this->belongsToMany('App\Carrera', 'carrera_curso', 'carrera_codigo', 'curso_codigo')->withPivot('orde');
+        return $this->belongsToMany('App\Carrera', 'carrera_curso', 'carrera_codigo', 'curso_codigo')->withPivot('orden');
     }
 }

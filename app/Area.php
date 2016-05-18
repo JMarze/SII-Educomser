@@ -11,6 +11,11 @@ class Area extends Model
 
     protected $fillable = ['nombre'];
 
+    // Scopes
+    public function scopeSearch($query, $filtro){
+        return $query->where('nombre', 'LIKE', "%$filtro%");
+    }
+
     // Relationships
     // N -> (1:N)
     public function cursos(){

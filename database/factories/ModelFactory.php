@@ -24,7 +24,7 @@ $factory->define(App\Curso::class, function (Faker\Generator $faker) {
     return [
         'codigo' => $faker->bothify('???-??#####??'),
         'nombre' => $faker->catchPhrase(),
-        'logo' => $faker->date('Ymd_His', 'now').".png",
+        /*'logo' => $faker->date('Ymd_His', 'now').".png",*/
         'color_hexa' => $faker->hexcolor(),
         'costo_personalizado' => $faker->randomFloat(2, 100, 300),
         'costo_referencial' => $faker->randomFloat(2, 100, 300),
