@@ -9,6 +9,8 @@ use App\Http\Requests;
 use Carbon\Carbon;
 
 use App\Curso;
+use App\Area;
+use App\Dificultad;
 use App\Http\Requests\CursoRequest;
 
 class CursoController extends Controller
@@ -182,6 +184,29 @@ class CursoController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
                 return response()->json([
+                    'mensaje' => $ex,
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function listar(Request $request){
+        if ($request->ajax()){
+            try{
+                $areas = Area::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+                $dificultades = Dificultad::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+                return response()->json([
+                    'areas' => $areas,
+                    'dificultades' => $dificultades,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'areas' => null,
+                    'dificultades' => null,
                     'mensaje' => $ex,
                 ]);
             }

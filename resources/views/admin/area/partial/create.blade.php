@@ -51,7 +51,7 @@
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            window.location.href = "/admin/area";
+            window.location.href = "{{ route('admin.area.index') }}";
         }).fail (function (response){
             validation(response);
         });

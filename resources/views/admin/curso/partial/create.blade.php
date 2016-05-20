@@ -11,6 +11,11 @@
             </div>
 
             <div class="modal-body">
+                <div class="alert alert-warning" role="alert" id="msg-create">
+                    <i class="fa fa-btn fa-spin fa-refresh"></i>
+                    <strong>Cargando!!!</strong> Un momento por favor...
+                </div>
+
                 {!! Form::open(['route' => 'admin.curso.store', 'method' => 'POST', 'id' => 'form-create', 'class' => 'form-horizontal']) !!}
 
                 @include('admin.curso.partial.form')
@@ -43,7 +48,6 @@
     // Crear
     var formCreate = $('#form-create');
     $(document).on('click', '#btn-agregar', function(){
-        //formCreate.submit();
         var url = formCreate.attr('action');
         var data = formCreate.serialize();
         $.ajax({
@@ -52,7 +56,7 @@
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            //window.location.href = "/admin/curso";
+            window.location.href = "{{ route('admin.curso.index') }}";
         }).fail (function (response){
             validation(response);
         });

@@ -63,3 +63,38 @@
 @include('admin.curso.partial.destroy')
 @include('admin.curso.partial.upload')
 @endsection
+
+@section('script')
+@parent
+<script>
+    // Llenar Form -> Agregar
+    $(document).on('click', 'button[data-target="#create"]', function(e){
+        var urlArea = '{{ route("admin.curso.listar") }}';
+        $.ajax({
+            url: urlArea,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-create').css('display', 'block');
+                $('#form-create').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['areas'] != null && response['dificultades'] != null){
+                var selectArea = $('select#area_id').empty().append("<option selected='selected' value=''>Seleccione área</option>");
+                var selectDificultad = $('select#dificultad_id').empty().append("<option selected='selected' value=''>Seleccione dificultad</option>");
+                $.each(response['areas'], function(key, value){
+                    selectArea.append("<option value='"+key+"'>"+value+"</option>");
+                });
+                $.each(response['dificultades'], function(key, value){
+                    selectDificultad.append("<option value='"+key+"'>"+value+"</option>");
+                });
+            }
+            $('#msg-create').css('display', 'none');
+            $('#form-create').css('display', 'block');
+        }).fail(function (response){
+            console.log(response);
+        });
+    });
+</script>
+@endsection

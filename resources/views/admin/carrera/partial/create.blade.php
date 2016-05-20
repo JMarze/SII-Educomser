@@ -52,7 +52,7 @@
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            window.location.href = "/admin/carrera";
+            window.location.href = "{{ route('admin.carrera.index') }}";
         }).fail (function (response){
             validation(response);
         });

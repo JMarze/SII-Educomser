@@ -34,4 +34,5 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Curso
     Route::resource('curso', 'CursoController');
     Route::put('curso/upload/{curso}', 'CursoController@upload')->name('admin.curso.upload');
+    Route::get('curso/listar/relaciones', 'CursoController@listar')->name('admin.curso.listar');
 });

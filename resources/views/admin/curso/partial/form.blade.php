@@ -91,3 +91,25 @@
     </span>
     </div>
 </div>
+
+
+<div class="form-group wrapper-area_id">
+    {!! Form::label('area_id', 'Área', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('area_id', [], null, ['class' => 'form-control', 'placeholder' => 'Seleccione área']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>
+
+
+<div class="form-group wrapper-dificultad_id">
+    {!! Form::label('dificultad_id', 'Dificultad', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('dificultad_id', [], null, ['class' => 'form-control', 'placeholder' => 'Seleccione dificultad']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>

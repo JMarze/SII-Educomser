@@ -34,6 +34,8 @@ class CursoRequest extends Request
             'descripcion' => 'string',
             'horas_academicas' => 'required|numeric|min:0',
             'horas_reales' => 'required|numeric|min:0',
+            'area_id' => 'required|exists:areas,id',
+            'dificultad_id' => 'required|exists:dificultades,id',
         ];
     }
 }

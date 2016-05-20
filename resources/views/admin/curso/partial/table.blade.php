@@ -6,6 +6,8 @@
         <th>Color</th>
         <th>Costo</th>
         <th>Horas</th>
+        <th>Área</th>
+        <th>Dificultad</th>
         <th>Creación</th>
         <th>Última modificación</th>
         <th>Logo</th>
@@ -28,6 +30,8 @@
             <br/>
             {{ $curso->horas_reales }}
         </td>
+        <td>{{ $curso->area->nombre }}</td>
+        <td>{{ $curso->dificultad->nombre }}</td>
         <td>{{ $curso->created_at->diffForHumans() }}</td>
         <td>{{ $curso->updated_at->diffForHumans() }}</td>
         <td>
