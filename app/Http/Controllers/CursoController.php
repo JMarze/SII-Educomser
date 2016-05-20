@@ -95,8 +95,12 @@ class CursoController extends Controller
         if ($request->ajax()){
             try{
                 $curso = Curso::find($id);
+                $areas = Area::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+                $dificultades = Dificultad::orderBy('nombre', 'ASC')->lists('nombre', 'id');
                 return response()->json([
                     'curso' => $curso,
+                    'areas' => $areas,
+                    'dificultades' => $dificultades,
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
@@ -176,7 +180,11 @@ class CursoController extends Controller
             try{
                 $curso = Curso::find($id);
                 $curso->delete();
-                \Storage::disk('local')->delete($curso->logo);
+                if ($curso->logo != null){
+                    if (\Storage::disk('local')->exists($curso->logo)){
+                        \Storage::disk('local')->delete($curso->logo);
+                    }
+                }
                 flash()->error('Se eliminó el curso: '.$curso->nombre);
                 return response()->json([
                     'mensaje' => $curso->codigo,

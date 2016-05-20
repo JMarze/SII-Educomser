@@ -174,7 +174,11 @@ class CarreraController extends Controller
             try{
                 $carrera = Carrera::find($id);
                 $carrera->delete();
-                \Storage::disk('local')->delete($carrera->logo);
+                if ($carrera->logo != null){
+                    if (\Storage::disk('local')->exists($carrera->logo)){
+                        \Storage::disk('local')->delete($carrera->logo);
+                    }
+                }
                 flash()->error('Se eliminó la carrera: '.$carrera->nombre);
                 return response()->json([
                     'mensaje' => $carrera->codigo,

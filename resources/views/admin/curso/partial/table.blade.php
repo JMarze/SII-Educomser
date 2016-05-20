@@ -147,6 +147,20 @@
             $('.wrapper-horas_reales').removeClass('has-error');
             $('.wrapper-horas_reales .help-block>strong').html('');
         }
+        if(response.responseJSON['area_id']){
+            $('.wrapper-area_id').addClass('has-error');
+            $('.wrapper-area_id .help-block>strong').html(response.responseJSON['area_id']);
+        }else{
+            $('.wrapper-area_id').removeClass('has-error');
+            $('.wrapper-area_id .help-block>strong').html('');
+        }
+        if(response.responseJSON['dificultad_id']){
+            $('.wrapper-dificultad_id').addClass('has-error');
+            $('.wrapper-dificultad_id .help-block>strong').html(response.responseJSON['dificultad_id']);
+        }else{
+            $('.wrapper-dificultad_id').removeClass('has-error');
+            $('.wrapper-dificultad_id .help-block>strong').html('');
+        }
     }
     // Paginación
     $(document).on('click', '.pagination a', function (e){
@@ -184,8 +198,18 @@
                 $('#form-update').css('display', 'none');
             }
         }).done(function (response){
+            var selectArea = $('select#area_id').empty().append("<option value=''>Seleccione área</option>");
+            var selectDificultad = $('select#dificultad_id').empty().append("<option value=''>Seleccione dificultad</option>");
+            $.each(response['areas'], function(key, value){
+                selectArea.append("<option value='"+key+"'>"+value+"</option>");
+            });
+            $.each(response['dificultades'], function(key, value){
+                selectDificultad.append("<option value='"+key+"'>"+value+"</option>");
+            });
             $.each(response['curso'], function(key, value){
-                if(key != 'logo' && key != 'descripcion'){
+                if(key == 'area_id' || key == 'dificultad_id'){
+                    $('select[name="'+key+'"]').val(value);
+                }else if(key != 'logo' && key != 'descripcion'){
                     $('input[name="'+key+'"]').val(value);
                 }else if(key == 'descripcion'){
                     $('textarea[name="'+key+'"]').val(value);

@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Eliminar">
-                    <i class="fa fa-btn fa-cubes"></i>Eliminar Curso
+                    <i class="fa fa-btn fa-cube"></i>Eliminar Curso
                 </h4>
             </div>
 
