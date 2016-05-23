@@ -8,6 +8,7 @@
         <th>Creación</th>
         <th>Última modificación</th>
         <th>Logo</th>
+        <th>Cursos</th>
         <th></th>
     </tr>
     @foreach($carreras as $carrera)
@@ -28,6 +29,13 @@
                     @else
                     <i class="fa fa-btn fa-upload"></i>Editar Logo
                     @endif
+                </button>
+            </div>
+        </td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach" data-codigo="{{ $carrera->codigo }}" title="Cursos">
+                    <i class="fa fa-btn fa-upload"></i>Cursos <span class="badge">{{ $carrera->cursos()->count() }}</span>
                 </button>
             </div>
         </td>
@@ -195,6 +203,71 @@
                 $('#logo-nombre').html('');
                 $('#logo-success').html('');
             }
+        });
+    });
+
+    // Llenar Form -> Attach
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var codigoCarrera = $(this).attr('data-codigo');
+        var urlListar = '{{ route("admin.carrera.listar") }}';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['cursos'] != null){
+                var selectCurso = $('select[name="curso_id[]"]').empty();
+                $.each(response['cursos'], function(key, value){
+                    selectCurso.append("<option value='"+key+"'>"+value+"</option>");
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', codigoCarrera);
+        }).fail(function (response){
+            console.log(response);
+        });
+    });
+
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var codigoCarrera = $(this).attr('data-codigo');
+        var urlListar = '/admin/carrera/'+ codigoCarrera +'/attach';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['cursos'] != null){
+                var cursos = $('select[name="curso_id[]"]').find(":selected");
+                var wrapperCursos = $('#cursos_orden');
+                $.each(response['cursos'], function(key, value){
+                    wrapperCursos.append('<div class="form-group">' +
+                               '<input name="curso_codigo[]" type="hidden" value="'+ value.codigo +'"/>' +
+                               '<label class="col-md-8 control-label">'+ value.nombre +'</label>' +
+                               '<div class="col-md-2">'+
+                               '<input name="curso_orden[]" type="number" value="'+ value.pivot.orden +'" min="0" class="form-control"/>' +
+                               '</div>' +
+                               '<button type="button" class="col-md-1 close del-curso" aria-label="Close">' +
+                               '<span aria-hidden="true">&times;</span>' +
+                               '</button>' +
+                               '</div>');
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', codigoCarrera);
+        }).fail(function (response){
+            console.log(response);
         });
     });
 </script>

@@ -35,13 +35,14 @@ class CreateCursosTable extends Migration
         });
 
         Schema::create('carrera_curso', function (Blueprint $table) {
-            $table->tinyInteger('orden')->default(1);
-
             // Foreign Keys
             $table->string('carrera_codigo', 15)->index();
             $table->foreign('carrera_codigo')->references('codigo')->on('carreras');
             $table->string('curso_codigo', 15)->index();
             $table->foreign('curso_codigo')->references('codigo')->on('cursos');
+
+            $table->tinyInteger('orden')->default(1);
+            $table->timestamp('created_at');
         });
     }
 

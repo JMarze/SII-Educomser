@@ -9,6 +9,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 
 use App\Carrera;
+use App\Curso;
 use App\Http\Requests\CarreraRequest;
 
 class CarreraController extends Controller
@@ -65,7 +66,7 @@ class CarreraController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -99,7 +100,7 @@ class CarreraController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -126,7 +127,7 @@ class CarreraController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -156,7 +157,7 @@ class CarreraController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -186,7 +187,77 @@ class CarreraController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function listar(Request $request){
+        if ($request->ajax()){
+            try{
+                $cursos = Curso::orderBy('nombre', 'ASC')->lists('nombre', 'codigo');
+                return response()->json([
+                    'cursos' => $cursos,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'cursos' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function attach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                $cursos = $carrera->cursos()->orderBy('carrera_curso.orden', 'ASC')->get();
+                return response()->json([
+                    'cursos' => $cursos,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'cursos' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $carrera = Carrera::find($id);
+                $carrera->cursos()->detach();
+                for($i=0; $i<count($request['curso_codigo']); $i++){
+                    $carrera->cursos()->attach([
+                        $request['curso_codigo'][$i] => ['orden' => $request['curso_orden'][$i]]
+                    ]);
+                }
+                $carrera->updated_at = Carbon::now();
+                $carrera->update();
+                flash()->success('Se vincularon los cursos a la carrera: '.$carrera->nombre);
+                return response()->json([
+                    'mensaje' => $carrera->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al vincular... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }

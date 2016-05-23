@@ -60,7 +60,7 @@ class AreaController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -95,7 +95,7 @@ class AreaController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -122,7 +122,7 @@ class AreaController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }
@@ -147,7 +147,7 @@ class AreaController extends Controller
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
                 return response()->json([
-                    'mensaje' => $ex,
+                    'mensaje' => $ex->getMessage(),
                 ]);
             }
         }

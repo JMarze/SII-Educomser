@@ -30,6 +30,9 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
     Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
+    Route::get('carrera/listar/relaciones', 'CarreraController@listar')->name('admin.carrera.listar');
+    Route::get('carrera/{carrera}/attach', 'CarreraController@attach')->name('admin.carrera.attach');
+    Route::put('carrera/{carrera}/attach', 'CarreraController@postattach')->name('admin.carrera.postattach');
 
     // Backend Curso
     Route::resource('curso', 'CursoController');
