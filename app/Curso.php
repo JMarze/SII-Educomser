@@ -44,7 +44,7 @@ class Curso extends Model
 
     // N -> (1:N)
     public function capitulos(){
-        return $this->hasMany('App\Capitulo');
+        return $this->hasMany('App\Capitulo', 'curso_codigo', 'codigo');
     }
 
     // N -> (N:N)

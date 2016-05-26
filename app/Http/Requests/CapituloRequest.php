@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CarreraRequest extends Request
+class CapituloRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,8 @@ class CarreraRequest extends Request
      */
     public function rules()
     {
-        $codigoCarrera = $this->route('carrera');
         return [
-            'codigo' => 'required|string|min:5|max:15|unique:carreras,codigo,'.$codigoCarrera.',codigo',
-            'nombre' => 'required|string|min:2|max:100|unique:carreras,nombre,'.$codigoCarrera.',codigo',
-            'color_hexa' => 'string|min:3|max:7',
-            'costo_mensual' => 'required|numeric|min:0',
+            'titulo' => 'required|string|min:3|max:100',
         ];
     }
 }

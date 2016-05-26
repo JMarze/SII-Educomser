@@ -14,11 +14,11 @@ class CreateCapitulosTable extends Migration
     {
         Schema::create('capitulos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('titulo', 25);
+            $table->string('titulo', 100);
 
             // Foreign Keys
             $table->string('curso_codigo', 15)->index();
-            $table->foreign('curso_codigo')->references('codigo')->on('cursos');
+            $table->foreign('curso_codigo')->references('codigo')->on('cursos')->onDelete('cascade');
 
             $table->timestamps();
         });

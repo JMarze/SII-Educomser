@@ -14,12 +14,12 @@ class CreateTopicosTable extends Migration
     {
         Schema::create('topicos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('subtitulo', 25);
+            $table->string('subtitulo', 100);
             $table->string('archivo_url', 25)->nullable();
 
             // Foreign Keys
             $table->integer('capitulo_id')->unsigned();
-            $table->foreign('capitulo_id')->references('id')->on('capitulos');
+            $table->foreign('capitulo_id')->references('id')->on('capitulos')->onDelete('cascade');
 
             $table->timestamps();
         });

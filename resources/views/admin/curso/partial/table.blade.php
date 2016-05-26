@@ -47,6 +47,10 @@
         </td>
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
+                <a href="{{ route('admin.curso.getshow', $curso->codigo) }}" type="button" class="btn btn-sm btn-default" title="Ver Curso">
+                    <i class="fa fa-eye"></i>
+                    <span class="sr-only">Ver Curso</span>
+                </a>
                 <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update" data-codigo="{{ $curso->codigo }}" title="Editar">
                     <i class="fa fa-edit"></i>
                     <span class="sr-only">Editar</span>

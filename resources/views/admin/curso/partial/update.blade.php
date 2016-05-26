@@ -48,7 +48,6 @@
     // Editar
     var formUpdate = $('#form-update');
     $(document).on('click', '#btn-editar', function(){
-        //formUpdate.submit();
         var url = formUpdate.attr('action').split('/');
         url[url.length-1] = formUpdate.attr('data-id');
         url = url.join("/");

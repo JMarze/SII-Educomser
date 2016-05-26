@@ -11,7 +11,11 @@ use Carbon\Carbon;
 use App\Curso;
 use App\Area;
 use App\Dificultad;
+use App\Capitulo;
+use App\Topico;
 use App\Http\Requests\CursoRequest;
+use App\Http\Requests\CapituloRequest;
+use App\Http\Requests\TopicoRequest;
 
 class CursoController extends Controller
 {
@@ -81,7 +85,13 @@ class CursoController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $curso = Curso::find($id);
+            return view('admin.curso.show')->with('curso', $curso);
+        }catch(\Exception $ex){
+            flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+            return redirect()->route('admin.curso.index');
+        }
     }
 
     /**
@@ -191,6 +201,44 @@ class CursoController extends Controller
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    public function create_capitulo(CapituloRequest $request, $id){
+        if ($request->ajax()){
+            try{
+                $curso = Curso::find($id);
+                $capitulo = new Capitulo($request->all());
+                $capitulo->save();
+                flash()->success('Se agregó el capítulo: '.$capitulo->titulo.' al curso: '.$curso->nombre);
+                return response()->json([
+                    'mensaje' => $capitulo->id,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    public function create_topico(TopicoRequest $request, $id){
+        if ($request->ajax()){
+            try{
+                $capitulo = Capitulo::find($id);
+                $topico = new Topico($request->all());
+                $topico->save();
+                flash()->success('Se agregó el subtítulo: '.$topico->subtitulo.' al capítulo: '.$capitulo->titulo);
+                return response()->json([
+                    'mensaje' => $topico->id,
+                ]);
+            }catch(\Exception $ex){
+                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
