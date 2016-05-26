@@ -6,7 +6,7 @@
 
 ### Módulo de Preinscripción
 
-- [ ] Integración: CRUD Cursos y Carreras
+- [x] Integración: CRUD Cursos y Carreras (Parcial en Capítulo y Tópico)
 
 ### Módulo de Evaluación del Curso
 
