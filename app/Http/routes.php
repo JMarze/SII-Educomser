@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,7 +19,7 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 // Backend - Restful
-Route::group(['prefix' => 'admin'], function(){
+Route::group(['prefix' => 'admin', 'middleware' => 'web'], function(){
     // Backend Area
     Route::resource('area', 'AreaController');
 

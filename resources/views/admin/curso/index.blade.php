@@ -15,7 +15,7 @@
                            <span class="icon-bar"></span>
                        </button>
                        <a href="{{ route('admin.curso.index') }}" class="navbar-brand">
-                           <i class="fa fa-btn fa-cube"></i>Curso
+                           <i class="fa fa-btn fa-cube"></i>Cursos
                        </a>
                    </div>
 
