@@ -29,6 +29,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function(){
     // Backend Tipo
     Route::resource('tipo', 'TipoController');
 
+    // Backend Grado
+    Route::resource('grado', 'GradoController');
+
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
     Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');

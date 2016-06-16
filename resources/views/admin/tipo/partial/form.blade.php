@@ -17,3 +17,13 @@
     </span>
     </div>
 </div>
+
+<div class="form-group wrapper-mostrar_cronograma">
+    {!! Form::label('mostrar_cronograma', '¿Mostrar en Cronograma?', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('mostrar_cronograma', [true => 'Sí', false => 'No'], true, ['class' => 'form-control']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>

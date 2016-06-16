@@ -1,29 +1,21 @@
-@if($tipos->total() > 0)
+@if($grados->total() > 0)
 <table class="table table-hover">
     <tr>
-        <th>Nombre</th>
-        <th>Horas Reales</th>
-        <th>¿Se muestra en Cronograma?</th>
+        <th>Descripción</th>
+        <th>Abreviatura</th>
         <th></th>
     </tr>
-    @foreach($tipos as $tipo)
+    @foreach($grados as $grado)
     <tr>
-        <td>{{ $tipo->nombre }}</td>
-        <td>{{ $tipo->horas_reales }}</td>
-        <td>
-            @if($tipo->mostrar_cronograma)
-            Sí
-            @else
-            No
-            @endif
-        </td>
+        <td>{{ $grado->descripcion }}</td>
+        <td>{{ $grado->abreviatura }}</td>
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
-                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update" data-id="{{ $tipo->id }}" title="Editar">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update" data-id="{{ $grado->id }}" title="Editar">
                     <i class="fa fa-edit"></i>
                     <span class="sr-only">Editar</span>
                 </button>
-                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy" data-id="{{ $tipo->id }}" title="Eliminar">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy" data-id="{{ $grado->id }}" title="Eliminar">
                     <i class="fa fa-trash"></i>
                     <span class="sr-only">Eliminar</span>
                 </button>
@@ -36,13 +28,13 @@
 <div class="panel-body">
     <div class="alert alert-warning" role="alert">
         <i class="fa fa-btn fa-database"></i>
-        <strong>Oops!!!</strong> No se encontraron tipos de cronogramas en la base de datos. Intenta <strong>agregar un nuevo tipo de cronograma</strong>
+        <strong>Oops!!!</strong> No se encontraron grados académicos en la base de datos. Intenta <strong>agregar un nuevo grado académico</strong>
     </div>
 </div>
 @endif
 
 <div class="panel-footer">
-    <div class="text-center">{{ $tipos->render() }}</div>
+    <div class="text-center">{{ $grados->render() }}</div>
 </div>
 
 @section('script')
@@ -56,26 +48,19 @@
     }
     // Validation
     function validation(response){
-        if(response.responseJSON['nombre']){
-            $('.wrapper-nombre').addClass('has-error');
-            $('.wrapper-nombre .help-block>strong').html(response.responseJSON['nombre']);
+        if(response.responseJSON['descripcion']){
+            $('.wrapper-descripcion').addClass('has-error');
+            $('.wrapper-descripcion .help-block>strong').html(response.responseJSON['descripcion']);
         }else{
-            $('.wrapper-nombre').removeClass('has-error');
-            $('.wrapper-nombre .help-block>strong').html('');
+            $('.wrapper-descripcion').removeClass('has-error');
+            $('.wrapper-descripcion .help-block>strong').html('');
         }
-        if(response.responseJSON['horas_reales']){
-            $('.wrapper-horas_reales').addClass('has-error');
-            $('.wrapper-horas_reales .help-block>strong').html(response.responseJSON['horas_reales']);
+        if(response.responseJSON['abreviatura']){
+            $('.wrapper-abreviatura').addClass('has-error');
+            $('.wrapper-abreviatura .help-block>strong').html(response.responseJSON['abreviatura']);
         }else{
-            $('.wrapper-horas_reales').removeClass('has-error');
-            $('.wrapper-horas_reales .help-block>strong').html('');
-        }
-        if(response.responseJSON['mostrar_cronograma']){
-            $('.wrapper-mostrar_cronograma').addClass('has-error');
-            $('.wrapper-mostrar_cronograma .help-block>strong').html(response.responseJSON['mostrar_cronograma']);
-        }else{
-            $('.wrapper-mostrar_cronograma').removeClass('has-error');
-            $('.wrapper-mostrar_cronograma .help-block>strong').html('');
+            $('.wrapper-abreviatura').removeClass('has-error');
+            $('.wrapper-abreviatura .help-block>strong').html('');
         }
     }
     // Paginación
@@ -100,9 +85,9 @@
 
     // Llenar Form -> Editar
     $(document).on('click', 'button[data-target="#update"]', function(e){
-        var idTipo = $(this).attr('data-id');
-        var url = '/admin/tipo/' + idTipo + '/edit';
-        var data = 'tipo=' + idTipo;
+        var idGrado = $(this).attr('data-id');
+        var url = '/admin/grado/' + idGrado + '/edit';
+        var data = 'grado=' + idGrado;
         $.ajax({
             url: url,
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -114,20 +99,20 @@
                 $('#form-update').css('display', 'none');
             }
         }).done(function (response){
-            $.each(response['tipo'], function(key, value){
+            $.each(response['grado'], function(key, value){
                 $('input[name="'+key+'"]').val(value);
             });
             $('#msg-update').css('display', 'none');
             $('#form-update').css('display', 'block');
-            $('#form-update').attr('data-id', idTipo);
+            $('#form-update').attr('data-id', idGrado);
         });
     });
 
     // Llenar Form -> Eliminar
     $(document).on('click', 'button[data-target="#destroy"]', function(e){
-        var idTipo = $(this).attr('data-id');
-        var url = '/admin/tipo/' + idTipo + '/edit';
-        var data = 'tipo=' + idTipo;
+        var idGrado = $(this).attr('data-id');
+        var url = '/admin/grado/' + idGrado + '/edit';
+        var data = 'grado=' + idGrado;
         $.ajax({
             url: url,
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -139,16 +124,16 @@
                 $('#form-destroy').css('display', 'none');
             }
         }).done(function (response){
-            if(response['cronogramas'] == 0){
-                $('#question-destroy').html("¿Está seguro de eliminar el tipo: <i>"+ response['tipo']['nombre'] +"</i>?");
+            if(response['profesiones'] == 0){
+                $('#question-destroy').html("¿Está seguro de eliminar el grado: <i>"+ response['grado']['descripcion'] +"</i>?");
                 $('#btn-eliminar').css('display', 'inline-block');
             }else{
-                $('#question-destroy').html("El tipo: <i>"+ response['tipo']['nombre'] +"</i> tiene cronogramas que dependen del mismo, por lo tanto no es posible eliminarlo.<br/><h6>* Si es necesario eliminar dicho tipo, elimine primero los cronogramas dependientes.</h6>");
+                $('#question-destroy').html("El grado: <i>"+ response['grado']['descripcion'] +"</i> tiene profesiones que dependen del mismo, por lo tanto no es posible eliminarlo.<br/><h6>* Si es necesario eliminar dicho grado, elimine primero las profesiones dependientes.</h6>");
                 $('#btn-eliminar').css('display', 'none');
             }
             $('#msg-destroy').css('display', 'none');
             $('#form-destroy').css('display', 'block');
-            $('#form-destroy').attr('data-id', idTipo);
+            $('#form-destroy').attr('data-id', idGrado);
         });
     });
 </script>

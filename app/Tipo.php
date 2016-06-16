@@ -9,7 +9,7 @@ class Tipo extends Model
     protected $table = 'tipos';
     public $timestamps = false;
 
-    protected $fillable = ['nombre', 'horas_reales'];
+    protected $fillable = ['nombre', 'horas_reales', 'mostrar_cronograma'];
 
     // Scopes
     public function scopeSearch($query, $filtro){

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class TipoRequest extends Request
+class GradoRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,10 @@ class TipoRequest extends Request
      */
     public function rules()
     {
-        $idTipo = $this->route('tipo');
+        $idGrado = $this->route('grado');
         return [
-            'nombre' => 'required|string|min:2|max:25|unique:tipos,nombre,'.$idTipo,
-            'horas_reales' => 'numeric|min:0',
-            'mostrar_cronograma' => 'required',
+            'descripcion' => 'required|string|min:2|max:25|unique:tipos,nombre,'.$idGrado,
+            'abreviatura' => 'string|min:2|max:10',
         ];
     }
 }
