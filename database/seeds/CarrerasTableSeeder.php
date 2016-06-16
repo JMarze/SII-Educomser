@@ -11,6 +11,6 @@ class CarrerasTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Carrera::class, 3)->create();
+        factory(App\Carrera::class, 5)->create();
     }
 }
