@@ -32,6 +32,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function(){
     // Backend Grado
     Route::resource('grado', 'GradoController');
 
+    // Backend Profesion
+    Route::resource('profesion', 'ProfesionController');
+    Route::get('profesion/listar/relaciones', 'ProfesionController@listar')->name('admin.profesion.listar');
+
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');
     Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');

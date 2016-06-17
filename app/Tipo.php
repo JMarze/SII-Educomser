@@ -16,7 +16,7 @@ class Tipo extends Model
         return $query->where('nombre', 'LIKE', "%$filtro%");
     }
 
-    // Relathinships
+    // Relationships
     // N -> (1:N)
     public function cronogramas(){
         return $this->hasMany('App\Cronograma');

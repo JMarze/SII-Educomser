@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Profesion;
 use App\Grado;
-use App\Http\Requests\GradoRequest;
+use App\Http\Requests\ProfesionRequest;
 
-class GradoController extends Controller
+class ProfesionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,17 +19,17 @@ class GradoController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->buscar_grado){
-            $grados = Grado::search($request->buscar_grado)->orderBy('descripcion', 'ASC')->paginate(10);
-            $grados->appends(['buscar_grado' => $request->buscar_grado]);
+        if ($request->buscar_profesion){
+            $profesiones = Profesion::search($request->buscar_profesion)->orderBy('titulo', 'ASC')->paginate(10);
+            $profesiones->appends(['buscar_profesion' => $request->buscar_profesion]);
         }else{
-            $grados = Grado::orderBy('descripcion', 'ASC')->paginate(10);
+            $profesiones = Profesion::orderBy('titulo', 'ASC')->paginate(10);
         }
 
         if ($request->ajax()){
-            return response()->json(view('admin.grado.partial.table')->with('grados', $grados)->render());
+            return response()->json(view('admin.profesion.partial.table')->with('profesiones', $profesiones)->render());
         }
-        return view('admin.grado.index')->with('grados', $grados);
+        return view('admin.profesion.index')->with('profesiones', $profesiones);
     }
 
     /**
@@ -47,15 +48,15 @@ class GradoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GradoRequest $request)
+    public function store(ProfesionRequest $request)
     {
         if ($request->ajax()){
             try{
-                $grado = new Grado($request->all());
-                $grado->save();
-                flash()->success('Se agregó el grado: '.$grado->descripcion);
+                $profesion = new Profesion($request->all());
+                $profesion->save();
+                flash()->success('Se agregó la profesión: '.$profesion->nombre);
                 return response()->json([
-                    'mensaje' => $grado->id,
+                    'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
@@ -87,10 +88,12 @@ class GradoController extends Controller
     {
         if ($request->ajax()){
             try{
-                $grado = Grado::find($id);
+                $profesion = Profesion::find($id);
+                $grados = Grado::orderBy('descripcion', 'ASC')->lists('descripcion', 'id');
                 return response()->json([
-                    'grado' => $grado,
-                    'profesiones' => $grado->profesiones()->count(),
+                    'profesion' => $profesion,
+                    'grados' => $grados,
+                    //'personas' => $profesion->personas()->count(),
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
@@ -108,16 +111,16 @@ class GradoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GradoRequest $request, $id)
+    public function update(ProfesionRequest $request, $id)
     {
         if ($request->ajax()){
             try{
-                $grado = Grado::find($id);
-                $grado->fill($request->all());
-                $grado->update();
-                flash()->warning('Se modificó el grado: '.$grado->descripcion);
+                $profesion = Profesion::find($id);
+                $profesion->fill($request->all());
+                $profesion->update();
+                flash()->warning('Se modificó la profesión: '.$profesion->nombre);
                 return response()->json([
-                    'mensaje' => $grado->id,
+                    'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
@@ -138,15 +141,35 @@ class GradoController extends Controller
     {
         if ($request->ajax()){
             try{
-                $grado = Grado::find($id);
-                $grado->delete();
-                flash()->error('Se eliminó el grado: '.$grado->descripcion);
+                $profesion = Profesion::find($id);
+                $profesion->delete();
+                flash()->error('Se eliminó la profesión: '.$profesion->nombre);
                 return response()->json([
-                    'mensaje' => $grado->id,
+                    'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
                 flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
                 return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function listar(Request $request){
+        if ($request->ajax()){
+            try{
+                $grados = Grado::orderBy('descripcion', 'ASC')->lists('descripcion', 'id');
+                return response()->json([
+                    'grados' => $grados,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'grados' => null,
                     'mensaje' => $ex->getMessage(),
                 ]);
             }

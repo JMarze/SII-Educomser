@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CarrerasTableSeeder::class);
         $this->call(TiposTableSeeder::class);
         $this->call(GradosTableSeeder::class);
+        $this->call(ProfesionesTableSeeder::class);
     }
 }
