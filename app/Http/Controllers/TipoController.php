@@ -52,14 +52,14 @@ class TipoController extends Controller
         if ($request->ajax()){
             try{
                 $tipo = new Tipo($request->all());
-                $tipo->horas_reales = ($tipo->horas_reales != 0)?$tip->horas_reales:null;
+                $tipo->horas_reales = ($tipo->horas_reales != 0)?$tipo->horas_reales:null;
                 $tipo->save();
                 flash('Se agregó el tipo de cronograma: '.$tipo->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $tipo->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -94,7 +94,7 @@ class TipoController extends Controller
                     //'cronogramas' => $tipo->cronogramas()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -115,14 +115,14 @@ class TipoController extends Controller
             try{
                 $tipo = Tipo::find($id);
                 $tipo->fill($request->all());
-                $tipo->horas_reales = ($tipo->horas_reales != 0)?$tip->horas_reales:null;
+                $tipo->horas_reales = ($tipo->horas_reales != 0)?$tipo->horas_reales:null;
                 $tipo->update();
                 flash('Se modificó el tipo de cronograma: '.$tipo->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $tipo->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -147,7 +147,7 @@ class TipoController extends Controller
                     'mensaje' => $tipo->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

@@ -19,7 +19,7 @@ class CreateTopicosTable extends Migration
 
             // Foreign Keys
             $table->integer('capitulo_id')->unsigned();
-            $table->foreign('capitulo_id')->references('id')->on('capitulos')->onDelete('cascade');
+            $table->foreign('capitulo_id')->references('id')->on('capitulos')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

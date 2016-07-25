@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
 use App\Carrera;
 use App\Curso;
@@ -16,6 +17,8 @@ class CarreraController extends Controller
 {
     public function __construct(){
         Carbon::setLocale('es');
+        CarbonInterval::setLocale('es');
+        setlocale(LC_TIME, 'Spanish_Bolivia');
     }
     /**
      * Display a listing of the resource.
@@ -64,7 +67,7 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -80,7 +83,18 @@ class CarreraController extends Controller
      */
     public function show($id)
     {
-        //
+        try{
+            $carrera = Carrera::find($id);
+            $totalHoras = $carrera->cursos->sum('horas_reales');
+            $meses = floor($totalHoras/30);
+            $semanas = floor(($totalHoras-(30*$meses))/7.5);
+            $dias = ceil(($totalHoras-(30*$meses)-(7.5*$semanas))/1.5);
+            $duracion = CarbonInterval::create(0, $meses, $semanas, $dias, 0, 0, 0);
+            return view('admin.carrera.show')->with('carrera', $carrera)->with('duracion', $duracion);
+        }catch(\Exception $ex){
+            flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+            return redirect()->route('admin.carrera.index');
+        }
     }
 
     /**
@@ -98,7 +112,7 @@ class CarreraController extends Controller
                     'carrera' => $carrera,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -125,7 +139,7 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -155,7 +169,7 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -185,7 +199,7 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -255,7 +269,7 @@ class CarreraController extends Controller
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al vincular... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al vincular... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

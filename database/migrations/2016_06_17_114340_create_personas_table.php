@@ -27,10 +27,18 @@ class CreatePersonasTable extends Migration
 
             // Foreign Keys
             $table->string('expedicion_codigo', 2)->index();
-            $table->foreign('expedicion_codigo')->references('codigo')->on('expediciones');
+            $table->foreign('expedicion_codigo')->references('codigo')->on('expediciones')->onUpdate('cascade');
 
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('persona_profesion', function (Blueprint $table) {
+            $table->string('persona_codigo', 12)->index();
+            $table->foreign('persona_codigo')->references('codigo')->on('personas')->onUpdate('cascade');
+
+            $table->integer('profesion_id')->unsigned();
+            $table->foreign('profesion_id')->references('id')->on('profesiones')->onUpdate('cascade');
         });
     }
 
@@ -41,6 +49,7 @@ class CreatePersonasTable extends Migration
      */
     public function down()
     {
+        //Schema::drop('persona_profesion');
         Schema::drop('personas');
     }
 }

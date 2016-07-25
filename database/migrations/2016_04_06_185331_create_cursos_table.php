@@ -26,9 +26,9 @@ class CreateCursosTable extends Migration
 
             // Foreign Keys
             $table->integer('area_id')->unsigned();
-            $table->foreign('area_id')->references('id')->on('areas');
+            $table->foreign('area_id')->references('id')->on('areas')->onUpdate('cascade');
             $table->integer('dificultad_id')->unsigned();
-            $table->foreign('dificultad_id')->references('id')->on('dificultades');
+            $table->foreign('dificultad_id')->references('id')->on('dificultades')->onUpdate('cascade');
 
             $table->timestamps();
             $table->softDeletes();

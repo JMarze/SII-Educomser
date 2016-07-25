@@ -18,7 +18,7 @@ class CreateCapitulosTable extends Migration
 
             // Foreign Keys
             $table->string('curso_codigo', 15)->index();
-            $table->foreign('curso_codigo')->references('codigo')->on('cursos')->onDelete('cascade');
+            $table->foreign('curso_codigo')->references('codigo')->on('cursos')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
         });

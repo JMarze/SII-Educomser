@@ -43,28 +43,37 @@
                 <hr/>
                 <div class="row text-center">
                     <div class="col-md-4">
-                        <strong>Color:</strong> <span class="label" style="background-color: {{ $curso->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <strong><i class="fa fa-btn fa-paint-brush"></i>Color:</strong> <span class="label" style="background-color: {{ $curso->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     </div>
                     <div class="col-md-4">
-                        <strong>Área:</strong> {{ $curso->area->nombre }}
+                        <strong><i class="fa fa-btn fa-th-large"></i>Área:</strong> {{ $curso->area->nombre }}
                     </div>
                     <div class="col-md-4">
-                        <strong>Dificultad:</strong> {{ $curso->dificultad->nombre }}
+                        <strong><i class="fa fa-btn fa-level-up"></i>Dificultad:</strong> {{ $curso->dificultad->nombre }}
                     </div>
                 </div>
                 <hr/>
                 <div class="row text-center">
                     <div class="col-md-3">
-                        <strong>Costo Personalizado: </strong>{{ $curso->costo_personalizado }}
+                        <strong><i class="fa fa-btn fa-money"></i>Costo Personalizado: </strong>Bs {{ $curso->costo_personalizado }}
                     </div>
                     <div class="col-md-3">
-                        <strong>Costo Referencial: </strong>{{ $curso->costo_referencial }}
+                        <strong><i class="fa fa-btn fa-money"></i>Costo Referencial: </strong>Bs {{ $curso->costo_referencial }}
                     </div>
                     <div class="col-md-3">
-                        <strong>Horas Académicas: </strong>{{ $curso->horas_academicas }}
+                        <strong><i class="fa fa-btn fa-clock-o"></i>Horas Académicas: </strong>{{ $curso->horas_academicas }} hrs.
                     </div>
                     <div class="col-md-3">
-                        <strong>Horas Reales: </strong>{{ $curso->horas_reales }}
+                        <strong><i class="fa fa-btn fa-clock-o"></i>Horas Reales: </strong>{{ $curso->horas_reales }} hrs. ({{ $duracion }})
+                    </div>
+                </div>
+                <hr/>
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de creación: </strong>{{ $curso->created_at->formatLocalized('%d-%B-%Y') }} ({{ $curso->created_at->diffForHumans() }})
+                    </div>
+                    <div class="col-md-6">
+                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de modificación: </strong>{{ $curso->updated_at->formatLocalized('%d-%B-%Y') }} ({{ $curso->updated_at->diffForHumans() }})
                     </div>
                 </div>
                 <hr/>

@@ -58,7 +58,7 @@ class AreaController extends Controller
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -93,7 +93,7 @@ class AreaController extends Controller
                     'cursos' => $area->cursos()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -120,7 +120,7 @@ class AreaController extends Controller
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -145,7 +145,7 @@ class AreaController extends Controller
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

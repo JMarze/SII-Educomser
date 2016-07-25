@@ -58,9 +58,13 @@ class Persona extends Model
         return $this->belongsTo('App\Expedicion', 'expedicion_codigo', 'codigo');
     }
 
-    // Relationships
     // 1 -> (1:1)
     public function docente(){
         return $this->hasOne('App\Docente', 'persona_codigo', 'codigo');
+    }
+
+    // N -> (N:N)
+    public function profesiones(){
+        return $this->belongsToMany('App\Profesion', 'persona_profesion', 'persona_codigo', 'profesion_id');
     }
 }

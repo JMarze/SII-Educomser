@@ -36,6 +36,6 @@ class Carrera extends Model
     // Relationships
     // N -> (N:N)
     public function cursos(){
-        return $this->belongsToMany('App\Curso', 'carrera_curso', 'carrera_codigo', 'curso_codigo')->withPivot('orden', 'created_at');
+        return $this->belongsToMany('App\Curso', 'carrera_curso', 'carrera_codigo', 'curso_codigo')->withPivot('orden', 'created_at')->orderBy('orden', 'ASC');
     }
 }

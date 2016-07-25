@@ -21,4 +21,9 @@ class Profesion extends Model
     public function grado(){
         return $this->belongsTo('App\Grado');
     }
+
+    // N -> (N:N)
+    public function personas(){
+        return $this->belongsToMany('App\Persona', 'persona_profesion', 'profesion_id', 'persona_codigo');
+    }
 }

@@ -59,6 +59,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ route('admin.carrera.index') }}"><i class="fa fa-btn fa-cubes"></i>Carreras</a></li>
                             <li><a href="{{ route('admin.curso.index') }}"><i class="fa fa-btn fa-cube"></i>Cursos</a></li>
+                            <li><a href="{{ route('admin.docente.index') }}"><i class="fa fa-btn fa-user-plus"></i>Docentes</a></li>
                         </ul>
                     </li>
                 </ul>

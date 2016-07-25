@@ -34,7 +34,13 @@
             @endif
         </td>
         <td>{{ $docente->created_at->diffForHumans() }}</td>
-        <td>{{ $docente->updated_at->diffForHumans() }}</td>
+        <td>
+            @if($docente->updated_at > $docente->persona->updated_at)
+            {{ $docente->updated_at->diffForHumans() }}
+            @else
+            {{ $docente->persona->updated_at->diffForHumans() }}
+            @endif
+        </td>
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
                 <a href="{{ route('admin.docente.getshow', $docente->id) }}" type="button" class="btn btn-sm btn-default" title="Ver Docente">

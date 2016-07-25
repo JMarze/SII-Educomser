@@ -58,7 +58,7 @@
             dataType: 'JSON',
             data: data
         }).done (function (response){
-            //location.reload();
+            location.reload();
         }).fail (function (response){
             validation(response);
         });
