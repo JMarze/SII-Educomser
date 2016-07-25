@@ -53,12 +53,12 @@ class GradoController extends Controller
             try{
                 $grado = new Grado($request->all());
                 $grado->save();
-                flash()->success('Se agregó el grado: '.$grado->descripcion);
+                flash('Se agregó el grado: '.$grado->descripcion, 'success')->important();
                 return response()->json([
                     'mensaje' => $grado->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -93,7 +93,7 @@ class GradoController extends Controller
                     'profesiones' => $grado->profesiones()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -115,12 +115,12 @@ class GradoController extends Controller
                 $grado = Grado::find($id);
                 $grado->fill($request->all());
                 $grado->update();
-                flash()->warning('Se modificó el grado: '.$grado->descripcion);
+                flash('Se modificó el grado: '.$grado->descripcion, 'warning')->important();
                 return response()->json([
                     'mensaje' => $grado->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -140,12 +140,12 @@ class GradoController extends Controller
             try{
                 $grado = Grado::find($id);
                 $grado->delete();
-                flash()->error('Se eliminó el grado: '.$grado->descripcion);
+                flash('Se eliminó el grado: '.$grado->descripcion, 'danger')->important();
                 return response()->json([
                     'mensaje' => $grado->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

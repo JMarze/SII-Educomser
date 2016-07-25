@@ -19,7 +19,7 @@ Route::auth();
 Route::get('/home', 'HomeController@index');
 
 // Backend - Restful
-Route::group(['prefix' => 'admin', 'middleware' => 'web'], function(){
+Route::group(['prefix' => 'admin'], function(){
     // Backend Area
     Route::resource('area', 'AreaController');
 
@@ -35,6 +35,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'web'], function(){
     // Backend Profesion
     Route::resource('profesion', 'ProfesionController');
     Route::get('profesion/listar/relaciones', 'ProfesionController@listar')->name('admin.profesion.listar');
+
+    // Backend Docente
+    Route::resource('docente', 'DocenteController');
+    Route::get('docente/listar/relaciones', 'DocenteController@listar')->name('admin.docente.listar');
+    Route::get('docente/{docente}/show', 'DocenteController@show')->name('admin.docente.getshow');
 
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');

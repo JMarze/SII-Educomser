@@ -53,12 +53,12 @@ class AreaController extends Controller
             try{
                 $area = new Area($request->all());
                 $area->save();
-                flash()->success('Se agregó el área: '.$area->nombre);
+                flash('Se agregó el área: '.$area->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -93,7 +93,7 @@ class AreaController extends Controller
                     'cursos' => $area->cursos()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -115,12 +115,12 @@ class AreaController extends Controller
                 $area = Area::find($id);
                 $area->fill($request->all());
                 $area->update();
-                flash()->warning('Se modificó el área: '.$area->nombre);
+                flash('Se modificó el área: '.$area->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -140,12 +140,12 @@ class AreaController extends Controller
             try{
                 $area = Area::find($id);
                 $area->delete();
-                flash()->error('Se eliminó el área: '.$area->nombre);
+                flash('Se eliminó el área: '.$area->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $area->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

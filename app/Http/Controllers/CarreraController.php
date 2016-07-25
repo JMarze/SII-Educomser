@@ -59,12 +59,12 @@ class CarreraController extends Controller
             try{
                 $carrera = new Carrera($request->all());
                 $carrera->save();
-                flash()->success('Se agregó la carrera: '.$carrera->nombre);
+                flash('Se agregó la carrera: '.$carrera->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -98,7 +98,7 @@ class CarreraController extends Controller
                     'carrera' => $carrera,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -120,12 +120,12 @@ class CarreraController extends Controller
                 $carrera = Carrera::find($id);
                 $carrera->fill($request->all());
                 $carrera->update();
-                flash()->warning('Se modificó la carrera: '.$carrera->nombre);
+                flash('Se modificó la carrera: '.$carrera->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -150,12 +150,12 @@ class CarreraController extends Controller
                 $carrera = Carrera::find($id);
                 $carrera->logo = $request->logo;
                 $carrera->update();
-                flash()->warning('Se modificó la carrera: '.$carrera->nombre);
+                flash('Se modificó la carrera: '.$carrera->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -180,12 +180,12 @@ class CarreraController extends Controller
                         \Storage::disk('local')->delete($carrera->logo);
                     }
                 }
-                flash()->error('Se eliminó la carrera: '.$carrera->nombre);
+                flash('Se eliminó la carrera: '.$carrera->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -250,12 +250,12 @@ class CarreraController extends Controller
                 }
                 $carrera->updated_at = Carbon::now();
                 $carrera->update();
-                flash()->success('Se vincularon los cursos a la carrera: '.$carrera->nombre);
+                flash('Se vincularon los cursos a la carrera: '.$carrera->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $carrera->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al vincular... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al vincular... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

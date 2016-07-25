@@ -54,12 +54,12 @@ class ProfesionController extends Controller
             try{
                 $profesion = new Profesion($request->all());
                 $profesion->save();
-                flash()->success('Se agregó la profesión: '.$profesion->nombre);
+                flash('Se agregó la profesión: '.$profesion->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -96,7 +96,7 @@ class ProfesionController extends Controller
                     //'personas' => $profesion->personas()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -118,12 +118,12 @@ class ProfesionController extends Controller
                 $profesion = Profesion::find($id);
                 $profesion->fill($request->all());
                 $profesion->update();
-                flash()->warning('Se modificó la profesión: '.$profesion->nombre);
+                flash('Se modificó la profesión: '.$profesion->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -143,12 +143,12 @@ class ProfesionController extends Controller
             try{
                 $profesion = Profesion::find($id);
                 $profesion->delete();
-                flash()->error('Se eliminó la profesión: '.$profesion->nombre);
+                flash('Se eliminó la profesión: '.$profesion->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $profesion->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

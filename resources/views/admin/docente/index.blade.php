@@ -14,8 +14,8 @@
                            <span class="icon-bar"></span>
                            <span class="icon-bar"></span>
                        </button>
-                       <a href="{{ route('admin.curso.index') }}" class="navbar-brand">
-                           <i class="fa fa-btn fa-cube"></i>Cursos
+                       <a href="{{ route('admin.docente.index') }}" class="navbar-brand">
+                           <i class="fa fa-btn fa-user-plus"></i>Docentes
                        </a>
                    </div>
 
@@ -26,33 +26,16 @@
                                    <i class="fa fa-btn fa-plus"></i>Agregar
                                </button>
                            </li>
-                           <li class="dropdown">
-                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                   Dependencias <span class="caret"></span>
-                               </a>
-                               <ul class="dropdown-menu" role="menu">
-                                   <li>
-                                       <a href="{{ route('admin.area.index') }}">
-                                           <i class="fa fa-btn fa-th-large"></i>Áreas
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a href="{{ route('admin.dificultad.index') }}">
-                                           <i class="fa fa-btn fa-level-up"></i>Dificultad
-                                       </a>
-                                   </li>
-                               </ul>
-                           </li>
                            <li>
-                               <a href="{{ route('admin.curso.index') }}">
+                               <a href="{{ route('admin.docente.index') }}">
                                    <i class="fa fa-btn fa-th"></i>Ver Todos
                                </a>
                            </li>
                        </ul>
 
-                       {!! Form::open(['route' => 'admin.curso.index', 'method' => 'GET', 'class' => 'navbar-form navbar-right', 'role' => 'search']) !!}
+                       {!! Form::open(['route' => 'admin.docente.index', 'method' => 'GET', 'class' => 'navbar-form navbar-right', 'role' => 'search']) !!}
                        <div class="input-group">
-                           {!! Form::text('buscar_curso', null, ['placeholder' => 'Buscar curso...', 'class' => 'form-control']) !!}
+                           {!! Form::text('buscar_persona', null, ['placeholder' => 'Buscar docente...', 'class' => 'form-control']) !!}
                            <span class="input-group-addon">
                                <i class="fa fa-btn fa-search"></i>
                            </span>
@@ -68,17 +51,16 @@
             </div>
 
             <div class="content-ajax">
-                @include('admin.curso.partial.table')
+                @include('admin.docente.partial.table')
             </div>
 
         </div>
 
     </div>
 </div>
-@include('admin.curso.partial.create')
-@include('admin.curso.partial.update')
-@include('admin.curso.partial.destroy')
-@include('admin.curso.partial.upload')
+@include('admin.docente.partial.create')
+@include('admin.docente.partial.update')
+@include('admin.docente.partial.destroy')
 @endsection
 
 @section('script')
@@ -86,7 +68,7 @@
 <script>
     // Llenar Form -> Agregar
     $(document).on('click', 'button[data-target="#create"]', function(e){
-        var urlArea = '{{ route("admin.curso.listar") }}';
+        var urlArea = '{{ route("admin.docente.listar") }}';
         $.ajax({
             url: urlArea,
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -97,14 +79,10 @@
                 $('#form-create').css('display', 'none');
             }
         }).done(function (response){
-            if(response['areas'] != null && response['dificultades'] != null){
-                var selectArea = $('select#area_id').empty().append("<option selected='selected' value=''>Seleccione área</option>");
-                var selectDificultad = $('select#dificultad_id').empty().append("<option selected='selected' value=''>Seleccione dificultad</option>");
-                $.each(response['areas'], function(key, value){
-                    selectArea.append("<option value='"+key+"'>"+value+"</option>");
-                });
-                $.each(response['dificultades'], function(key, value){
-                    selectDificultad.append("<option value='"+key+"'>"+value+"</option>");
+            if(response['expediciones'] != null){
+                var selectExpedicion = $('select#expedicion_codigo').empty().append("<option selected='selected' value=''>Seleccione expedición</option>");
+                $.each(response['expediciones'], function(key, value){
+                    selectExpedicion.append("<option value='"+key+"'>"+value+"</option>");
                 });
             }
             $('#msg-create').css('display', 'none');

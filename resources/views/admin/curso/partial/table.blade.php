@@ -4,12 +4,10 @@
         <th>Código</th>
         <th>Nombre</th>
         <th>Color</th>
-        <th>Costo</th>
-        <th>Horas</th>
         <th>Área</th>
         <th>Dificultad</th>
         <th>Creación</th>
-        <th>Última modificación</th>
+        <th>Modificación</th>
         <th>Logo</th>
         <th></th>
     </tr>
@@ -19,16 +17,6 @@
         <td>{{ $curso->nombre }}</td>
         <td>
             <span class="label" style="background-color: {{ $curso->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </td>
-        <td>
-            Bs {{ number_format($curso->costo_personalizado, 2, '.', ',') }}
-            <br/>
-            Bs {{ number_format($curso->costo_referencial, 2, '.', ',') }}
-        </td>
-        <td>
-            {{ $curso->horas_academicas }}
-            <br/>
-            {{ $curso->horas_reales }}
         </td>
         <td>{{ $curso->area->nombre }}</td>
         <td>{{ $curso->dificultad->nombre }}</td>

@@ -64,12 +64,12 @@ class CursoController extends Controller
             try{
                 $curso = new Curso($request->all());
                 $curso->save();
-                flash()->success('Se agregó el curso: '.$curso->nombre);
+                flash('Se agregó el curso: '.$curso->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $curso->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -89,7 +89,7 @@ class CursoController extends Controller
             $curso = Curso::find($id);
             return view('admin.curso.show')->with('curso', $curso);
         }catch(\Exception $ex){
-            flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+            flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
             return redirect()->route('admin.curso.index');
         }
     }
@@ -113,7 +113,7 @@ class CursoController extends Controller
                     'dificultades' => $dificultades,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -135,12 +135,12 @@ class CursoController extends Controller
                 $curso = Curso::find($id);
                 $curso->fill($request->all());
                 $curso->update();
-                flash()->warning('Se modificó el curso: '.$curso->nombre);
+                flash('Se modificó el curso: '.$curso->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $curso->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -165,12 +165,12 @@ class CursoController extends Controller
                 $curso = Curso::find($id);
                 $curso->logo = $request->logo;
                 $curso->update();
-                flash()->warning('Se modificó el curso: '.$curso->nombre);
+                flash('Se modificó el curso: '.$curso->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $curso->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -195,12 +195,12 @@ class CursoController extends Controller
                         \Storage::disk('local')->delete($curso->logo);
                     }
                 }
-                flash()->error('Se eliminó el curso: '.$curso->nombre);
+                flash('Se eliminó el curso: '.$curso->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $curso->codigo,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -214,12 +214,12 @@ class CursoController extends Controller
                 $curso = Curso::find($id);
                 $capitulo = new Capitulo($request->all());
                 $capitulo->save();
-                flash()->success('Se agregó el capítulo: '.$capitulo->titulo.' al curso: '.$curso->nombre);
+                flash('Se agregó el capítulo: '.$capitulo->titulo.' al curso: '.$curso->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $capitulo->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -233,12 +233,12 @@ class CursoController extends Controller
                 $capitulo = Capitulo::find($id);
                 $topico = new Topico($request->all());
                 $topico->save();
-                flash()->success('Se agregó el subtítulo: '.$topico->subtitulo.' al capítulo: '.$capitulo->titulo);
+                flash('Se agregó el subtítulo: '.$topico->subtitulo.' al capítulo: '.$capitulo->titulo, 'success')->important();
                 return response()->json([
                     'mensaje' => $topico->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

@@ -6,7 +6,7 @@
         <th>Color</th>
         <th>Costo Mensual</th>
         <th>Creación</th>
-        <th>Última modificación</th>
+        <th>Modificación</th>
         <th>Logo</th>
         <th>Cursos</th>
         <th></th>

@@ -53,12 +53,12 @@ class DificultadController extends Controller
             try{
                 $dificultad = new Dificultad($request->all());
                 $dificultad->save();
-                flash()->success('Se agregó la dificultad: '.$dificultad->nombre);
+                flash('Se agregó la dificultad: '.$dificultad->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $dificultad->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al agregar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -93,7 +93,7 @@ class DificultadController extends Controller
                     'cursos' => $dificultad->cursos()->count(),
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al buscar datos... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -115,12 +115,12 @@ class DificultadController extends Controller
                 $dificultad = Dificultad::find($id);
                 $dificultad->fill($request->all());
                 $dificultad->update();
-                flash()->warning('Se modificó la dificultad: '.$dificultad->nombre);
+                flash('Se modificó la dificultad: '.$dificultad->nombre, 'warning')->important();
                 return response()->json([
                     'mensaje' => $dificultad->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al modificar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
@@ -140,12 +140,12 @@ class DificultadController extends Controller
             try{
                 $dificultad = Dificultad::find($id);
                 $dificultad->delete();
-                flash()->error('Se eliminó la dificultad: '.$dificultad->nombre);
+                flash('Se eliminó la dificultad: '.$dificultad->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $dificultad->id,
                 ]);
             }catch(\Exception $ex){
-                flash()->error('Wow!!! se presentó un problema al eliminar... Intenta más tarde');
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde', 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);

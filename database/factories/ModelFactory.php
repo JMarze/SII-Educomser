@@ -46,3 +46,34 @@ $factory->define(App\Carrera::class, function (Faker\Generator $faker) {
         'costo_mensual' => $faker->randomFloat(2, 100, 300),
     ];
 });
+
+$factory->define(App\Persona::class, function (Faker\Generator $faker) {
+    return [
+        'codigo' => $faker->bothify('???-######'),
+        'primer_apellido' => $faker->lastname,
+        'segundo_apellido' => $faker->lastname,
+        'nombres' => $faker->name,
+        'email' => $faker->email,
+        'fecha_nacimiento' => $faker->date('Y-m-d', 'now'),
+        'numero_ci' => $faker->randomNumber(7),
+        'genero' => $faker->randomElement(['femenino', 'masculino']),
+        'direccion' => $faker->address,
+        'telefono_1' => $faker->tollFreePhoneNumber,
+        'telefono_2' => $faker->tollFreePhoneNumber,
+        'expedicion_codigo' => $faker->randomElement(['LP', 'SC', 'CB']),
+    ];
+});
+
+$factory->define(App\Docente::class, function (Faker\Generator $faker) {
+    return [
+        'biografia' => $faker->text(250),
+        'email_institucional' => $faker->email,
+        'social_facebook' => $faker->url,
+        'social_twitter' => $faker->url,
+        'social_googleplus' => $faker->url,
+        'social_youtube' => $faker->url,
+        'social_linkedin' => $faker->url,
+        'social_website' => $faker->url,
+        'persona_codigo' => factory(App\Persona::class)->create()->codigo,
+    ];
+});
