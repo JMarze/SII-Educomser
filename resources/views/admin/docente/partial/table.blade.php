@@ -6,6 +6,7 @@
         <th>Correos Electrónicos</th>
         <th>CI</th>
         <th>Teléfonos</th>
+        <th>Profesiones</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th></th>
@@ -32,6 +33,13 @@
             @if($docente->persona->telefono_2 != '' && $docente->persona->telefono_2 != null)
             <i class="fa fa-btn fa-phone"></i>{{ $docente->persona->telefono_2 }}
             @endif
+        </td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach" data-id="{{ $docente->id }}" title="Profesiones">
+                    <i class="fa fa-btn fa-graduation-cap"></i>Profesiones <span class="badge">{{ $docente->persona->profesiones()->count() }}</span>
+                </button>
+            </div>
         </td>
         <td>{{ $docente->created_at->diffForHumans() }}</td>
         <td>
@@ -300,6 +308,68 @@
             $('#msg-destroy').css('display', 'none');
             $('#form-destroy').css('display', 'block');
             $('#form-destroy').attr('data-id', idDocente);
+        });
+    });
+
+    // Llenar Form -> Attach
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var idProfesion = $(this).attr('data-id');
+        var urlListar = '{{ route("admin.docente.listar") }}';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['profesiones'] != null){
+                var selectProfesion = $('select[name="profesion_id[]"]').empty();
+                $.each(response['profesiones'], function(key, value){
+                    selectProfesion.append("<option value='"+key+"'>"+value+"</option>");
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', idProfesion);
+        }).fail(function (response){
+            console.log(response);
+        });
+    });
+
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var idDocente = $(this).attr('data-id');
+        var urlListar = '/admin/docente/'+ idDocente +'/attach';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['profesiones'] != null){
+                var profesiones = $('select[name="profesion_id[]"]').find(":selected");
+                var wrapperProfesiones = $('#profesiones_lista');
+                $.each(response['profesiones'], function(key, value){
+                    wrapperProfesiones.append('<div class="form-group">' +
+                               '<input name="profesiones_id[]" type="hidden" value="'+ value.id +'"/>' +
+                               '<label class="col-md-8 control-label">'+ value.abreviatura + ' ' + value.titulo +'</label>' +
+                               '<button type="button" class="col-md-1 close del-profesion" aria-label="Close">' +
+                               '<span aria-hidden="true">&times;</span>' +
+                               '</button>' +
+                               '</div>');
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', idDocente);
+        }).fail(function (response){
+            console.log(response);
         });
     });
 </script>

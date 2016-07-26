@@ -11,7 +11,11 @@ use Carbon\Carbon;
 use App\Docente;
 use App\Persona;
 use App\Expedicion;
+use App\Profesion;
+use App\Grado;
 use App\Http\Requests\DocenteRequest;
+
+use DB;
 
 class DocenteController extends Controller
 {
@@ -206,12 +210,63 @@ class DocenteController extends Controller
         if ($request->ajax()){
             try{
                 $expediciones = Expedicion::orderBy('ciudad', 'ASC')->lists('ciudad', 'codigo');
+                $profesiones = Grado::join('profesiones', 'grados.id', '=', 'profesiones.grado_id')->orderBy('profesiones.titulo', 'ASC')->select('profesiones.id', DB::raw('CONCAT(grados.abreviatura, " ", profesiones.titulo) AS profesion'))->lists('profesion', 'profesiones.id');
                 return response()->json([
                     'expediciones' => $expediciones,
+                    'profesiones' => $profesiones,
                 ]);
             }catch(\Exception $ex){
                 return response()->json([
                     'expediciones' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function attach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $docente = Docente::find($id);
+                $profesiones = $docente->persona->profesiones()->join('grados', 'profesiones.grado_id', '=', 'grados.id')->select('profesiones.id', 'grados.abreviatura', 'profesiones.titulo')->get();
+                return response()->json([
+                    'profesiones' => $profesiones,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'profesiones' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $docente = Docente::find($id);
+                $persona = Persona::find($docente->persona->codigo);
+                $docente->persona->profesiones()->detach();
+                for($i=0; $i<count($request['profesiones_id']); $i++){
+                    $docente->persona->profesiones()->attach($request['profesiones_id'][$i]);
+                }
+                $docente->updated_at = Carbon::now();
+                $docente->update();
+                flash('Se vincularon las profesiones al docente: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres, 'success')->important();
+                return response()->json([
+                    'mensaje' => $docente->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al vincular... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
             }

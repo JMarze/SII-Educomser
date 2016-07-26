@@ -40,6 +40,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::resource('docente', 'DocenteController');
     Route::get('docente/listar/relaciones', 'DocenteController@listar')->name('admin.docente.listar');
     Route::get('docente/{docente}/show', 'DocenteController@show')->name('admin.docente.getshow');
+    Route::get('docente/{docente}/attach', 'DocenteController@attach')->name('admin.docente.attach');
+    Route::put('docente/{docente}/attach', 'DocenteController@postattach')->name('admin.docente.postattach');
 
     // Backend Carrera
     Route::resource('carrera', 'CarreraController');

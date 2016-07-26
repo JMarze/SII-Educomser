@@ -61,6 +61,7 @@
 @include('admin.docente.partial.create')
 @include('admin.docente.partial.update')
 @include('admin.docente.partial.destroy')
+@include('admin.docente.partial.attach')
 @endsection
 
 @section('script')
