@@ -77,3 +77,18 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
         'persona_codigo' => factory(App\Persona::class)->create()->codigo,
     ];
 });
+
+$factory->define(App\Cronograma::class, function (Faker\Generator $faker) {
+    return [
+        'inicio_carrera' => false,
+        'inicio' => $faker->date('Y-m-d H:i:s', 'now'),
+        'duracion_clase' => 1.5,
+        'costo' => $faker->randomFloat(2, 100, 300),
+        'costo_mensual' => $faker->randomFloat(2, 100, 300),
+        'matricula' => $faker->randomFloat(2, 50, 100),
+        'promocion' => false,
+        'slider' => true,
+        'tipo_id' => $faker->randomElement([1,2,3]),
+        'curso_codigo' => factory(App\Curso::class)->create()->codigo,
+    ];
+});

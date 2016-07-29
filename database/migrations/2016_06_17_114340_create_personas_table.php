@@ -49,7 +49,7 @@ class CreatePersonasTable extends Migration
      */
     public function down()
     {
-        //Schema::drop('persona_profesion');
+        Schema::drop('persona_profesion');
         Schema::drop('personas');
     }
 }

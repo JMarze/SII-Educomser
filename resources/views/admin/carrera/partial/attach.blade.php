@@ -1,4 +1,4 @@
-<div class="modal fade" id="attach" tabindex="-1" role="dialog" aria-labelledby="Cursos">
+<div class="modal fade" id="attach" role="dialog" aria-labelledby="Cursos">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

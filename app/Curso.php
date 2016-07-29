@@ -51,4 +51,9 @@ class Curso extends Model
     public function carreras(){
         return $this->belongsToMany('App\Carrera', 'carrera_curso', 'curso_codigo', 'carrera_codigo')->withPivot('orden', 'created_at');
     }
+
+    // N -> (1:N)
+    public function cronogramas(){
+        return $this->hasMany('App\Cronograma');
+    }
 }

@@ -29,6 +29,10 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Tipo
     Route::resource('tipo', 'TipoController');
 
+    // Backend Cronograma
+    Route::resource('cronograma', 'CronogramaController');
+    Route::get('cronograma/listar/relaciones', 'CronogramaController@listar')->name('admin.cronograma.listar');
+
     // Backend Grado
     Route::resource('grado', 'GradoController');
 

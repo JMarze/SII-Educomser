@@ -54,4 +54,9 @@ class Docente extends Model
     public function persona(){
         return $this->belongsTo('App\Persona', 'persona_codigo');
     }
+
+    // N -> (N:N)
+    public function cronogramas(){
+        return $this->belongsToMany('App\Cronograma', 'cronograma_docente');
+    }
 }
