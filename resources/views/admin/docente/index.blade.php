@@ -26,6 +26,18 @@
                                    <i class="fa fa-btn fa-plus"></i>Agregar
                                </button>
                            </li>
+                           <li class="dropdown">
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                   Dependencias <span class="caret"></span>
+                               </a>
+                               <ul class="dropdown-menu" role="menu">
+                                   <li>
+                                       <a href="{{ route('admin.profesion.index') }}">
+                                           <i class="fa fa-btn fa-graduation-cap"></i>Profesiones
+                                       </a>
+                                   </li>
+                               </ul>
+                           </li>
                            <li>
                                <a href="{{ route('admin.docente.index') }}">
                                    <i class="fa fa-btn fa-th"></i>Ver Todos

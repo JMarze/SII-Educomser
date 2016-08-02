@@ -35,7 +35,7 @@
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach" data-codigo="{{ $carrera->codigo }}" title="Cursos">
-                    <i class="fa fa-btn fa-upload"></i>Cursos <span class="badge">{{ $carrera->cursos()->count() }}</span>
+                    <i class="fa fa-btn fa-cube"></i>Cursos <span class="badge">{{ $carrera->cursos()->count() }}</span>
                 </button>
             </div>
         </td>

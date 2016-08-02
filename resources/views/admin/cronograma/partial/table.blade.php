@@ -7,6 +7,7 @@
         <th>Inicio</th>
         <th>Costo</th>
         <th>¿Slider?</th>
+        <th>Docente</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th></th>
@@ -25,6 +26,13 @@
             @else
             No
             @endif
+        </td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach" data-id="{{ $cronograma->id }}" title="Docente">
+                    <i class="fa fa-btn fa-user-plus"></i>Docente <span class="badge">{{ $cronograma->docentes()->count() }}</span>
+                </button>
+            </div>
         </td>
         <td>{{ $cronograma->created_at->diffForHumans() }}</td>
         <td>{{ $cronograma->updated_at->diffForHumans() }}</td>
@@ -222,6 +230,67 @@
             $('#msg-destroy').css('display', 'none');
             $('#form-destroy').css('display', 'block');
             $('#form-destroy').attr('data-id', idCronograma);
+        });
+    });
+    // Llenar Form -> Attach
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var idCronograma = $(this).attr('data-id');
+        var urlListar = '{{ route("admin.cronograma.listar") }}';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['docentes'] != null){
+                var selectDocente = $('select[name="docente_id[]"]').empty();
+                $.each(response['docentes'], function(key, value){
+                    selectDocente.append("<option value='"+key+"'>"+value+"</option>");
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', idCronograma);
+        }).fail(function (response){
+            console.log(response);
+        });
+    });
+
+    $(document).on('click', 'button[data-target="#attach"]', function(e){
+        var idCronograma = $(this).attr('data-id');
+        var urlListar = '/admin/cronograma/'+ idCronograma +'/attach';
+        $.ajax({
+            url: urlListar,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach').css('display', 'block');
+                $('#form-postattach').css('display', 'none');
+            }
+        }).done(function (response){
+            if(response['docentes'] != null){
+                var docentes = $('select[name="docente_id[]"]').find(":selected");
+                var wrapperDocentes = $('#docentes_lista');
+                $.each(response['docentes'], function(key, value){
+                    wrapperDocentes.append('<div class="form-group">' +
+                               '<input name="docentes_id[]" type="hidden" value="'+ value.id +'"/>' +
+                               '<label class="col-md-8 control-label">'+ value.nombre_completo +'</label>' +
+                               '<button type="button" class="col-md-1 close del-docente" aria-label="Close">' +
+                               '<span aria-hidden="true">&times;</span>' +
+                               '</button>' +
+                               '</div>');
+                });
+            }
+            $('#msg-attach').css('display', 'none');
+            $('#form-postattach').css('display', 'block');
+            $('#form-postattach').attr('data-id', idCronograma);
+        }).fail(function (response){
+            console.log(response);
         });
     });
 </script>

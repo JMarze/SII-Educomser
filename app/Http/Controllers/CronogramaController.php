@@ -12,6 +12,7 @@ use Carbon\CarbonInterval;
 use App\Cronograma;
 use App\Tipo;
 use App\Curso;
+use App\Docente;
 
 use App\Http\Requests\CronogramaRequest;
 
@@ -196,14 +197,65 @@ class CronogramaController extends Controller
             try{
                 $tipos = Tipo::orderBy('nombre', 'ASC')->lists('nombre', 'id');
                 $cursos = Curso::orderBy('codigo', 'ASC')->lists('nombre', 'codigo');
+                $docentes = Docente::join('personas', 'docentes.persona_codigo', '=', 'personas.codigo')->orderBy('personas.primer_apellido', 'ASC')->select('docentes.id', DB::raw('CONCAT(personas.primer_apellido, " ", personas.segundo_apellido, " ", personas.nombres) AS nombre_completo'))->lists('nombre_completo', 'id');
                 return response()->json([
                     'tipos' => $tipos,
                     'cursos' => $cursos,
+                    'docentes' => $docentes,
                 ]);
             }catch(\Exception $ex){
                 return response()->json([
                     'tipos' => null,
                     'cursos' => null,
+                    'docentes' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function attach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $cronograma = Cronograma::find($id);
+                $docentes = $cronograma->docentes()->join('personas', 'docentes.persona_codigo', '=', 'personas.codigo')->orderBy('personas.primer_apellido', 'ASC')->select('docentes.id', DB::raw('CONCAT(personas.primer_apellido, " ", personas.segundo_apellido, " ", personas.nombres) AS nombre_completo'))->get();
+                return response()->json([
+                    'docentes' => $docentes,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'docentes' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattach(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $cronograma = Cronograma::find($id);
+                $cronograma->docentes()->detach();
+                for($i=0; $i<count($request['docentes_id']); $i++){
+                    $cronograma->docentes()->attach($request['docentes_id'][$i]);
+                }
+                $cronograma->updated_at = Carbon::now();
+                $cronograma->update();
+                flash('Se vincularon los docentes al cronograma', 'success')->important();
+                return response()->json([
+                    'mensaje' => $cronograma->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al vincular... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
             }

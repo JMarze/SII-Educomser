@@ -73,6 +73,7 @@
 @include('admin.cronograma.partial.create')
 @include('admin.cronograma.partial.update')
 @include('admin.cronograma.partial.destroy')
+@include('admin.cronograma.partial.attach')
 @endsection
 
 @section('script')
