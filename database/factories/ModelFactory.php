@@ -92,3 +92,9 @@ $factory->define(App\Cronograma::class, function (Faker\Generator $faker) {
         'curso_codigo' => factory(App\Curso::class)->create()->codigo,
     ];
 });
+
+$factory->define(App\Alumno::class, function (Faker\Generator $faker) {
+    return [
+        'persona_codigo' => factory(App\Persona::class)->create()->codigo,
+    ];
+});

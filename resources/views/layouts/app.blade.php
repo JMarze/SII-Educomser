@@ -61,6 +61,7 @@
                             <li><a href="{{ route('admin.curso.index') }}"><i class="fa fa-btn fa-cube"></i>Cursos</a></li>
                             <li><a href="{{ route('admin.docente.index') }}"><i class="fa fa-btn fa-user-plus"></i>Docentes</a></li>
                             <li><a href="{{ route('admin.cronograma.index') }}"><i class="fa fa-btn fa-calendar"></i>Cronogramas</a></li>
+                            <li><a href="{{ route('admin.alumno.index') }}"><i class="fa fa-btn fa-user"></i>Alumnos</a></li>
                         </ul>
                     </li>
                 </ul>
