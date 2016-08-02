@@ -81,7 +81,7 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
 $factory->define(App\Cronograma::class, function (Faker\Generator $faker) {
     return [
         'inicio_carrera' => false,
-        'inicio' => $faker->date('Y-m-d H:i:s', 'now'),
+        'inicio' => $faker->date('Y-m-d\TH:i', 'now'),
         'duracion_clase' => 1.5,
         'costo' => $faker->randomFloat(2, 100, 300),
         'costo_mensual' => $faker->randomFloat(2, 100, 300),
