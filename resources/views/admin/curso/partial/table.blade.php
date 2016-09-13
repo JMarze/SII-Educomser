@@ -6,6 +6,7 @@
         <th>Color</th>
         <th>Área</th>
         <th>Dificultad</th>
+        <th>¿Vigente?</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th>Logo</th>
@@ -20,6 +21,13 @@
         </td>
         <td>{{ $curso->area->nombre }}</td>
         <td>{{ $curso->dificultad->nombre }}</td>
+        <td class="text-center">
+            @if($curso->vigente)
+            Si
+            @else
+            No
+            @endif
+        </td>
         <td>{{ $curso->created_at->diffForHumans() }}</td>
         <td>{{ $curso->updated_at->diffForHumans() }}</td>
         <td>
@@ -199,7 +207,7 @@
                 selectDificultad.append("<option value='"+key+"'>"+value+"</option>");
             });
             $.each(response['curso'], function(key, value){
-                if(key == 'area_id' || key == 'dificultad_id'){
+                if(key == 'area_id' || key == 'dificultad_id' || key == 'vigente'){
                     $('select[name="'+key+'"]').val(value);
                 }else if(key != 'logo' && key != 'descripcion'){
                     $('input[name="'+key+'"]').val(value);

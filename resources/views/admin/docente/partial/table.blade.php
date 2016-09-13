@@ -7,6 +7,7 @@
         <th>CI</th>
         <th>Teléfonos</th>
         <th>Profesiones</th>
+        <th>¿Vigente?</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th></th>
@@ -40,6 +41,13 @@
                     <i class="fa fa-btn fa-graduation-cap"></i>Profesiones <span class="badge">{{ $docente->persona->profesiones()->count() }}</span>
                 </button>
             </div>
+        </td>
+        <td class="text-center">
+            @if($docente->vigente)
+            Si
+            @else
+            No
+            @endif
         </td>
         <td>{{ $docente->created_at->diffForHumans() }}</td>
         <td>
@@ -274,7 +282,7 @@
                 selectExpedicion.append("<option value='"+key+"'>"+value+"</option>");
             });
             $.each(response['docente'], function(key, value){
-                if(key == 'expedicion_codigo' || key == 'genero'){
+                if(key == 'expedicion_codigo' || key == 'genero' || key == 'vigente'){
                     $('select[name="'+key+'"]').val(value);
                 }else if(key == 'direccion' || key == 'biografia'){
                     $('textarea[name="'+key+'"]').val(value);

@@ -21,6 +21,7 @@ class CreateCursosTable extends Migration
             $table->decimal('costo_referencial', 6, 2)->default(0);
             $table->string('eslogan', 50)->nullable();
             $table->text('descripcion');
+            $table->boolean('vigente')->default(true);
             $table->decimal('horas_academicas', 5, 2)->default(0);
             $table->decimal('horas_reales', 5, 2)->default(0);
 

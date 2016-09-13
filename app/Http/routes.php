@@ -70,4 +70,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('alumno/{alumno}/show', 'AlumnoController@show')->name('admin.alumno.getshow');
     Route::get('alumno/{alumno}/attach', 'AlumnoController@attach')->name('admin.alumno.attach');
     Route::put('alumno/{alumno}/attach', 'AlumnoController@postattach')->name('admin.alumno.postattach');
+
+    // Backend Insripcion
+    Route::get('inscripcion/cronograma/{cronograma}/alumno/{alumno}', 'InscripcionController@inscribir')->name('admin.inscripcion.inscribir');
 });

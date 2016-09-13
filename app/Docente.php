@@ -11,7 +11,7 @@ class Docente extends Model
 
     protected $table = 'docentes';
 
-    protected $fillable = ['biografia', 'email_institucional', 'social_facebook', 'social_twitter', 'social_googleplus', 'social_youtube', 'social_linkedin', 'social_website', 'persona_codigo'];
+    protected $fillable = ['biografia', 'email_institucional', 'vigente', 'social_facebook', 'social_twitter', 'social_googleplus', 'social_youtube', 'social_linkedin', 'social_website', 'persona_codigo'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

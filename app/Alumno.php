@@ -30,4 +30,9 @@ class Alumno extends Model
     public function persona(){
         return $this->belongsTo('App\Persona', 'persona_codigo');
     }
+
+    // N -> (1:N)
+    public function inscripciones(){
+        return $this->hasMany('App\Inscripcion');
+    }
 }

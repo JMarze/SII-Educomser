@@ -19,11 +19,11 @@ class Cronograma extends Model
 
     // Mutators
     public function setCostoMensualAttribute($costo){
-        $this->attributes['costo_mensual'] = (empty($value))?null:$value;
+        $this->attributes['costo_mensual'] = (empty($costo))?null:$costo;
     }
 
     public function setMatriculaAttribute($costo){
-        $this->attributes['matricula'] = (empty($value))?null:$value;
+        $this->attributes['matricula'] = (empty($costo))?null:$costo;
     }
 
     public function setInicioAttribute($date){
@@ -49,5 +49,10 @@ class Cronograma extends Model
     // N -> (N:N)
     public function docentes(){
         return $this->belongsToMany('App\Docente', 'cronograma_docente');
+    }
+
+    // N -> (1:N)
+    public function inscripciones(){
+        return $this->hasMany('App\Inscripcion');
     }
 }

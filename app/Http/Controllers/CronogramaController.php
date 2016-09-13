@@ -13,6 +13,7 @@ use App\Cronograma;
 use App\Tipo;
 use App\Curso;
 use App\Docente;
+use App\Alumno;
 
 use App\Http\Requests\CronogramaRequest;
 
@@ -66,7 +67,16 @@ class CronogramaController extends Controller
         if ($request->ajax()){
             try{
                 $cronograma = new Cronograma($request->all());
+                $cronograma->costo_mensual = null;
+                $cronograma->matricula = null;
                 $cronograma->save();
+
+                if($cronograma->inicio_carrera){
+                    $cronogramaCarrera = new Cronograma($request->all());
+                    $cronogramaCarrera->costo = 0;
+                    $cronogramaCarrera->save();
+                }
+
                 flash('Se agregó el cronograma para el curso: '.$cronograma->curso->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $cronograma->id,
@@ -86,7 +96,7 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try{
             $cronograma = Cronograma::find($id);
@@ -101,7 +111,15 @@ class CronogramaController extends Controller
             $dias = ceil(($totalHoras-($mes*$meses)-($semana*$semanas))/$dia);
 
             $duracion = CarbonInterval::create(0, $meses, $semanas, $dias, 0, 0, 0);
-            return view('admin.cronograma.show')->with('cronograma', $cronograma)->with('duracion', $duracion);
+
+            if ($request->buscar_persona){
+                $alumnos = Alumno::search($request->buscar_persona)->orderBy('alumnos.updated_at', 'DESC')->paginate(10);
+                $alumnos->appends(['buscar_persona' => $request->buscar_persona]);
+            }else{
+                $alumnos = Alumno::orderBy('alumnos.updated_at', 'DESC')->paginate(10);
+            }
+
+            return view('admin.cronograma.show')->with('cronograma', $cronograma)->with('duracion', $duracion)->with('alumnos', $alumnos);
         }catch(\Exception $ex){
             flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
             return redirect()->route('admin.cronograma.index');

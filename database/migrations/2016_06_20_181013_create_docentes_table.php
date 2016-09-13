@@ -16,6 +16,7 @@ class CreateDocentesTable extends Migration
             $table->increments('id');
             $table->text('biografia');
             $table->string('email_institucional', 50)->unique()->nullable();
+            $table->boolean('vigente')->default(true);
             $table->string('social_facebook', 100)->unique()->nullable();
             $table->string('social_twitter', 100)->unique()->nullable();
             $table->string('social_googleplus', 100)->unique()->nullable();

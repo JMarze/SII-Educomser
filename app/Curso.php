@@ -15,7 +15,7 @@ class Curso extends Model
     protected $primaryKey = 'codigo';
     public $incrementing = false;
 
-    protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_personalizado', 'costo_referencial', 'eslogan', 'descripcion', 'horas_academicas', 'horas_reales', 'area_id', 'dificultad_id'];
+    protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_personalizado', 'costo_referencial', 'eslogan', 'descripcion', 'vigente', 'horas_academicas', 'horas_reales', 'area_id', 'dificultad_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -46,14 +46,12 @@ class Curso extends Model
     public function capitulos(){
         return $this->hasMany('App\Capitulo', 'curso_codigo', 'codigo');
     }
+    public function cronogramas(){
+        return $this->hasMany('App\Cronograma');
+    }
 
     // N -> (N:N)
     public function carreras(){
         return $this->belongsToMany('App\Carrera', 'carrera_curso', 'curso_codigo', 'carrera_codigo')->withPivot('orden', 'created_at');
-    }
-
-    // N -> (1:N)
-    public function cronogramas(){
-        return $this->hasMany('App\Cronograma');
     }
 }

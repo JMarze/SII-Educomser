@@ -2,12 +2,13 @@
 <table class="table table-hover">
     <tr>
         <th>Id</th>
-        <th>Curso</th>
+        <th>Carrera o Curso</th>
         <th>Tipo</th>
         <th>Inicio</th>
         <th>Costo</th>
         <th>¿Slider?</th>
         <th>Docente</th>
+        <th>Inscritos</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th></th>
@@ -16,7 +17,13 @@
     @foreach($cronogramas as $cronograma)
     <tr>
         <td>{{ $cronograma->id }}</td>
-        <td>({{ $cronograma->curso->codigo }}) {{ $cronograma->curso->nombre }}</td>
+        <td>
+            @if($cronograma->inicio_carrera)
+            ({{ $cronograma->curso->carreras[0]->codigo }}) {{ $cronograma->curso->carreras[0]->nombre }}
+            @else
+            ({{ $cronograma->curso->codigo }}) {{ $cronograma->curso->nombre }}
+            @endif
+        </td>
         <td>{{ $cronograma->tipo->nombre }}</td>
         <td>{{ utf8_encode($cronograma->inicio->formatLocalized('%A, %d de %B de %Y')) }}<br/>({{ $cronograma->inicio->diffForHumans() }})</td>
         <td>Bs {{ $cronograma->costo }}</td>
@@ -31,6 +38,13 @@
             <div class="btn-group" role="group" aria-label="Center Align">
                 <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach" data-id="{{ $cronograma->id }}" title="Docente">
                     <i class="fa fa-btn fa-user-plus"></i>Docente <span class="badge">{{ $cronograma->docentes()->count() }}</span>
+                </button>
+            </div>
+        </td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" title="Inscritos">
+                    <i class="fa fa-btn fa-user"></i>Inscritos <span class="badge">{{ $cronograma->inscripciones()->count() }}</span>
                 </button>
             </div>
         </td>

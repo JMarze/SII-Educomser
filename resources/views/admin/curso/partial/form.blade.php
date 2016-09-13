@@ -38,7 +38,6 @@
     </div>
 </div>
 
-
 <div class="form-group wrapper-costo_referencial">
     {!! Form::label('costo_referencial', 'Costo referencial', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -48,7 +47,6 @@
     </span>
     </div>
 </div>
-
 
 <div class="form-group wrapper-esloga">
     {!! Form::label('eslogan', 'Eslogan', ['class' => 'col-md-4 control-label']) !!}
@@ -70,6 +68,15 @@
     </div>
 </div>
 
+<div class="form-group wrapper-vigente">
+    {!! Form::label('vigente', '¿Vigente?', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('vigente', ['1' => 'Si', '0' => 'No'], '1', ['class' => 'form-control']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>
 
 <div class="form-group wrapper-horas_academicas">
     {!! Form::label('horas_academicas', 'Horas Académicas', ['class' => 'col-md-4 control-label']) !!}
@@ -81,7 +88,6 @@
     </div>
 </div>
 
-
 <div class="form-group wrapper-horas_reales">
     {!! Form::label('horas_reales', 'Horas Reales', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -92,7 +98,6 @@
     </div>
 </div>
 
-
 <div class="form-group wrapper-area_id">
     {!! Form::label('area_id', 'Área', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -102,7 +107,6 @@
     </span>
     </div>
 </div>
-
 
 <div class="form-group wrapper-dificultad_id">
     {!! Form::label('dificultad_id', 'Dificultad', ['class' => 'col-md-4 control-label']) !!}
