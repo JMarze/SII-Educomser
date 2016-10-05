@@ -18,16 +18,6 @@
     </div>
 </div>
 
-<div class="form-group wrapper-inicio_carrera">
-    {!! Form::label('inicio_carrera', '¿Iniciar carrera?', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-    {!! Form::select('inicio_carrera', [1 => 'Sí', 0 => 'No'], 0, ['class' => 'form-control']) !!}
-    <span class="help-block">
-        <strong></strong>
-    </span>
-    </div>
-</div>
-
 <div class="form-group wrapper-inicio">
     {!! Form::label('inicio', 'Fecha y hora de Inicio', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -58,28 +48,8 @@
     </div>
 </div>
 
-<div class="form-group wrapper-costo_mensual">
-    {!! Form::label('costo_mensual', 'Costo mensual', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-    {!! Form::number('costo_mensual', null, ['class' => 'form-control', 'placeholder' => 'Ej. 300', 'min' => '1', 'step' => '0.5']) !!}
-    <span class="help-block">
-        <strong></strong>
-    </span>
-    </div>
-</div>
-
-<div class="form-group wrapper-matricula">
-    {!! Form::label('matricula', 'Costo matrícula', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-    {!! Form::number('matricula', null, ['class' => 'form-control', 'placeholder' => 'Ej. 100', 'min' => '1', 'step' => '0.5']) !!}
-    <span class="help-block">
-        <strong></strong>
-    </span>
-    </div>
-</div>
-
 <div class="form-group wrapper-promocion">
-    {!! Form::label('promocion', '¿Curso promocional?', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('promocion', '¿Promoción?', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
     {!! Form::select('promocion', [1 => 'Sí', 0 => 'No'], 0, ['class' => 'form-control']) !!}
     <span class="help-block">
@@ -101,6 +71,5 @@
 @section('script')
 @parent
 <script>
-
 </script>
 @endsection

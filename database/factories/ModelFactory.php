@@ -80,16 +80,20 @@ $factory->define(App\Docente::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\LanzamientoCurso::class, function (Faker\Generator $faker) {
+    return [
+        'costo' => $faker->randomFloat(2, 100, 300),
+        'curso_codigo' => factory(App\Curso::class)->create()->codigo,
+        'cronograma_id' => factory(App\Cronograma::class)->create()->id,
+    ];
+});
+
 $factory->define(App\Cronograma::class, function (Faker\Generator $faker) {
     return [
-        'inicio_carrera' => false,
         'inicio' => $faker->date('Y-m-d\TH:i', 'now'),
-        'duracion_clase' => 1.5,
-        'costo' => $faker->randomFloat(2, 100, 300),
         'promocion' => false,
         'slider' => true,
         'tipo_id' => $faker->randomElement([1,2,3]),
-        'curso_codigo' => factory(App\Curso::class)->create()->codigo,
     ];
 });
 

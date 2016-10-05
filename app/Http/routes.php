@@ -34,6 +34,10 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('cronograma/listar/relaciones', 'CronogramaController@listar')->name('admin.cronograma.listar');
     Route::get('cronograma/{cronograma}/attach', 'CronogramaController@attach')->name('admin.cronograma.attach');
     Route::put('cronograma/{cronograma}/attach', 'CronogramaController@postattach')->name('admin.cronograma.postattach');
+    Route::post('cronograma/curso', 'CronogramaController@storeCurso')->name('admin.cronograma.storeCurso');
+    Route::get('cronograma/curso/{lanzamientoId}/edit', 'CronogramaController@editCurso')->name('admin.cronograma.editCurso');
+    Route::put('cronograma/curso/{lanzamientoId}', 'CronogramaController@updateCurso')->name('admin.cronograma.updateCurso');
+    Route::delete('cronograma/curso/{lanzamientoId}', 'CronogramaController@destroyCurso')->name('admin.cronograma.destroyCurso');
 
     // Backend Grado
     Route::resource('grado', 'GradoController');

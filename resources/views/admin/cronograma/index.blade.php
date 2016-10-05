@@ -22,7 +22,7 @@
                    <div class="collapse navbar-collapse" id="menu-panel">
                        <ul class="nav navbar-nav">
                            <li>
-                               <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#create">
+                               <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#createCurso">
                                    <i class="fa fa-btn fa-plus"></i>Agregar
                                </button>
                            </li>
@@ -70,9 +70,9 @@
 
     </div>
 </div>
-@include('admin.cronograma.partial.create')
-@include('admin.cronograma.partial.update')
-@include('admin.cronograma.partial.destroy')
+@include('admin.cronograma.partial.createCurso')
+@include('admin.cronograma.partial.updateCurso')
+@include('admin.cronograma.partial.destroyCurso')
 @include('admin.cronograma.partial.attach')
 @endsection
 
@@ -91,9 +91,8 @@
             allowClear: true
         });
     });
-
     // Llenar Form -> Agregar
-    $(document).on('click', 'button[data-target="#create"]', function(e){
+    $(document).on('click', 'button[data-target="#createCurso"]', function(e){
         var urlArea = '{{ route("admin.cronograma.listar") }}';
         $.ajax({
             url: urlArea,

@@ -46,8 +46,8 @@ class Curso extends Model
     public function capitulos(){
         return $this->hasMany('App\Capitulo', 'curso_codigo', 'codigo');
     }
-    public function cronogramas(){
-        return $this->hasMany('App\Cronograma');
+    public function lanzamientoCurso(){
+        return $this->hasMany('App\LanazamientoCurso', 'curso_codigo');
     }
 
     // N -> (N:N)

@@ -56,7 +56,7 @@ class Docente extends Model
     }
 
     // N -> (N:N)
-    public function cronogramas(){
-        return $this->belongsToMany('App\Cronograma', 'cronograma_docente');
+    public function lanzamientosCurso(){
+        return $this->belongsToMany('App\LanzamientoCurso', 'lanzamiento_curso_docente', 'docente_id', 'lanzamiento_curso_id');
     }
 }

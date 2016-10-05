@@ -11,13 +11,13 @@ class ConceptosTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('conceptos')->insert([
+        /*DB::table('conceptos')->insert([
             ['descripcion' => 'Matrícula'],
             ['descripcion' => 'Mensualidad'],
             ['descripcion' => 'Curso'],
             ['descripcion' => 'Certificado'],
             ['descripcion' => 'Manual'],
             ['descripcion' => 'Programas'],
-        ]);
+        ]);*/
     }
 }

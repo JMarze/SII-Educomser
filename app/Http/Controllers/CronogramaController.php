@@ -7,13 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 
 use App\Cronograma;
+use App\LanzamientoCurso;
 use App\Tipo;
 use App\Curso;
 use App\Docente;
-use App\Alumno;
 
 use App\Http\Requests\CronogramaRequest;
 
@@ -23,8 +22,7 @@ class CronogramaController extends Controller
 {
     public function __construct(){
         Carbon::setLocale('es');
-        CarbonInterval::setLocale('es');
-        setlocale(LC_TIME, "Spanish_Bolivia");
+        setlocale(LC_TIME, 'Spanish_Bolivia');
     }
     /**
      * Display a listing of the resource.
@@ -33,17 +31,17 @@ class CronogramaController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->buscar_cronograma){
-            $cronogramas = Cronograma::search($request->buscar_cronograma)->orderBy('inicio', 'DESC')->paginate(10);
-            $cronogramas->appends(['buscar_cronograma' => $request->buscar_cronograma]);
+        if($request->buscar_cronograma){
+            $lanzamientosCursos = LanzamientoCurso::search($request->buscar_cronograma)->orderBy('cronogramas.inicio', 'DES')->paginate(10);
+            $lanzamientosCursos->appends(['buscar_cronograma' => $request->buscar_cronograma]);
         }else{
-            $cronogramas = Cronograma::orderBy('inicio', 'DESC')->paginate(10);
+            $lanzamientosCursos = LanzamientoCurso::join('cronogramas', 'lanzamiento_curso.cronograma_id', '=', 'cronogramas.id')->orderBy('cronogramas.inicio', 'DES')->paginate(10);
         }
 
-        if ($request->ajax()){
-            return response()->json(view('admin.cronograma.partial.table')->with('cronogramas', $cronogramas)->render());
+        if($request->ajax()){
+            return response()->json(view('admin.cronograma.partial.table')->with('lanzamientosCursos', $lanzamientosCursos)->render());
         }
-        return view('admin.cronograma.index')->with('cronogramas', $cronogramas);
+        return view('admin.cronograma.index')->with('lanzamientosCursos', $lanzamientosCursos);
     }
 
     /**
@@ -62,22 +60,20 @@ class CronogramaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CronogramaRequest $request)
+    public function storeCurso(CronogramaRequest $request)
     {
+        $this->validate($request, [
+            'costo' => 'required|numeric|min:0',
+            'curso_codigo' => 'required|exists:cursos,codigo',
+        ]);
         if ($request->ajax()){
             try{
                 $cronograma = new Cronograma($request->all());
-                $cronograma->costo_mensual = null;
-                $cronograma->matricula = null;
                 $cronograma->save();
-
-                if($cronograma->inicio_carrera){
-                    $cronogramaCarrera = new Cronograma($request->all());
-                    $cronogramaCarrera->costo = 0;
-                    $cronogramaCarrera->save();
-                }
-
-                flash('Se agregó el cronograma para el curso: '.$cronograma->curso->nombre, 'success')->important();
+                $lanzamientoCurso = new LanzamientoCurso($request->all());
+                $lanzamientoCurso->cronograma_id = $cronograma->id;
+                $lanzamientoCurso->save();
+                flash('Se agregó el curso: '.$lanzamientoCurso->curso->nombre.' al cronograma', 'success')->important();
                 return response()->json([
                     'mensaje' => $cronograma->id,
                 ]);
@@ -96,34 +92,9 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        try{
-            $cronograma = Cronograma::find($id);
-
-            $totalHoras = ($cronograma->tipo->horas_reales)?$cronograma->tipo->horas_reales:$cronograma->curso->horas_reales;
-            $mes = $cronograma->duracion_clase * 20;
-            $semana = $cronograma->duracion_clase * 5;
-            $dia = $cronograma->duracion_clase;
-
-            $meses = floor($totalHoras/$mes);
-            $semanas = floor(($totalHoras-($mes*$meses))/$semana);
-            $dias = ceil(($totalHoras-($mes*$meses)-($semana*$semanas))/$dia);
-
-            $duracion = CarbonInterval::create(0, $meses, $semanas, $dias, 0, 0, 0);
-
-            if ($request->buscar_persona){
-                $alumnos = Alumno::search($request->buscar_persona)->orderBy('alumnos.updated_at', 'DESC')->paginate(10);
-                $alumnos->appends(['buscar_persona' => $request->buscar_persona]);
-            }else{
-                $alumnos = Alumno::orderBy('alumnos.updated_at', 'DESC')->paginate(10);
-            }
-
-            return view('admin.cronograma.show')->with('cronograma', $cronograma)->with('duracion', $duracion)->with('alumnos', $alumnos);
-        }catch(\Exception $ex){
-            flash('Wow!!! se presentó un problema al buscar datos... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
-            return redirect()->route('admin.cronograma.index');
-        }
+        //
     }
 
     /**
@@ -132,16 +103,16 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function editCurso(Request $request, $lanzamientoCursoId)
     {
         if ($request->ajax()){
             try{
-                $cronograma = Cronograma::join('cursos', 'cronogramas.curso_codigo', '=', 'cursos.codigo')->find($id);
+                $lanzamientoCurso = LanzamientoCurso::join('cronogramas', 'lanzamiento_curso.cronograma_id', '=', 'cronogramas.id')->find($lanzamientoCursoId);
                 $tipos = Tipo::orderBy('nombre', 'ASC')->lists('nombre', 'id');
                 $cursos = Curso::orderBy('codigo', 'ASC')->lists('nombre', 'codigo');
                 return response()->json([
-                    'cronograma' => $cronograma,
-                    'inicio' => Carbon::createFromFormat('Y-m-d H:i:s', $cronograma->inicio)->format('Y-m-d\TH:i'),
+                    'lanzamientoCurso' => $lanzamientoCurso,
+                    'inicio' => Carbon::createFromFormat('Y-m-d H:i:s', $lanzamientoCurso->cronograma->inicio)->format('Y-m-d\TH:i'),
                     'tipos' => $tipos,
                     'cursos' => $cursos,
                 ]);
@@ -161,14 +132,22 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CronogramaRequest $request, $id)
+    public function updateCurso(CronogramaRequest $request, $lanzamientoId)
     {
+        $this->validate($request, [
+            'costo' => 'required|numeric|min:0',
+            'curso_codigo' => 'required|exists:cursos,codigo',
+        ]);
         if ($request->ajax()){
             try{
-                $cronograma = Cronograma::find($id);
+                $lanzamientoCurso = LanzamientoCurso::find($lanzamientoId);
+                $lanzamientoCurso->fill($request->all());
+                $cronograma = Cronograma::find($lanzamientoCurso->cronograma->id);
                 $cronograma->fill($request->all());
+                $lanzamientoCurso->update();
                 $cronograma->update();
-                flash('Se modificó el cronograma para el curso: '.$cronograma->curso->nombre, 'warning')->important();
+
+                flash('Se modificó el cronograma del curso: '.$lanzamientoCurso->curso->nombre.' al cronograma', 'warning')->important();
                 return response()->json([
                     'mensaje' => $cronograma->id,
                 ]);
@@ -187,13 +166,15 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroyCurso(Request $request, $lanzamientoId)
     {
         if ($request->ajax()){
             try{
-                $cronograma = Cronograma::find($id);
+                $lanzamientoCurso = LanzamientoCurso::find($lanzamientoId);
+                $cronograma = Cronograma::find($lanzamientoCurso->cronograma->id);
+                $lanzamientoCurso->delete();
                 $cronograma->delete();
-                flash('Se eliminó el cronograma para el curso: '.$cronograma->curso->nombre, 'danger')->important();
+                flash('Se eliminó el cronograma para el curso: '.$lanzamientoCurso->curso->nombre, 'danger')->important();
                 return response()->json([
                     'mensaje' => $cronograma->id,
                 ]);
@@ -236,11 +217,11 @@ class CronogramaController extends Controller
      *
      *
      */
-    public function attach(Request $request, $id){
+    public function attach(Request $request, $lanzamientoId){
         if ($request->ajax()){
             try{
-                $cronograma = Cronograma::find($id);
-                $docentes = $cronograma->docentes()->join('personas', 'docentes.persona_codigo', '=', 'personas.codigo')->orderBy('personas.primer_apellido', 'ASC')->select('docentes.id', DB::raw('CONCAT(personas.primer_apellido, " ", personas.segundo_apellido, " ", personas.nombres) AS nombre_completo'))->get();
+                $lanzamientoCurso = LanzamientoCurso::find($lanzamientoId);
+                $docentes = $lanzamientoCurso->docentes()->join('personas', 'docentes.persona_codigo', '=', 'personas.codigo')->orderBy('personas.primer_apellido', 'ASC')->select('docentes.id', DB::raw('CONCAT(personas.primer_apellido, " ", personas.segundo_apellido, " ", personas.nombres) AS nombre_completo'))->get();
                 return response()->json([
                     'docentes' => $docentes,
                 ]);
@@ -257,19 +238,19 @@ class CronogramaController extends Controller
      *
      *
      */
-    public function postattach(Request $request, $id){
+    public function postattach(Request $request, $lanzamientoId){
         if ($request->ajax()){
             try{
-                $cronograma = Cronograma::find($id);
-                $cronograma->docentes()->detach();
+                $lanzamientoCurso = LanzamientoCurso::find($lanzamientoId);
+                $lanzamientoCurso->docentes()->detach();
                 for($i=0; $i<count($request['docentes_id']); $i++){
-                    $cronograma->docentes()->attach($request['docentes_id'][$i]);
+                    $lanzamientoCurso->docentes()->attach($request['docentes_id'][$i]);
                 }
-                $cronograma->updated_at = Carbon::now();
-                $cronograma->update();
-                flash('Se vincularon los docentes al cronograma', 'success')->important();
+                $lanzamientoCurso->updated_at = Carbon::now();
+                $lanzamientoCurso->update();
+                flash('Se vincularon los docentes al curso', 'success')->important();
                 return response()->json([
-                    'mensaje' => $cronograma->id,
+                    'mensaje' => $lanzamientoCurso->id,
                 ]);
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al vincular... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();

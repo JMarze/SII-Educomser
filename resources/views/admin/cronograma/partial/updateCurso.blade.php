@@ -1,4 +1,4 @@
-<div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="Editar">
+<div class="modal fade" id="updateCurso" tabindex="-1" role="dialog" aria-labelledby="Editar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Editar">
-                    <i class="fa fa-btn fa-calendar"></i>Editar Cronograma
+                    <i class="fa fa-btn fa-calendar"></i>Editar Curso de Cronograma
                 </h4>
             </div>
 
@@ -16,9 +16,9 @@
                     <strong>Cargando!!!</strong> Un momento por favor...
                 </div>
 
-                {!! Form::open(['route' => ['admin.cronograma.update', 'IDCRONOGRAMA'], 'method' => 'PUT', 'id' => 'form-update', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['admin.cronograma.updateCurso', 'IDLANZAMIENTOCURSO'], 'method' => 'PUT', 'id' => 'form-updateCurso', 'class' => 'form-horizontal']) !!}
 
-                @include('admin.cronograma.partial.form')
+                @include('admin.cronograma.partial.formCurso')
 
                 {!! Form::close() !!}
             </div>
@@ -39,14 +39,14 @@
 @parent
 <script>
     // Reset Form
-    $('.modal#update').on('show.bs.modal', function(e){
+    $('.modal#updateCurso').on('show.bs.modal', function(e){
         resetForm($(this));
     });
-    $('.modal#update').on('hidden.bs.modal', function(e){
+    $('.modal#updateCurso').on('hidden.bs.modal', function(e){
         resetForm($(this));
     });
     // Editar
-    var formUpdate = $('#form-update');
+    var formUpdate = $('#form-updateCurso');
     $(document).on('click', '#btn-editar', function(){
         var url = formUpdate.attr('action').split('/');
         url[url.length-1] = formUpdate.attr('data-id');

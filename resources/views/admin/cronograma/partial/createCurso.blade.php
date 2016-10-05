@@ -1,4 +1,4 @@
-<div class="modal fade" id="create" role="dialog" aria-labelledby="Agregar">
+<div class="modal fade" id="createCurso" role="dialog" aria-labelledby="Agregar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,14 +6,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Agregar">
-                    <i class="fa fa-btn fa-calendar"></i>Agregar Cronograma
+                    <i class="fa fa-btn fa-calendar"></i>Agregar Curso a Cronograma
                 </h4>
             </div>
 
             <div class="modal-body">
-                {!! Form::open(['route' => 'admin.cronograma.store', 'method' => 'POST', 'id' => 'form-create', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => 'admin.cronograma.storeCurso', 'method' => 'POST', 'id' => 'form-createCurso', 'class' => 'form-horizontal']) !!}
 
-                @include('admin.cronograma.partial.form')
+                @include('admin.cronograma.partial.formCurso')
 
                 {!! Form::close() !!}
             </div>
@@ -34,14 +34,14 @@
 @parent
 <script>
     // Reset Form
-    $('.modal#create').on('show.bs.modal', function(e){
+    $('.modal#createCurso').on('show.bs.modal', function(e){
         resetForm($(this));
     });
-    $('.modal#create').on('hidden.bs.modal', function(e){
+    $('.modal#createCurso').on('hidden.bs.modal', function(e){
         resetForm($(this));
     });
     // Crear
-    var formCreate = $('#form-create');
+    var formCreate = $('#form-createCurso');
     $(document).on('click', '#btn-agregar', function(){
         var url = formCreate.attr('action');
         var data = formCreate.serialize();

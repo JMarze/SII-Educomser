@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInscripcionesTable extends Migration
+class CreateLanzamientoCarreraTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,16 @@ class CreateInscripcionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inscripciones', function (Blueprint $table) {
+        Schema::create('lanzamiento_carrera', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('observacion')->nullable();
+            $table->decimal('mensualidad', 6, 2)->default(0);
+            $table->decimal('matricula', 6, 2)->default(0);
 
-            $table->integer('alumno_id')->unsigned();
-            $table->foreign('alumno_id')->references('id')->on('alumnos')->onUpdate('cascade');
+            // Foreign Keys
+            $table->string('curso_codigo', 15)->index();
+            $table->foreign('curso_codigo')->references('codigo')->on('cursos')->onUpdate('cascade');
             $table->integer('cronograma_id')->unsigned();
             $table->foreign('cronograma_id')->references('id')->on('cronogramas')->onUpdate('cascade');
-
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -33,6 +32,6 @@ class CreateInscripcionesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('inscripciones');
+        Schema::drop('lanzamiento_carrera');
     }
 }

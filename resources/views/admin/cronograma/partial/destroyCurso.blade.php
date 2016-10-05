@@ -1,4 +1,4 @@
-<div class="modal fade" id="destroy" tabindex="-1" role="dialog" aria-labelledby="Eliminar">
+<div class="modal fade" id="destroyCurso" tabindex="-1" role="dialog" aria-labelledby="Eliminar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Eliminar">
-                    <i class="fa fa-btn fa-calendar"></i>Eliminar Cronograma
+                    <i class="fa fa-btn fa-calendar"></i>Eliminar Curso de Cronograma
                 </h4>
             </div>
 
@@ -16,7 +16,7 @@
                     <strong>Cargando!!!</strong> Un momento por favor...
                 </div>
 
-                {!! Form::open(['route' => ['admin.cronograma.destroy', 'IDCRONOGRAMA'], 'method' => 'DELETE', 'id' => 'form-destroy', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['admin.cronograma.destroyCurso', 'IDLANZAMIENTOCURSO'], 'method' => 'DELETE', 'id' => 'form-destroyCurso', 'class' => 'form-horizontal']) !!}
 
                 <h4 id="question-destroy"></h4>
 
@@ -39,14 +39,14 @@
 @parent
 <script>
     // Reset Form
-    $('.modal#destroy').on('show.bs.modal', function(e){
+    $('.modal#destroyCurso').on('show.bs.modal', function(e){
         $('#question-destroy').html('');
     });
-    $('.modal#destroy').on('hidden.bs.modal', function(e){
+    $('.modal#destroyCurso').on('hidden.bs.modal', function(e){
         $('#question-destroy').html('');
     });
     // Eliminar
-    var formDestroy = $('#form-destroy');
+    var formDestroy = $('#form-destroyCurso');
     $(document).on('click', '#btn-eliminar', function(){
         var url = formDestroy.attr('action').split('/');
         url[url.length-1] = formDestroy.attr('data-id');

@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="Docentes">
-                    <i class="fa fa-btn fa-user-plus"></i>Editar Docente del Cronograma
+                    <i class="fa fa-btn fa-user-plus"></i>Editar Docente del Curso
                 </h4>
             </div>
 
@@ -16,7 +16,7 @@
                     <strong>Cargando!!!</strong> Un momento por favor...
                 </div>
 
-                {!! Form::open(['route' => ['admin.cronograma.postattach', 'IDCRONOGRAMA'], 'method' => 'PUT', 'id' => 'form-postattach', 'class' => 'form-horizontal']) !!}
+                {!! Form::open(['route' => ['admin.cronograma.postattach', 'IDLANZAMIENTOCURSO'], 'method' => 'PUT', 'id' => 'form-postattach', 'class' => 'form-horizontal']) !!}
 
                 <div class="form-group">
                     {!! Form::label('docente_id', 'Docentes disponibles', ['class' => 'col-md-4 control-label']) !!}
@@ -63,9 +63,8 @@
 <script>
     // Clear Form
     function clearForm(form){
-        $('#profesiones_lista').empty();
+        $('#docentes_lista').empty();
     }
-
     // Reset Form
     $('.modal#attach').on('show.bs.modal', function(e){
         clearForm($(this));
@@ -73,7 +72,6 @@
     $('.modal#attach').on('hidden.bs.modal', function(e){
         clearForm($(this));
     });
-
     // Select2
     $('select[name="docente_id[]"]').select2({
         placeholder: "Seleccione docentes",
@@ -84,7 +82,6 @@
         },
         allowClear: true
     });
-
     // Selección de Docentes
     $('button#btn-listar').on('click', function(){
         var docentes = $('select[name="docente_id[]"]').find(":selected");
@@ -99,7 +96,6 @@
                        '</div>');
         });
     });
-
     // Docentes Attach
     var formAttach = $('#form-postattach');
     $(document).on('click', '#btn-attach', function(){
@@ -118,7 +114,6 @@
             console.log(response);
         });
     });
-
     // Del Docente
     $(document).on('click', '.del-docente', function(){
         $(this).parent('.form-group').remove();

@@ -11,6 +11,6 @@ class CronogramasTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Cronograma::class, 15)->create();
+        factory(App\LanzamientoCurso::class, 15)->create();
     }
 }

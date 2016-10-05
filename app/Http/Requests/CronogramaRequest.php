@@ -24,16 +24,11 @@ class CronogramaRequest extends Request
     public function rules()
     {
         return [
-            'inicio_carrera' => 'required',
             'inicio' => 'required|date',
             'duracion_clase' => 'required|numeric|min:0|max:8',
-            'costo' => 'required|numeric|min:0',
-            'costo_mensual' => 'required_if:inicio_carrera,1|numeric|min:0',
-            'matricula' => 'required_if:inicio_carrera,1|numeric|min:0',
             'promocion' => 'required',
             'slider' => 'required',
             'tipo_id' => 'required|exists:tipos,id',
-            'curso_codigo' => 'required|exists:cursos,codigo',
         ];
     }
 }
