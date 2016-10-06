@@ -25,7 +25,7 @@ class CursoRequest extends Request
     {
         $codigoCurso = $this->route('curso');
         return [
-            'codigo' => 'required|string|min:5|max:15|unique:cursos,codigo,'.$codigoCurso.',codigo',
+            'codigo' => 'required|string|min:4|max:15|unique:cursos,codigo,'.$codigoCurso.',codigo',
             'nombre' => 'required|string|min:2|max:100|unique:cursos,nombre,'.$codigoCurso.',codigo',
             'color_hexa' => 'string|min:3|max:7',
             'costo_personalizado' => 'required|numeric|min:0',

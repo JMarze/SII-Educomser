@@ -25,7 +25,7 @@ class CarreraRequest extends Request
     {
         $codigoCarrera = $this->route('carrera');
         return [
-            'codigo' => 'required|string|min:5|max:15|unique:carreras,codigo,'.$codigoCarrera.',codigo',
+            'codigo' => 'required|string|min:4|max:15|unique:carreras,codigo,'.$codigoCarrera.',codigo',
             'nombre' => 'required|string|min:2|max:100|unique:carreras,nombre,'.$codigoCarrera.',codigo',
             'color_hexa' => 'string|min:3|max:7',
             'costo_mensual' => 'required|numeric|min:0',
