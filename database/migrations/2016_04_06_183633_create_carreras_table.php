@@ -18,6 +18,7 @@ class CreateCarrerasTable extends Migration
             $table->string('logo', 25)->nullable();
             $table->string('color_hexa', 7)->nullable();
             $table->decimal('costo_mensual', 6, 2)->default(0);
+            $table->boolean('vigente')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

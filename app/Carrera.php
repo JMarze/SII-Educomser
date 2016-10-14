@@ -15,7 +15,7 @@ class Carrera extends Model
     protected $primaryKey = 'codigo';
     public $incrementing = false;
 
-    protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_mensual'];
+    protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_mensual', 'vigente'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

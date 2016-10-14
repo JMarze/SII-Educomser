@@ -37,3 +37,13 @@
     </span>
     </div>
 </div>
+
+<div class="form-group wrapper-vigente">
+    {!! Form::label('vigente', '¿Vigente?', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('vigente', ['1' => 'Si', '0' => 'No'], '1', ['class' => 'form-control']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>

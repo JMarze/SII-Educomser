@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div class="form-group wrapper-esloga">
+<div class="form-group wrapper-eslogan">
     {!! Form::label('eslogan', 'Eslogan', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
     {!! Form::text('eslogan', null, ['class' => 'form-control', 'placeholder' => 'Ej. Visual Basic hoy con el poder .Net']) !!}

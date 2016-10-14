@@ -5,6 +5,7 @@
         <th>Nombre</th>
         <th>Color</th>
         <th>Costo Mensual</th>
+        <th>¿Vigente?</th>
         <th>Creación</th>
         <th>Modificación</th>
         <th>Logo</th>
@@ -19,6 +20,13 @@
             <span class="label" style="background-color: {{ $carrera->color_hexa }};">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </td>
         <td>Bs {{ number_format($carrera->costo_mensual, 2, '.', ',') }}</td>
+        <td class="text-center">
+            @if($carrera->vigente)
+            Si
+            @else
+            No
+            @endif
+        </td>
         <td>{{ $carrera->created_at->diffForHumans() }}</td>
         <td>{{ $carrera->updated_at->diffForHumans() }}</td>
         <td>
@@ -148,7 +156,9 @@
             }
         }).done(function (response){
             $.each(response['carrera'], function(key, value){
-                if(key != 'logo'){
+                if(key == 'vigente'){
+                    $('select[name="'+key+'"]').val(value);
+                }else if(key != 'logo'){
                     $('input[name="'+key+'"]').val(value);
                 }
             });
