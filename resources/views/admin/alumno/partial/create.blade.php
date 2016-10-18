@@ -72,7 +72,7 @@
         var dia = (fecha.getDate() <= 9)?'0'+fecha.getDate():fecha.getDate();
         var mes = (fecha.getMonth()+1 <= 9)?'0'+(fecha.getMonth()+1):fecha.getMonth()+1;
         var año = fecha.getFullYear().toString().substr(2,2);
-        $(this).val(d1+d2+d3+'-'+dia+mes+año);
+        $(this).val(d1+d2+d3+dia+mes+año);
     });
 </script>
 @endsection

@@ -35,7 +35,7 @@ class DocenteRequest extends Request
             'telefono_1' => 'string',
             'telefono_2' => 'string',
 
-            'biografia' => 'required|string|min:15',
+            'biografia' => 'string|min:15',
         ];
     }
 }
