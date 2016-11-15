@@ -31,13 +31,25 @@ Route::group(['prefix' => 'admin'], function(){
 
     // Backend Cronograma
     Route::resource('cronograma', 'CronogramaController');
+    Route::resource('cronograma_carrera', 'CronogramaCarreraController');
+
     Route::get('cronograma/listar/relaciones', 'CronogramaController@listar')->name('admin.cronograma.listar');
+    Route::get('cronograma_carrera/listar/relaciones', 'CronogramaCarreraController@listar')->name('admin.cronograma_carrera.listar');
+
     Route::get('cronograma/{cronograma}/attach', 'CronogramaController@attach')->name('admin.cronograma.attach');
     Route::put('cronograma/{cronograma}/attach', 'CronogramaController@postattach')->name('admin.cronograma.postattach');
+
     Route::post('cronograma/curso', 'CronogramaController@storeCurso')->name('admin.cronograma.storeCurso');
+    Route::post('cronograma_carrera/carrera', 'CronogramaCarreraController@storeCarrera')->name('admin.cronograma_carrera.storeCarrera');
+
     Route::get('cronograma/curso/{lanzamientoId}/edit', 'CronogramaController@editCurso')->name('admin.cronograma.editCurso');
+    Route::get('cronograma/carrera/{lanzamientoId}/edit', 'CronogramaCarreraController@editCarrera')->name('admin.cronograma_carrera.editCarrera');
+
     Route::put('cronograma/curso/{lanzamientoId}', 'CronogramaController@updateCurso')->name('admin.cronograma.updateCurso');
+    Route::put('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@updateCarrera')->name('admin.cronograma_carrera.updateCarrera');
+
     Route::delete('cronograma/curso/{lanzamientoId}', 'CronogramaController@destroyCurso')->name('admin.cronograma.destroyCurso');
+    Route::delete('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@destroyCarrera')->name('admin.cronograma_carrera.destroyCarrera');
 
     // Backend Grado
     Route::resource('grado', 'GradoController');

@@ -14,15 +14,15 @@
                            <span class="icon-bar"></span>
                            <span class="icon-bar"></span>
                        </button>
-                       <a href="{{ route('admin.cronograma.index') }}" class="navbar-brand">
-                           <i class="fa fa-btn fa-calendar"></i>Cronogramas de Cursos
+                       <a href="{{ route('admin.cronograma_carrera.index') }}" class="navbar-brand">
+                           <i class="fa fa-btn fa-calendar"></i>Cronogramas de Carreras
                        </a>
                    </div>
 
                    <div class="collapse navbar-collapse" id="menu-panel">
                        <ul class="nav navbar-nav">
                            <li>
-                               <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#createCurso">
+                               <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#createCarrera">
                                    <i class="fa fa-btn fa-plus"></i>Agregar
                                </button>
                            </li>
@@ -39,13 +39,13 @@
                                </ul>
                            </li>
                            <li>
-                               <a href="{{ route('admin.cronograma.index') }}">
+                               <a href="{{ route('admin.cronograma_carrera.index') }}">
                                    <i class="fa fa-btn fa-th"></i>Ver Todos
                                </a>
                            </li>
                        </ul>
 
-                       {!! Form::open(['route' => 'admin.cronograma.index', 'method' => 'GET', 'class' => 'navbar-form navbar-right', 'role' => 'search']) !!}
+                       {!! Form::open(['route' => 'admin.cronograma_carrera.index', 'method' => 'GET', 'class' => 'navbar-form navbar-right', 'role' => 'search']) !!}
                        <div class="input-group">
                            {!! Form::text('buscar_cronograma', null, ['placeholder' => 'Buscar cronograma...', 'class' => 'form-control']) !!}
                            <span class="input-group-addon">
@@ -63,17 +63,16 @@
             </div>
 
             <div class="content-ajax">
-                @include('admin.cronograma.partial.table')
+                @include('admin.cronograma.partial.tablecarrera')
             </div>
 
         </div>
 
     </div>
 </div>
-@include('admin.cronograma.partial.createCurso')
-@include('admin.cronograma.partial.updateCurso')
-@include('admin.cronograma.partial.destroyCurso')
-@include('admin.cronograma.partial.attach')
+@include('admin.cronograma.partial.createCarrera')
+@include('admin.cronograma.partial.updateCarrera')
+@include('admin.cronograma.partial.destroyCarrera')
 @endsection
 
 @section('script')
@@ -81,8 +80,8 @@
 <script>
     $(document).ready(function() {
         // Select2
-        $('select[name="curso_codigo"]').select2({
-            placeholder: "Seleccione curso",
+        $('select[name="carrera_codigo"]').select2({
+            placeholder: "Seleccione carrera",
             language: {
                  noResults: function(term) {
                      return "Sin coincidencias...";
@@ -92,8 +91,8 @@
         });
     });
     // Llenar Form -> Agregar
-    $(document).on('click', 'button[data-target="#createCurso"]', function(e){
-        var urlArea = '{{ route("admin.cronograma.listar") }}';
+    $(document).on('click', 'button[data-target="#createCarrera"]', function(e){
+        var urlArea = '{{ route("admin.cronograma_carrera.listar") }}';
         $.ajax({
             url: urlArea,
             headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -104,14 +103,14 @@
                 $('#form-create').css('display', 'none');
             }
         }).done(function (response){
-            if(response['tipos'] != null && response['cursos'] != null){
+            if(response['tipos'] != null && response['carreras'] != null){
                 var selectTipo = $('select#tipo_id').empty().append("<option selected='selected' value=''>Seleccione tipo</option>");
-                var selectCurso = $('select#curso_codigo').empty().append("<option selected='selected' value=''>Seleccione curso</option>");
+                var selectCarrera = $('select#carrera_codigo').empty().append("<option selected='selected' value=''>Seleccione carrera</option>");
                 $.each(response['tipos'], function(key, value){
                     selectTipo.append("<option value='"+key+"'>"+value+"</option>");
                 });
-                $.each(response['cursos'], function(key, value){
-                    selectCurso.append("<option value='"+key+"'>"+value+"</option>");
+                $.each(response['carreras'], function(key, value){
+                    selectCarrera.append("<option value='"+key+"'>"+value+"</option>");
                 });
             }
             $('#msg-create').css('display', 'none');

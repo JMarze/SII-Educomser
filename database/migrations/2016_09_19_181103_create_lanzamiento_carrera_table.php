@@ -18,10 +18,13 @@ class CreateLanzamientoCarreraTable extends Migration
             $table->decimal('matricula', 6, 2)->default(0);
 
             // Foreign Keys
-            $table->string('curso_codigo', 15)->index();
-            $table->foreign('curso_codigo')->references('codigo')->on('cursos')->onUpdate('cascade');
+            $table->string('carrera_codigo', 15)->index();
+            $table->foreign('carrera_codigo')->references('codigo')->on('carreras')->onUpdate('cascade');
             $table->integer('cronograma_id')->unsigned();
             $table->foreign('cronograma_id')->references('id')->on('cronogramas')->onUpdate('cascade');
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
