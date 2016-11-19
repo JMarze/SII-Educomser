@@ -13,6 +13,7 @@ use App\LanzamientoCurso;
 use App\Tipo;
 use App\Curso;
 use App\Docente;
+use App\Publicidad;
 
 use App\Http\Requests\CronogramaRequest;
 
@@ -255,6 +256,56 @@ class CronogramaController extends Controller
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al vincular... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function cursosdisponibles(Request $request){
+        if ($request->ajax()){
+            try{
+                $fecha_actual = '2016-09-01';//Carbon::now();
+                $lanzamientoCurso = LanzamientoCurso::join('cronogramas', 'lanzamiento_curso.cronograma_id', '=', 'cronogramas.id')->join('cursos', 'lanzamiento_curso.curso_codigo', '=', 'cursos.codigo')->where('cronogramas.inicio', '>=', $fecha_actual)->orderBy('cursos.nombre', 'ASC')->select('lanzamiento_curso.id AS id', DB::raw('CONCAT("(", cursos.codigo, ")", " ", cursos.nombre, " - ", "Bs ", lanzamiento_curso.costo) AS curso'))->lists('curso', 'id');
+                $publicidades = Publicidad::orderBy('descripcion', 'ASC')->lists('descripcion', 'id');
+                return response()->json([
+                    'cursos' => $lanzamientoCurso,
+                    'publicidades' => $publicidades,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'cursos' => null,
+                    'publicidades' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function cursostodos(Request $request){
+        if ($request->ajax()){
+            try{
+                $cursos = Curso::orderBy('nombre', 'ASC')->select('codigo', DB::raw('CONCAT("(", codigo, ")", " ", nombre, " - ", "Bs ", costo_personalizado) AS curso'))->lists('curso', 'codigo');
+                $publicidades = Publicidad::orderBy('descripcion', 'ASC')->lists('descripcion', 'id');
+                $tipos = Tipo::orderBy('nombre', 'ASC')->lists('nombre', 'id');
+                return response()->json([
+                    'cursos' => $cursos,
+                    'publicidades' => $publicidades,
+                    'tipos' => $tipos,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'cursos' => null,
+                    'publicidades' => null,
+                    'tipos' => null,
                     'mensaje' => $ex->getMessage(),
                 ]);
             }

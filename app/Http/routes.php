@@ -51,6 +51,9 @@ Route::group(['prefix' => 'admin'], function(){
     Route::delete('cronograma/curso/{lanzamientoId}', 'CronogramaController@destroyCurso')->name('admin.cronograma.destroyCurso');
     Route::delete('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@destroyCarrera')->name('admin.cronograma_carrera.destroyCarrera');
 
+    Route::get('cronograma/curso/disponible', 'CronogramaController@cursosdisponibles')->name('admin.cronograma.cursosdisponibles');
+    Route::get('cronograma/curso/todos', 'CronogramaController@cursostodos')->name('admin.cronograma.cursostodos');
+
     // Backend Grado
     Route::resource('grado', 'GradoController');
 
@@ -86,6 +89,9 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('alumno/{alumno}/show', 'AlumnoController@show')->name('admin.alumno.getshow');
     Route::get('alumno/{alumno}/attach', 'AlumnoController@attach')->name('admin.alumno.attach');
     Route::put('alumno/{alumno}/attach', 'AlumnoController@postattach')->name('admin.alumno.postattach');
+
+    Route::put('alumno/{alumno}/attach_curso', 'AlumnoController@postattachcurso')->name('admin.alumno.postattachcurso');
+    Route::put('alumno/{alumno}/attach_curso_personalizado', 'AlumnoController@postattachcursopersonalizado')->name('admin.alumno.postattachcursopersonalizado');
 
     // Backend Insripcion
     Route::get('inscripcion/cronograma/{cronograma}/alumno/{alumno}', 'InscripcionController@inscribir')->name('admin.inscripcion.inscribir');

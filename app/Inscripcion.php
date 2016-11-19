@@ -11,28 +11,27 @@ class Inscripcion extends Model
 
     protected $table = 'inscripciones';
 
-    protected $fillable = ['observacion', 'alumno_id', 'cronograma_id'];
+    protected $fillable = ['observaciones', 'publicidad_id', 'alumno_id', 'lanzamiento_curso_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     // Mutators
     public function setObservacionAttribute($obs){
-        $this->attributes['observacion'] = (empty($obs))?null:$obs;
+        $this->attributes['observaciones'] = (empty($obs))?null:$obs;
     }
 
     // Relationships
+    // 1 -> (1:N)
+    public function publicidad(){
+        return $this->belongsTo('App\Publicidades');
+    }
     // 1 -> (1:N)
     public function alumno(){
         return $this->belongsTo('App\Alumno');
     }
 
     // 1 -> (1:N)
-    public function cronograma(){
-        return $this->belongsTo('App\Cronograma');
-    }
-
-    // 1 -> (1:N)
-    public function pagos(){
-        return $this->hasMany('App\Pago');
+    public function lanzamientoCurso(){
+        return $this->belongsTo('App\LanzamientoCurso');
     }
 }
