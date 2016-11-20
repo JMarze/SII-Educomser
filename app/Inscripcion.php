@@ -16,14 +16,14 @@ class Inscripcion extends Model
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     // Mutators
-    public function setObservacionAttribute($obs){
+    public function setObservacionesAttribute($obs){
         $this->attributes['observaciones'] = (empty($obs))?null:$obs;
     }
 
     // Relationships
     // 1 -> (1:N)
     public function publicidad(){
-        return $this->belongsTo('App\Publicidades');
+        return $this->belongsTo('App\Publicidad');
     }
     // 1 -> (1:N)
     public function alumno(){
@@ -33,5 +33,10 @@ class Inscripcion extends Model
     // 1 -> (1:N)
     public function lanzamientoCurso(){
         return $this->belongsTo('App\LanzamientoCurso');
+    }
+
+    // 1 -> (1:1)
+    public function historial(){
+        return $this->hasOne('App\Historial');
     }
 }

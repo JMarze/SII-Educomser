@@ -114,11 +114,94 @@
                                     <small>(Inscripción: {{ $inscripcion->updated_at->diffForHumans() }})</small>
                                 </h3>
                                 <div class="btn-group col-md-2" role="group" aria-label="Center Align">
+                                    @if($inscripcion->historial)
+                                    <button type="button" class="btn btn-sm btn-default" title="Curso Finalizado">
+                                        <i class="fa fa-btn fa-check"></i>Curso Finalizado
+                                    </button>
+                                    @else
                                     <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy_inscripcion_curso" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
                                         <i class="fa fa-trash"></i>
                                         <span class="sr-only">Eliminar inscripción</span>
                                     </button>
+                                    @endif
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-collapse collapse" role="tabpanel" id="collapse_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
+                            <div class="panel-body">
+                                <div class="row text-center">
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-cube"></i>Tipo de Curso:</strong><br/>
+                                        {{ $inscripcion->lanzamientoCurso->cronograma->tipo->nombre }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inicio:</strong><br/>
+                                        {{ $inscripcion->lanzamientoCurso->cronograma->inicio->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->lanzamientoCurso->cronograma->inicio->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-money"></i>Costo Total:</strong><br/>
+                                        Bs {{ $inscripcion->lanzamientoCurso->costo }}
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
+                                    <div class="col-md-6">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inscripción:</strong><br/>
+                                        {{ $inscripcion->created_at->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->created_at->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong><i class="fa fa-btn fa-file-text-o"></i>Observaciones de la inscripción:</strong><br/>
+                                        @if($inscripcion->observaciones == null)
+                                        Sin observaciones
+                                        @else
+                                        {{ $inscripcion->observaciones }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
+                                    @if($inscripcion->historial)
+                                    <div class="col-md-3">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Finalización:</strong><br/>
+                                        {{ $inscripcion->historial->fecha_finalizacion->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->historial->fecha_finalizacion->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong><i class="fa fa-btn fa-mortar-board"></i>Nota:</strong><br/>
+                                        {{ $inscripcion->historial->nota }}%
+                                        @if($inscripcion->historial->nota >= 71)
+                                        (Aprobado)
+                                        @else
+                                        (Reprobado)
+                                        @endif
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong><i class="fa fa-btn fa-address-card-o"></i>¿Se extendió certificado?:</strong><br/>
+                                        @if($inscripcion->historial->certificado)
+                                        Si
+                                        @else
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_certificado" data-id="{{ $inscripcion->historial->id }}" title="Extender Certificado">
+                                            <i class="fa fa-btn fa-address-card-o"></i>Extender Certificado
+                                        </button>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong><i class="fa fa-btn fa-file-text-o"></i>Observaciones del historial:</strong><br/>
+                                        @if($inscripcion->historial->observaciones == null)
+                                        Sin observaciones
+                                        @else
+                                        {{ $inscripcion->historial->observaciones }}
+                                        @endif
+                                    </div>
+                                    @else
+                                    <div class="col md 12">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_historial" data-id="{{ $inscripcion->id }}" title="Finalizar Curso">
+                                            <i class="fa fa-btn fa-check"></i>Finalizar Curso
+                                        </button>
+                                    </div>
+                                    @endif
+                                </div>
+                                <hr/>
                             </div>
                         </div>
 
@@ -132,6 +215,7 @@
 
 @include('admin.alumno.partial.attach_curso')
 @include('admin.alumno.partial.attach_curso_personalizado')
+@include('admin.alumno.partial.attach_historial')
 
 @endsection
 
@@ -205,6 +289,17 @@
         });
     });
 
+    // Llenar Form -> Attach Historial
+    $(document).on('click', 'button[data-target="#attach_historial"]', function(e){
+        var idInscripcion = $(this).attr('data-id');
+        $('#msg-attach-historial').css('display', 'block');
+        $('#form-postattachhistorial').css('display', 'none');
+
+        $('#msg-attach-historial').css('display', 'none');
+        $('#form-postattachhistorial').css('display', 'block');
+        $('#form-postattachhistorial').attr('data-id', idInscripcion);
+    });
+
     // Validation
     function validation(response){
         if(response.responseJSON['lanzamiento_curso_id']){
@@ -255,6 +350,27 @@
         }else{
             $('.wrapper-costo').removeClass('has-error');
             $('.wrapper-costo .help-block>strong').html('');
+        }
+        if(response.responseJSON['fecha_finalizacion']){
+            $('.wrapper-fecha_finalizacion').addClass('has-error');
+            $('.wrapper-fecha_finalizacion .help-block>strong').html(response.responseJSON['fecha_finalizacion']);
+        }else{
+            $('.wrapper-fecha_finalizacion').removeClass('has-error');
+            $('.wrapper-fecha_finalizacion .help-block>strong').html('');
+        }
+        if(response.responseJSON['nota']){
+            $('.wrapper-nota').addClass('has-error');
+            $('.wrapper-nota .help-block>strong').html(response.responseJSON['nota']);
+        }else{
+            $('.wrapper-nota').removeClass('has-error');
+            $('.wrapper-nota .help-block>strong').html('');
+        }
+        if(response.responseJSON['certificado']){
+            $('.wrapper-certificado').addClass('has-error');
+            $('.wrapper-certificado .help-block>strong').html(response.responseJSON['certificado']);
+        }else{
+            $('.wrapper-certificado').removeClass('has-error');
+            $('.wrapper-certificado .help-block>strong').html('');
         }
         if(response.responseJSON['observaciones']){
             $('.wrapper-observaciones').addClass('has-error');

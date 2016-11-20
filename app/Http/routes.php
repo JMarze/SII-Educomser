@@ -92,6 +92,7 @@ Route::group(['prefix' => 'admin'], function(){
 
     Route::put('alumno/{alumno}/attach_curso', 'AlumnoController@postattachcurso')->name('admin.alumno.postattachcurso');
     Route::put('alumno/{alumno}/attach_curso_personalizado', 'AlumnoController@postattachcursopersonalizado')->name('admin.alumno.postattachcursopersonalizado');
+    Route::put('alumno/{alumno}/attach_historial', 'AlumnoController@postattachhistorial')->name('admin.alumno.postattachhistorial');
 
     // Backend Insripcion
     Route::get('inscripcion/cronograma/{cronograma}/alumno/{alumno}', 'InscripcionController@inscribir')->name('admin.inscripcion.inscribir');

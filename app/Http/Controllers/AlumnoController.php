@@ -14,6 +14,7 @@ use App\Expedicion;
 use App\Profesion;
 use App\Grado;
 use App\Inscripcion;
+use App\Historial;
 use App\LanzamientoCurso;
 use App\Cronograma;
 use App\Http\Requests\AlumnoRequest;
@@ -324,6 +325,35 @@ class AlumnoController extends Controller
                 ]);
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al inscribir... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattachhistorial(Request $request, $id){
+        $this->validate($request, [
+            'fecha_finalizacion' => 'required|date',
+            'nota' => 'required|min:0|max:100',
+            'certificado' => 'required',
+        ]);
+        if ($request->ajax()){
+            try{
+                $inscripcion = Inscripcion::find($id);
+                $historial = new Historial($request->all());
+                $historial->inscripcion_id = $inscripcion->id;
+                $historial->save();
+                flash('El alumno: '.$inscripcion->alumno->persona->primer_apellido.' '.$inscripcion->alumno->persona->segundo_apellido.' '.$inscripcion->alumno->persona->nombres.' finalizó el curso: '.$inscripcion->lanzamientoCurso->curso->nombre.' con la nota de: '.$historial->nota.'%', 'success')->important();
+                return response()->json([
+                    'mensaje' => $historial->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al finalizar el curso... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
                     'mensaje' => $ex->getMessage(),
                 ]);
