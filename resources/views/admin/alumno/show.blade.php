@@ -101,14 +101,18 @@
                     </div>
                 </div>
                 <hr/>
-                <h3>Cursos:</h3>
+
+                <h3>
+                    <i class="fa fa-btn fa-cube"></i>Cursos:
+                </h3>
+                @if($alumno->inscripciones->count() > 0)
                 <div class="panel-group" id="cursos_cronograma" role="tablist" aria-multiselectable="true">
                     @foreach($alumno->inscripciones as $inscripcion)
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="heading_{{ $inscripcion->id }}">
+                        <div class="panel-heading" role="tab" id="heading_curso_{{ $inscripcion->id }}">
                             <div class="row">
                                 <h3 class="panel-title col-md-10" style="margin-top:5px;">
-                                    <a role="button" data-toggle="collapse" data-parent="#cursos_cronograma" href="#collapse_{{ $inscripcion->id }}" aria-expanded="true" aria-controls="collapseOne">
+                                    <a role="button" data-toggle="collapse" data-parent="#cursos_cronograma" href="#collapse_curso_{{ $inscripcion->id }}" aria-expanded="true" aria-controls="collapseOne">
                                         <i class="fa fa-btn fa-calendar"></i>({{ $inscripcion->lanzamientoCurso->curso->codigo }}) {{ $inscripcion->lanzamientoCurso->curso->nombre }}
                                     </a>
                                     <small>(Inscripción: {{ $inscripcion->updated_at->diffForHumans() }})</small>
@@ -119,7 +123,7 @@
                                         <i class="fa fa-btn fa-check"></i>Curso Finalizado
                                     </button>
                                     @else
-                                    <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy_inscripcion_curso" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
+                                    <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy-inscripcion-curso" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
                                         <i class="fa fa-trash"></i>
                                         <span class="sr-only">Eliminar inscripción</span>
                                     </button>
@@ -128,7 +132,7 @@
                             </div>
                         </div>
 
-                        <div class="panel-collapse collapse" role="tabpanel" id="collapse_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
+                        <div class="panel-collapse collapse" role="tabpanel" id="collapse_curso_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
                             <div class="panel-body">
                                 <div class="row text-center">
                                     <div class="col-md-4">
@@ -146,11 +150,21 @@
                                 </div>
                                 <hr/>
                                 <div class="row text-center">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-user-plus"></i>Docente(s):</strong><br/>
+                                        @if($inscripcion->lanzamientoCurso->docentes()->count() > 0)
+                                        @foreach($inscripcion->lanzamientoCurso->docentes as $docente)
+                                        {{ $docente->persona->primer_apellido }} {{ $docente->persona->segundo_apellido }} {{ $docente->persona->nombres }} <br/>
+                                        @endforeach
+                                        @else
+                                        Sin Docente Asignado
+                                        @endif
+                                    </div>
+                                    <div class="col-md-4">
                                         <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inscripción:</strong><br/>
                                         {{ $inscripcion->created_at->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->created_at->diffForHumans() }})
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <strong><i class="fa fa-btn fa-file-text-o"></i>Observaciones de la inscripción:</strong><br/>
                                         @if($inscripcion->observaciones == null)
                                         Sin observaciones
@@ -208,14 +222,170 @@
                     </div>
                     @endforeach
                 </div>
+                @else
+                <div class="panel-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-btn fa-database"></i>
+                        <strong>Mensaje!!!</strong> El alumno no se inscribió a ningún curso. Intenta <strong>inscribir al alumno a un curso</strong>
+                    </div>
+                </div>
+                @endif
+
+                <h3>
+                    <i class="fa fa-btn fa-cubes"></i>Carreras:
+                </h3>
+                @if($alumno->inscripcionesCarrera->count() > 0)
+                <div class="panel-group" id="carreras_cronograma" role="tablist" aria-multiselectable="true">
+                    @foreach($alumno->inscripcionesCarrera as $inscripcion)
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading_carrera_{{ $inscripcion->id }}">
+                            <div class="row">
+                                <h3 class="panel-title col-md-10" style="margin-top:5px;">
+                                    <a role="button" data-toggle="collapse" data-parent="#carreras_cronograma" href="#collapse_carrera_{{ $inscripcion->id }}" aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="fa fa-btn fa-calendar"></i>({{ $inscripcion->lanzamientoCarrera->carrera->codigo }}) {{ $inscripcion->lanzamientoCarrera->carrera->nombre }}
+                                    </a>
+                                    <small>(Inscripción: {{ $inscripcion->updated_at->diffForHumans() }})</small>
+                                </h3>
+                                <div class="btn-group col-md-2" role="group" aria-label="Center Align">
+                                    <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy-inscripcion-carrera" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
+                                        <i class="fa fa-trash"></i>
+                                        <span class="sr-only">Eliminar inscripción</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-collapse collapse" role="tabpanel" id="collapse_carrera_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
+                            <div class="panel-body">
+                                <div class="row text-center">
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-cube"></i>Tipo de Curso:</strong><br/>
+                                        {{ $inscripcion->lanzamientoCarrera->cronograma->tipo->nombre }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inicio:</strong><br/>
+                                        {{ $inscripcion->lanzamientoCarrera->cronograma->inicio->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->lanzamientoCarrera->cronograma->inicio->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-money"></i>Matrícula:</strong><br/>
+                                        Bs {{ $inscripcion->lanzamientoCarrera->matricula }}
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-money"></i>Mensualidad:</strong><br/>
+                                        Bs {{ $inscripcion->lanzamientoCarrera->mensualidad }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inscripción:</strong><br/>
+                                        {{ $inscripcion->created_at->formatLocalized('%d-%B-%Y') }} ({{ $inscripcion->created_at->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-4">
+                                        <strong><i class="fa fa-btn fa-file-text-o"></i>Observaciones de la inscripción:</strong><br/>
+                                        @if($inscripcion->observaciones == null)
+                                        Sin observaciones
+                                        @else
+                                        {{ $inscripcion->observaciones }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_modulo" data-id="{{ $alumno->id }}" data-lanzamiento="{{ $inscripcion->lanzamiento_carrera_id }}" title="Agregar módulo">
+                                            <i class="fa fa-btn fa-cube"></i>Agregar módulo <span class="badge">{{ $inscripcion->modulos()->count() }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr/>
+                                @foreach($inscripcion->modulos as $modulo)
+                                <div class="row text-center">
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-cube"></i>Módulo
+                                        </strong><br/>
+                                        ({{ $modulo->lanzamientoCurso->curso->codigo }}) {{ $modulo->lanzamientoCurso->curso->nombre }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Inicio:</strong><br/>
+                                        {{ $modulo->lanzamientoCurso->cronograma->inicio->formatLocalized('%d-%B-%Y') }} ({{ $modulo->lanzamientoCurso->cronograma->inicio->diffForHumans() }})
+                                    </div>
+                                    @if($modulo->historial)
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-calendar"></i>Fecha de Finalización:</strong><br/>
+                                        {{ $modulo->historial->fecha_finalizacion->formatLocalized('%d-%B-%Y') }} ({{ $modulo->historial->fecha_finalizacion->diffForHumans() }})
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-mortar-board"></i>Nota:</strong><br/>
+                                        {{ $modulo->historial->nota }}%
+                                        @if($modulo->historial->nota >= 71)
+                                        (Aprobado)
+                                        @else
+                                        (Reprobado)
+                                        @endif
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-address-card-o"></i>¿Se extendió certificado?:</strong><br/>
+                                        @if($modulo->historial->certificado)
+                                        Si
+                                        @else
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_certificado" data-id="{{ $modulo->historial->id }}" title="Extender Certificado">
+                                            <i class="fa fa-btn fa-address-card-o"></i>Extender Certificado
+                                        </button>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong><i class="fa fa-btn fa-file-text-o"></i>Observaciones del historial:</strong><br/>
+                                        @if($modulo->historial->observaciones == null)
+                                        Sin observaciones
+                                        @else
+                                        {{ $modulo->historial->observaciones }}
+                                        @endif
+                                    </div>
+                                    @else
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_historial" data-id="{{ $modulo->id }}" title="Finalizar Módulo">
+                                            <i class="fa fa-btn fa-check"></i>Finalizar Módulo
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#destroy-inscripcion-modulo" data-id="{{ $modulo->id }}" data-id-carrera="{{ $inscripcion->id }}" title="Eliminar Módulo">
+                                            <i class="fa fa-btn fa-trash"></i>Eliminar Módulo
+                                        </button>
+                                    </div>
+                                    @endif
+                                </div>
+                                <hr/>
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                <div class="panel-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fa fa-btn fa-database"></i>
+                        <strong>Mensaje!!!</strong> El alumno no se inscribió a ningúna carrera. Intenta <strong>inscribir al alumno a una carrera</strong>
+                    </div>
+                </div>
+                @endif
+
             </div>
         </div>
     </div>
 </div>
 
 @include('admin.alumno.partial.attach_curso')
+@include('admin.alumno.partial.attach_carrera')
+@include('admin.alumno.partial.attach_modulo')
 @include('admin.alumno.partial.attach_curso_personalizado')
 @include('admin.alumno.partial.attach_historial')
+
+@include('admin.alumno.partial.destroy_inscripcion_curso')
+@include('admin.alumno.partial.destroy_inscripcion_carrera')
+@include('admin.alumno.partial.destroy_inscripcion_modulo')
 
 @endsection
 
@@ -254,6 +424,60 @@
             $('#msg-attach-curso').css('display', 'none');
             $('#form-postattachcurso').css('display', 'block');
             $('#form-postattachcurso').attr('data-id', idAlumno);
+        });
+    });
+
+    // Llenar Form -> Attach Carrera
+    $(document).on('click', 'button[data-target="#attach_carrera"]', function(e){
+        var idAlumno = $(this).attr('data-id');
+        var url = '{{ route('admin.cronograma.carrerasdisponibles') }}';
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach-carrera').css('display', 'block');
+                $('#form-postattachcarrera').css('display', 'none');
+            }
+        }).done(function (response){
+            var selectCarreras = $('select#lanzamiento_carrera_id').empty().append("<option value=''>Seleccione una Carrera</option>");
+            $.each(response['carreras'], function(key, value){
+                selectCarreras.append("<option value='"+key+"'>"+value+"</option>");
+            });
+            $('#msg-attach-carrera').css('display', 'none');
+            $('#form-postattachcarrera').css('display', 'block');
+            $('#form-postattachcarrera').attr('data-id', idAlumno);
+        });
+    });
+
+    // Llenar Form -> Attach Módulo
+    $(document).on('click', 'button[data-target="#attach_modulo"]', function(e){
+        var idAlumno = $(this).attr('data-id');
+        var idLanzamiento = $(this).attr('data-lanzamiento');
+        var url = '{{ route('admin.cronograma.cursosdisponibles') }}';
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach-modulo').css('display', 'block');
+                $('#form-postattachmodulo').css('display', 'none');
+            }
+        }).done(function (response){
+            var selectCursos = $('select#modulo_id').empty().append("<option value=''>Seleccione un Curso</option>");
+            $.each(response['cursos'], function(key, value){
+                selectCursos.append("<option value='"+key+"'>"+value+"</option>");
+            });
+            var selectPublicidades = $('select#publicidad_id').empty().append("<option value=''>Seleccione una opción</option>");
+            $.each(response['publicidades'], function(key, value){
+                selectPublicidades.append("<option value='"+key+"'>"+value+"</option>");
+            });
+            $('#msg-attach-modulo').css('display', 'none');
+            $('#form-postattachmodulo').css('display', 'block');
+            $('#form-postattachmodulo').attr('data-id', idAlumno);
+            $('#form-postattachmodulo').attr('data-lanzamiento', idLanzamiento);
         });
     });
 
@@ -300,6 +524,77 @@
         $('#form-postattachhistorial').attr('data-id', idInscripcion);
     });
 
+    // Llenar Form -> Eliminar Inscripción Curso
+    $(document).on('click', 'button[data-target="#destroy-inscripcion-curso"]', function(e){
+        var idInscripcion = $(this).attr('data-id');
+        var url = '/admin/inscripcion/' + idInscripcion + '/edit';
+        var data = 'id=' + idInscripcion;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-destroy-inscripcion-curso').css('display', 'block');
+                $('#form-destroy-inscripcion-curso').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#question-destroy-inscripcion-curso').html("¿Está seguro de eliminar la inscripción al curso: <i>"+ response['curso']['nombre'] +"</i>?<br/><h6>* La inscripción quedará archivada por seguridad.</h6>");
+            $('#msg-destroy-inscripcion-curso').css('display', 'none');
+            $('#form-destroy-inscripcion-curso').css('display', 'block');
+            $('#form-destroy-inscripcion-curso').attr('data-id', idInscripcion);
+        });
+    });
+
+    // Llenar Form -> Eliminar Inscripción Carrera
+    $(document).on('click', 'button[data-target="#destroy-inscripcion-carrera"]', function(e){
+        var idInscripcion = $(this).attr('data-id');
+        var url = '/admin/inscripcioncarrera/' + idInscripcion + '/edit';
+        var data = 'id=' + idInscripcion;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-destroy-inscripcion-carrera').css('display', 'block');
+                $('#form-destroy-inscripcion-carrera').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#question-destroy-inscripcion-carrera').html("¿Está seguro de eliminar la inscripción a la carrera: <i>"+ response['carrera']['nombre'] +"</i>?<br/><h6>* La inscripción quedará archivada por seguridad.</h6>");
+            $('#msg-destroy-inscripcion-carrera').css('display', 'none');
+            $('#form-destroy-inscripcion-carrera').css('display', 'block');
+            $('#form-destroy-inscripcion-carrera').attr('data-id', idInscripcion);
+        });
+    });
+
+    // Llenar Form -> Eliminar Inscripción Módulo
+    $(document).on('click', 'button[data-target="#destroy-inscripcion-modulo"]', function(e){
+        var idInscripcion = $(this).attr('data-id');
+        var idInscripcionCarrera = $(this).attr('data-id-carrera');
+        var url = '/admin/inscripcion/' + idInscripcion + '/edit';
+        var data = 'id=' + idInscripcion;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-destroy-inscripcion-modulo').css('display', 'block');
+                $('#form-destroy-inscripcion-modulo').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#question-destroy-inscripcion-modulo').html("¿Está seguro de eliminar la inscripción al curso: <i>"+ response['curso']['nombre'] +"</i>?<br/><h6>* La inscripción quedará archivada por seguridad.</h6>");
+            $('#msg-destroy-inscripcion-modulo').css('display', 'none');
+            $('#form-destroy-inscripcion-modulo').css('display', 'block');
+            $('#form-destroy-inscripcion-modulo').attr('data-id', idInscripcion);
+            $('#form-destroy-inscripcion-modulo').attr('data-id-carrera', idInscripcionCarrera);
+        });
+    });
+
     // Validation
     function validation(response){
         if(response.responseJSON['lanzamiento_curso_id']){
@@ -308,6 +603,13 @@
         }else{
             $('.wrapper-lanzamiento_curso_id').removeClass('has-error');
             $('.wrapper-lanzamiento_curso_id .help-block>strong').html('');
+        }
+        if(response.responseJSON['lanzamiento_carrera_id']){
+            $('.wrapper-lanzamiento_carrera_id').addClass('has-error');
+            $('.wrapper-lanzamiento_carrera_id .help-block>strong').html(response.responseJSON['lanzamiento_carrera_id']);
+        }else{
+            $('.wrapper-lanzamiento_carrera_id').removeClass('has-error');
+            $('.wrapper-lanzamiento_carrera_id .help-block>strong').html('');
         }
         if(response.responseJSON['curso_codigo']){
             $('.wrapper-curso_codigo').addClass('has-error');

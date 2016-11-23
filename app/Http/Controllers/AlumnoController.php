@@ -14,8 +14,10 @@ use App\Expedicion;
 use App\Profesion;
 use App\Grado;
 use App\Inscripcion;
+use App\InscripcionCarrera;
 use App\Historial;
 use App\LanzamientoCurso;
+use App\LanzamientoCarrera;
 use App\Cronograma;
 use App\Http\Requests\AlumnoRequest;
 
@@ -283,6 +285,73 @@ class AlumnoController extends Controller
                 flash('Se inscribió al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' al curso: '.$lanzamientoCurso->curso->nombre, 'success')->important();
                 return response()->json([
                     'mensaje' => $inscripcion->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al inscribir... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattachmodulo(Request $request, $codigoPersona, $lanzamientoCarrera){
+        $this->validate($request, [
+            'modulo_id' => 'required|exists:lanzamiento_curso,id',
+            'publicidad_id' => 'required|exists:publicidades,id',
+        ]);
+        if ($request->ajax()){
+            try{
+                $alumno = Alumno::find($codigoPersona);
+                $persona = Persona::find($alumno->persona->codigo);
+                $lanzamientoCurso = LanzamientoCurso::find($request->modulo_id);
+                $inscripcion = new Inscripcion($request->all());
+                $inscripcion->alumno_id = $codigoPersona;
+                $inscripcion->lanzamiento_curso_id = $lanzamientoCurso->id;
+                $inscripcion->modulo_carrera = true;
+                $inscripcion->save();
+
+                $inscripcionCarrera = InscripcionCarrera::find($lanzamientoCarrera);
+                $inscripcionCarrera->updated_at = Carbon::now();
+                $inscripcionCarrera->update();
+                $inscripcionCarrera->modulos()->attach($inscripcion);
+
+                flash('Se inscribió al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' al módulo: '.$lanzamientoCurso->curso->nombre, 'success')->important();
+                return response()->json([
+                    'mensaje' => $inscripcion->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al inscribir... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattachcarrera(Request $request, $id){
+        $this->validate($request, [
+            'lanzamiento_carrera_id' => 'required|exists:lanzamiento_carrera,id',
+        ]);
+        if ($request->ajax()){
+            try{
+                $alumno = Alumno::find($id);
+                $persona = Persona::find($alumno->persona->codigo);
+                $lanzamientoCarrera = LanzamientoCarrera::find($request->lanzamiento_carrera_id);
+                $inscripcionCarrera = new InscripcionCarrera($request->all());
+                $inscripcionCarrera->alumno_id = $id;
+                $inscripcionCarrera->save();
+                flash('Se inscribió al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' a la carrera: '.$lanzamientoCarrera->carrera->nombre, 'success')->important();
+                return response()->json([
+                    'mensaje' => $inscripcionCarrera->id,
                 ]);
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al inscribir... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();

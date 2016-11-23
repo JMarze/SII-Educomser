@@ -209,4 +209,25 @@ class CronogramaCarreraController extends Controller
             }
         }
     }
+
+    /**
+     *
+     *
+     */
+    public function carrerasdisponibles(Request $request){
+        if ($request->ajax()){
+            try{
+                $fecha_actual = '2016-09-01';//Carbon::now();
+                $lanzamientoCarrera = LanzamientoCarrera::join('cronogramas', 'lanzamiento_carrera.cronograma_id', '=', 'cronogramas.id')->join('carreras', 'lanzamiento_carrera.carrera_codigo', '=', 'carreras.codigo')->where('cronogramas.inicio', '>=', $fecha_actual)->orderBy('carreras.nombre', 'ASC')->select('lanzamiento_carrera.id AS id', DB::raw('CONCAT("(", carreras.codigo, ")", " ", carreras.nombre, " - ", "Bs ", lanzamiento_carrera.mensualidad) AS carrera'))->lists('carrera', 'id');
+                return response()->json([
+                    'carreras' => $lanzamientoCarrera,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'carreras' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
 }

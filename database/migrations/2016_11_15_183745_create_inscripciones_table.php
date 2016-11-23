@@ -15,6 +15,7 @@ class CreateInscripcionesTable extends Migration
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->increments('id');
             $table->text('observaciones')->nullable();
+            $table->boolean('modulo_carrera')->default(false);
 
             // Foreign Key
             $table->integer('publicidad_id')->unsigned();

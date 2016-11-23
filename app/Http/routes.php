@@ -10,13 +10,13 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
 // Backend - Restful
 Route::group(['prefix' => 'admin'], function(){
@@ -52,6 +52,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::delete('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@destroyCarrera')->name('admin.cronograma_carrera.destroyCarrera');
 
     Route::get('cronograma/curso/disponible', 'CronogramaController@cursosdisponibles')->name('admin.cronograma.cursosdisponibles');
+    Route::get('cronograma/carrera/disponible', 'CronogramaCarreraController@carrerasdisponibles')->name('admin.cronograma.carrerasdisponibles');
     Route::get('cronograma/curso/todos', 'CronogramaController@cursostodos')->name('admin.cronograma.cursostodos');
 
     // Backend Grado
@@ -91,9 +92,15 @@ Route::group(['prefix' => 'admin'], function(){
     Route::put('alumno/{alumno}/attach', 'AlumnoController@postattach')->name('admin.alumno.postattach');
 
     Route::put('alumno/{alumno}/attach_curso', 'AlumnoController@postattachcurso')->name('admin.alumno.postattachcurso');
+    Route::put('alumno/{alumno}/attach_modulo/{lanzamientoCarrera}', 'AlumnoController@postattachmodulo')->name('admin.alumno.postattachmodulo');
+    Route::put('alumno/{alumno}/attach_carrera', 'AlumnoController@postattachcarrera')->name('admin.alumno.postattachcarrera');
     Route::put('alumno/{alumno}/attach_curso_personalizado', 'AlumnoController@postattachcursopersonalizado')->name('admin.alumno.postattachcursopersonalizado');
     Route::put('alumno/{alumno}/attach_historial', 'AlumnoController@postattachhistorial')->name('admin.alumno.postattachhistorial');
 
     // Backend Insripcion
-    Route::get('inscripcion/cronograma/{cronograma}/alumno/{alumno}', 'InscripcionController@inscribir')->name('admin.inscripcion.inscribir');
+    Route::delete('inscripcion/{inscripcion}', 'InscripcionController@destroyCurso')->name('admin.inscripcion.destroy_curso');
+    Route::delete('inscripcioncarrera/{inscripcion}', 'InscripcionController@destroyCarrera')->name('admin.inscripcion.destroy_carrera');
+    Route::delete('inscripcionmodulo/{inscripcion}/carrera/{inscripcion_carrera}', 'InscripcionController@destroyModulo')->name('admin.inscripcion.destroy_modulo');
+    Route::get('inscripcion/{inscripcion}/edit', 'InscripcionController@editCurso')->name('admin.inscripcion.edit_curso');
+    Route::get('inscripcioncarrera/{inscripcion}/edit', 'InscripcionController@editCarrera')->name('admin.inscripcion.edit_carrera');
 });

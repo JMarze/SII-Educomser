@@ -31,6 +31,11 @@ class LanzamientoCurso extends Model
         return $this->belongsTo('App\Cronograma');
     }
 
+    // 1 -> (1:N)
+    public function inscritos(){
+        return $this->hasMany('App\Inscripcion');
+    }
+
     // Scopes
     public function scopeSearch($query, $filtro){
         return $query->join('cursos', 'lanzamiento_curso.curso_codigo', '=', 'cursos.codigo')->join('cronogramas', 'lanzamiento_curso.cronograma_id', '=', 'cronogramas.id')->where('curso_codigo', 'LIKE', "%$filtro%")->orWhere('cursos.nombre', 'LIKE', "%$filtro%")->orWhere('inicio', 'LIKE', "%$filtro%");

@@ -37,7 +37,11 @@
             </div>
         </td>
         <td>
-
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#attach_inscritos" data-id="{{ $lanzamientoCurso->id }}" title="Inscritos">
+                    <i class="fa fa-btn fa-user"></i>Inscritos <span class="badge">{{ $lanzamientoCurso->inscritos()->count() }}</span>
+                </button>
+            </div>
         </td>
         <td>{{ $lanzamientoCurso->cronograma->created_at->diffForHumans() }}</td>
         <td>{{ $lanzamientoCurso->cronograma->updated_at->diffForHumans() }}</td>

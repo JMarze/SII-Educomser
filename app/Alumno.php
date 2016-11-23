@@ -61,6 +61,11 @@ class Alumno extends Model
 
     // N -> (1:N)
     public function inscripciones(){
-        return $this->hasMany('App\Inscripcion')->orderBy('created_at', 'DESC');
+        return $this->hasMany('App\Inscripcion')->where('modulo_carrera', '=', '0')->orderBy('updated_at', 'DESC');
+    }
+
+    // N -> (1:N)
+    public function inscripcionesCarrera(){
+        return $this->hasMany('App\InscripcionCarrera')->orderBy('updated_at', 'DESC');
     }
 }

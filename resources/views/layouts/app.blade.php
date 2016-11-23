@@ -65,6 +65,22 @@
                             <li><a href="{{ route('admin.alumno.index') }}"><i class="fa fa-btn fa-user"></i>Alumnos</a></li>
                         </ul>
                     </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-btn fa-cube"></i>Cursos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-btn fa-cubes"></i>Carreras
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-btn fa-calendar"></i>Cronograma
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
