@@ -24,7 +24,7 @@
         <td>Bs {{ $lanzamientoCarrera->mensualidad }}</td>
         <td>Bs {{ $lanzamientoCarrera->matricula }}</td>
         <td class="text-center">
-            @if($lanzamientoCarrera->slider)
+            @if($lanzamientoCarrera->cronograma->slider)
             Si
             @else
             No

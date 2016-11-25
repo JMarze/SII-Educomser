@@ -23,7 +23,7 @@
         </td>
         <td>Bs {{ $lanzamientoCurso->costo }}</td>
         <td class="text-center">
-            @if($lanzamientoCurso->slider)
+            @if($lanzamientoCurso->cronograma->slider)
             Si
             @else
             No

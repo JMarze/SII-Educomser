@@ -22,7 +22,7 @@
 
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
-                        <img src="img/background_carousel.jpg" alt=""/>
+                        <img src="img/educomser.png" alt=""/>
                         <div class="carousel-caption">
                             <h2>Educomser SRL</h2>
                             <h3>Educación en Computación y Servicios</h3>
@@ -32,7 +32,11 @@
 
                     @foreach($lanzamientosCurso as $lanzamientoCurso)
                     <div class="item">
-                        <img src="img/background_carousel.jpg" alt=""/>
+                        @if($lanzamientoCurso->curso->logo != null)
+                        <img src="{{ route('admin.curso.verlogo', ['nombreLogo' => $lanzamientoCurso->curso->logo]) }}" alt=""/>
+                        @else
+                        <img src="img/sinlogo.png" alt=""/>
+                        @endif
                         <div class="carousel-caption">
                             <h3>Curso de {{ $lanzamientoCurso->curso->nombre }}</h3>
                             <h5>
@@ -100,12 +104,20 @@
         @foreach($cursos as $curso)
         <div class="col-md-3 col-sm-6">
             <div class="thumbnail">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDE5MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU4N2ZiYjU3NWMgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTg3ZmJiNTc1YyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI3MS41IiB5PSIxMDQuNSI+MTkyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt=""/>
+                @if($curso->logo != null)
+                <img src="{{ route('admin.curso.verlogo', ['nombreLogo' => $curso->logo]) }}" alt=""/>
+                @else
+                <img src="img/sinlogo.png" alt=""/>
+                @endif
                 <div class="caption">
+                    @if($curso->color_hexa != '')
+                    <h4 class="text-center" style="color:{{ $curso->color_hexa }}">{{ $curso->nombre }}</h4>
+                    @else
                     <h4 class="text-center">{{ $curso->nombre }}</h4>
-                    <p style="text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex voluptate possimus doloribus dolor optio at quisquam assumenda rem hic ut!</p>
+                    @endif
+                    <p style="text-align:justify; height:120px; overflow-y:hidden;">{{ $curso->descripcion }}</p>
                     <p class="text-center">
-                        <a href="#" class="btn btn-default" role="button">
+                        <a href="{{ route('curso.ver', $curso->codigo) }}" class="btn btn-default" role="button">
                             <i class="fa fa-btn fa-plus"></i>Ver más...
                         </a>
                     </p>
@@ -142,7 +154,7 @@
                 <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDE5MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU4N2ZiYjU3NWMgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTg3ZmJiNTc1YyI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI3MS41IiB5PSIxMDQuNSI+MTkyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt=""/>
                 <div class="caption">
                     <h4 class="text-center">{{ $carrera->nombre }}</h4>
-                    <p style="text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex voluptate possimus doloribus dolor optio at quisquam assumenda rem hic ut!</p>
+                    <p style="text-align:justify; height:120px; overflow-y:hidden;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex voluptate possimus doloribus dolor optio at quisquam assumenda rem hic ut!</p>
                     <p class="text-center">
                         <a href="#" class="btn btn-default" role="button">
                             <i class="fa fa-btn fa-plus"></i>Ver más...
@@ -156,7 +168,7 @@
 
     <div class="row text-center">
         <div class="col-md-6 col-md-offset-3">
-            <h4>¿Quieres saber más sobre nuestros carreras?</h4>
+            <h4>¿Quieres saber más sobre nuestras carreras?</h4>
             <h4>Te invitamos a...</h4>
             <a href="#" class="btn btn-default btn-lg" role="button">
                 <i class="fa fa-btn fa-cubes"></i>Ver todas las carreras disponibles

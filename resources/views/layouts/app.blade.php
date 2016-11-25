@@ -29,6 +29,19 @@
     </style>
 </head>
 <body id="app-layout">
+
+    <!-- Facebook -->
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.8";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <nav class="navbar navbar-default navbar-static-top navbar-transparent">
         <div class="container">
             <div class="navbar-header">
@@ -77,7 +90,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{ route('cronograma.ver') }}">
                             <i class="fa fa-btn fa-calendar"></i>Cronograma
                         </a>
                     </li>

@@ -17,6 +17,8 @@
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+Route::get('curso/{codigoCurso}', 'HomeController@verCurso')->name('curso.ver');
+Route::get('cronograma', 'HomeController@verCronograma')->name('cronograma.ver');
 
 // Backend - Restful
 Route::group(['prefix' => 'admin'], function(){
@@ -83,6 +85,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('curso/{curso}/show', 'CursoController@show')->name('admin.curso.getshow');
     Route::post('curso/{curso}/create_capitulo', 'CursoController@create_capitulo')->name('admin.curso.create_capitulo');
     Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
+
+    Route::get('curso/logo/{nombreLogo}', 'CursoController@verLogo')->name('admin.curso.verlogo');
 
     // Backend Alumno
     Route::resource('alumno', 'AlumnoController');

@@ -33,7 +33,7 @@ class CronogramaCarreraController extends Controller
             $lanzamientosCarreras = LanzamientoCarrera::search($request->buscar_cronograma)->orderBy('cronogramas.inicio', 'DES')->paginate(10);
             $lanzamientosCarreras->appends(['buscar_cronograma' => $request->buscar_cronograma]);
         }else{
-            $lanzamientosCarreras = LanzamientoCarrera::join('cronogramas', 'lanzamiento_carrera.cronograma_id', '=', 'cronogramas.id')->orderBy('cronogramas.inicio', 'DES')->paginate(10);
+            $lanzamientosCarreras = LanzamientoCarrera::join('cronogramas', 'lanzamiento_carrera.cronograma_id', '=', 'cronogramas.id')->orderBy('cronogramas.inicio', 'DES')->select('lanzamiento_carrera.*')->paginate(10);
         }
 
         if($request->ajax()){
