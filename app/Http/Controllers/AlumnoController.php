@@ -17,6 +17,7 @@ use App\Inscripcion;
 use App\InscripcionCarrera;
 use App\Historial;
 use App\LanzamientoCurso;
+use App\Curso;
 use App\LanzamientoCarrera;
 use App\Cronograma;
 use App\Http\Requests\AlumnoRequest;
@@ -299,7 +300,7 @@ class AlumnoController extends Controller
      *
      *
      */
-    public function postattachmodulo(Request $request, $codigoPersona, $lanzamientoCarrera){
+    public function postattachmodulo(Request $request, $codigoPersona, $idInscripcionCarrera){
         $this->validate($request, [
             'modulo_id' => 'required|exists:lanzamiento_curso,id',
             'publicidad_id' => 'required|exists:publicidades,id',
@@ -315,10 +316,10 @@ class AlumnoController extends Controller
                 $inscripcion->modulo_carrera = true;
                 $inscripcion->save();
 
-                $inscripcionCarrera = InscripcionCarrera::find($lanzamientoCarrera);
+                $inscripcionCarrera = InscripcionCarrera::find($idInscripcionCarrera);
                 $inscripcionCarrera->updated_at = Carbon::now();
                 $inscripcionCarrera->update();
-                $inscripcionCarrera->modulos()->attach($inscripcion);
+                $inscripcionCarrera->modulos()->attach($inscripcion->id);
 
                 flash('Se inscribió al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' al módulo: '.$lanzamientoCurso->curso->nombre, 'success')->important();
                 return response()->json([
@@ -418,6 +419,42 @@ class AlumnoController extends Controller
                 $historial->inscripcion_id = $inscripcion->id;
                 $historial->save();
                 flash('El alumno: '.$inscripcion->alumno->persona->primer_apellido.' '.$inscripcion->alumno->persona->segundo_apellido.' '.$inscripcion->alumno->persona->nombres.' finalizó el curso: '.$inscripcion->lanzamientoCurso->curso->nombre.' con la nota de: '.$historial->nota.'%', 'success')->important();
+                return response()->json([
+                    'mensaje' => $historial->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al finalizar el curso... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function postattachcertificado(Request $request, $id){
+        $this->validate($request, [
+            'certificado' => 'required',
+        ]);
+        if ($request->ajax()){
+            try{
+                $historial = Historial::find($id);
+                $historial->certificado = $request->certificado;
+                $historial->update();
+
+                $curso = Curso::find($historial->inscripcion->lanzamientoCurso->curso->codigo);
+
+                $persona = Persona::find($historial->inscripcion->alumno->persona->codigo);
+
+                if($historial->certificado){
+                    flash('Se extendió certificado al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' por el curso: '.$curso->nombre, 'success')->important();
+                }else{
+                    flash('No se extendió certificado al alumno: '.$persona->primer_apellido.' '.$persona->segundo_apellido.' '.$persona->nombres.' por el curso: '.$curso->nombre, 'warning')->important();
+                }
+
                 return response()->json([
                     'mensaje' => $historial->id,
                 ]);

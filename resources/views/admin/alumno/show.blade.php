@@ -293,7 +293,7 @@
                                 <hr/>
                                 <div class="row text-center">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_modulo" data-id="{{ $alumno->id }}" data-lanzamiento="{{ $inscripcion->lanzamiento_carrera_id }}" title="Agregar módulo">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_modulo" data-id="{{ $alumno->id }}" data-lanzamiento="{{ $inscripcion->id }}" title="Agregar módulo">
                                             <i class="fa fa-btn fa-cube"></i>Agregar módulo <span class="badge">{{ $inscripcion->modulos()->count() }}</span>
                                         </button>
                                     </div>
@@ -382,6 +382,7 @@
 @include('admin.alumno.partial.attach_modulo')
 @include('admin.alumno.partial.attach_curso_personalizado')
 @include('admin.alumno.partial.attach_historial')
+@include('admin.alumno.partial.attach_certificado')
 
 @include('admin.alumno.partial.destroy_inscripcion_curso')
 @include('admin.alumno.partial.destroy_inscripcion_carrera')
@@ -522,6 +523,17 @@
         $('#msg-attach-historial').css('display', 'none');
         $('#form-postattachhistorial').css('display', 'block');
         $('#form-postattachhistorial').attr('data-id', idInscripcion);
+    });
+
+    // Llenar Form -> Attach Certificado
+    $(document).on('click', 'button[data-target="#attach_certificado"]', function(e){
+        var idHistorial = $(this).attr('data-id');
+        $('#msg-attach-certificado').css('display', 'block');
+        $('#form-postattachcertificado').css('display', 'none');
+
+        $('#msg-attach-certificado').css('display', 'none');
+        $('#form-postattachcertificado').css('display', 'block');
+        $('#form-postattachcertificado').attr('data-id', idHistorial);
     });
 
     // Llenar Form -> Eliminar Inscripción Curso

@@ -100,6 +100,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::put('alumno/{alumno}/attach_carrera', 'AlumnoController@postattachcarrera')->name('admin.alumno.postattachcarrera');
     Route::put('alumno/{alumno}/attach_curso_personalizado', 'AlumnoController@postattachcursopersonalizado')->name('admin.alumno.postattachcursopersonalizado');
     Route::put('alumno/{alumno}/attach_historial', 'AlumnoController@postattachhistorial')->name('admin.alumno.postattachhistorial');
+    Route::put('alumno/{historial}/attach_certificado', 'AlumnoController@postattachcertificado')->name('admin.alumno.postattachcertificado');
 
     // Backend Insripcion
     Route::delete('inscripcion/{inscripcion}', 'InscripcionController@destroyCurso')->name('admin.inscripcion.destroy_curso');
