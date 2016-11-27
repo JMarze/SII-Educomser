@@ -108,4 +108,8 @@ Route::group(['prefix' => 'admin'], function(){
     Route::delete('inscripcionmodulo/{inscripcion}/carrera/{inscripcion_carrera}', 'InscripcionController@destroyModulo')->name('admin.inscripcion.destroy_modulo');
     Route::get('inscripcion/{inscripcion}/edit', 'InscripcionController@editCurso')->name('admin.inscripcion.edit_curso');
     Route::get('inscripcioncarrera/{inscripcion}/edit', 'InscripcionController@editCarrera')->name('admin.inscripcion.edit_carrera');
+
+    // Backend Reportes
+    Route::get('boleta/{inscripcion}', 'ReporteController@boletaInscripcion')->name('admin.reporte.boletaInscripcion');
+    Route::get('boleta/{inscripcion}/carrera', 'ReporteController@boletaInscripcionCarrera')->name('admin.reporte.boletaInscripcionCarrera');
 });

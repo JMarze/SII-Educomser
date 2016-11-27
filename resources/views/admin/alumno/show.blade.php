@@ -118,9 +118,13 @@
                                     <small>(Inscripción: {{ $inscripcion->updated_at->diffForHumans() }})</small>
                                 </h3>
                                 <div class="btn-group col-md-2" role="group" aria-label="Center Align">
+                                    <a href="{{ route('admin.reporte.boletaInscripcion', $inscripcion->id) }}" target="_blank" type="button" class="btn btn-sm btn-default" title="Imprimir boleta de Inscripción">
+                                        <i class="fa fa-print"></i>
+                                        <span class="sr-only">Imprimir boleta de Inscripción</span>
+                                    </a>
                                     @if($inscripcion->historial)
                                     <button type="button" class="btn btn-sm btn-default" title="Curso Finalizado">
-                                        <i class="fa fa-btn fa-check"></i>Curso Finalizado
+                                        <i class="fa fa-btn fa-check"></i>Finalizado
                                     </button>
                                     @else
                                     <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy-inscripcion-curso" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
@@ -247,10 +251,16 @@
                                     <small>(Inscripción: {{ $inscripcion->updated_at->diffForHumans() }})</small>
                                 </h3>
                                 <div class="btn-group col-md-2" role="group" aria-label="Center Align">
+                                    <a href="{{ route('admin.reporte.boletaInscripcionCarrera', $inscripcion->id) }}" target="_blank" type="button" class="btn btn-sm btn-default" title="Imprimir boleta de Inscripción de Carrera">
+                                        <i class="fa fa-print"></i>
+                                        <span class="sr-only">Imprimir boleta de Inscripción de Carrera</span>
+                                    </a>
+                                    @if($inscripcion->modulos()->count() == 0)
                                     <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#destroy-inscripcion-carrera" data-id="{{ $inscripcion->id }}" title="Eliminar capítulo">
                                         <i class="fa fa-trash"></i>
                                         <span class="sr-only">Eliminar inscripción</span>
                                     </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
