@@ -37,12 +37,15 @@
                         {{ $docente->persona->numero_ci }} {{ $docente->persona->expedicion->codigo }}
                     </div>
                     <div class="col-md-3">
-                        <strong><i class="fa fa-btn fa-envelope"></i>Correo Electrónico Personal:</strong><br/>
-                        <a href="mailto:{{ $docente->persona->email }}">{{ $docente->persona->email }}</a>
+                        <strong><i class="fa fa-btn fa-envelope"></i>Correos Electrónicos:</strong><br/>
+                        <a href="mailto:{{ $docente->persona->email }}">{{ $docente->persona->email }}</a><br/>
+                        <a href="mailto:{{ $docente->email_institucional }}">{{ $docente->email_institucional }}</a>
                     </div>
                     <div class="col-md-3">
-                        <strong><i class="fa fa-btn fa-envelope-o"></i>Correo Electrónico Institucional:</strong><br/>
-                        <a href="mailto:{{ $docente->email_institucional }}">{{ $docente->email_institucional }}</a>
+                        <strong><i class="fa fa-btn fa-graduation-cap"></i>Profesión(s):</strong><br/>
+                        @foreach($docente->persona->profesiones as $profesion)
+                        {{ $profesion->grado->abreviatura }} {{ $profesion->titulo }}<br/>
+                        @endforeach
                     </div>
                     <div class="col-md-3">
                         <strong><i class="fa fa-btn fa-birthday-cake"></i>Edad:</strong><br/>

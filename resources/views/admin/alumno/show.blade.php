@@ -32,15 +32,21 @@
                 </div>
                 <hr/>
                 <div class="row text-center">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <strong><i class="fa fa-btn fa-list-alt"></i>CI:</strong><br/>
                         {{ $alumno->persona->numero_ci }} {{ $alumno->persona->expedicion->codigo }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <strong><i class="fa fa-btn fa-envelope"></i>Correo Electrónico Personal:</strong><br/>
                         <a href="mailto:{{ $alumno->persona->email }}">{{ $alumno->persona->email }}</a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <strong><i class="fa fa-btn fa-graduation-cap"></i>Profesión(s):</strong><br/>
+                        @foreach($alumno->persona->profesiones as $profesion)
+                        {{ $profesion->grado->abreviatura }} {{ $profesion->titulo }}<br/>
+                        @endforeach
+                    </div>
+                    <div class="col-md-3">
                         <strong><i class="fa fa-btn fa-birthday-cake"></i>Edad:</strong><br/>
                         {{ $alumno->persona->fecha_nacimiento->age }} años ({{ $alumno->persona->fecha_nacimiento->formatLocalized('%d-%B-%Y') }})
                     </div>
