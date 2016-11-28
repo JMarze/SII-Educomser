@@ -81,12 +81,14 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Curso
     Route::resource('curso', 'CursoController');
     Route::put('curso/upload/{curso}', 'CursoController@upload')->name('admin.curso.upload');
+    Route::put('curso/uploadcontenido/{curso}', 'CursoController@uploadContenido')->name('admin.curso.uploadcontenido');
     Route::get('curso/listar/relaciones', 'CursoController@listar')->name('admin.curso.listar');
     Route::get('curso/{curso}/show', 'CursoController@show')->name('admin.curso.getshow');
     Route::post('curso/{curso}/create_capitulo', 'CursoController@create_capitulo')->name('admin.curso.create_capitulo');
     Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
 
     Route::get('curso/logo/{nombreLogo}', 'CursoController@verLogo')->name('admin.curso.verlogo');
+    Route::get('curso/contenido/{nombreContenido}', 'CursoController@verContenido')->name('admin.curso.vercontenido');
 
     // Backend Alumno
     Route::resource('alumno', 'AlumnoController');

@@ -15,7 +15,7 @@ class Curso extends Model
     protected $primaryKey = 'codigo';
     public $incrementing = false;
 
-    protected $fillable = ['codigo', 'nombre', 'logo', 'color_hexa', 'costo_personalizado', 'costo_referencial', 'eslogan', 'descripcion', 'vigente', 'horas_academicas', 'horas_reales', 'area_id', 'dificultad_id'];
+    protected $fillable = ['codigo', 'nombre', 'logo', 'contenido', 'color_hexa', 'costo_personalizado', 'costo_referencial', 'eslogan', 'descripcion', 'vigente', 'horas_academicas', 'horas_reales', 'area_id', 'dificultad_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -30,6 +30,14 @@ class Curso extends Model
             $nombreLogo = "CUR_" . Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
             $this->attributes['logo'] = $nombreLogo;
             \Storage::disk('local')->put($nombreLogo, \File::get($ruta));
+        }
+    }
+
+    public function setContenidoAttribute($ruta){
+        if($ruta){
+            $nombreContenido = "CON_" . Carbon::now()->year . Carbon::now()->month . Carbon::now()->day . "_" . Carbon::now()->hour . Carbon::now()->minute . Carbon::now()->second . "." . $ruta->getClientOriginalExtension();
+            $this->attributes['contenido'] = $nombreContenido;
+            \Storage::disk('local')->put($nombreContenido, \File::get($ruta));
         }
     }
 

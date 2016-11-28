@@ -79,6 +79,7 @@
 @include('admin.curso.partial.update')
 @include('admin.curso.partial.destroy')
 @include('admin.curso.partial.upload')
+@include('admin.curso.partial.upload_contenido')
 @endsection
 
 @section('script')

@@ -10,6 +10,7 @@
         <th>Creación</th>
         <th>Modificación</th>
         <th>Logo</th>
+        <th>Contenido</th>
         <th></th>
     </tr>
     @foreach($cursos as $curso)
@@ -37,6 +38,17 @@
                     <i class="fa fa-btn fa-upload"></i>Subir Logo
                     @else
                     <i class="fa fa-btn fa-upload"></i>Editar Logo
+                    @endif
+                </button>
+            </div>
+        </td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Center Align">
+                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#upload_contenido" data-codigo="{{ $curso->codigo }}" title="Subir Contenido">
+                    @if($curso->contenido == null || $curso->contenido == '')
+                    <i class="fa fa-btn fa-upload"></i>Subir Contenido
+                    @else
+                    <i class="fa fa-btn fa-upload"></i>Editar Contenido
                     @endif
                 </button>
             </div>
@@ -269,6 +281,35 @@
             }else{
                 $('#logo-nombre').html('');
                 $('#logo-success').html('');
+            }
+        });
+    });
+
+    // Llenar Form -> Upload Contenido
+    $(document).on('click', 'button[data-target="#upload_contenido"]', function(e){
+        var codigoCurso = $(this).attr('data-codigo');
+        var url = '/admin/curso/' + codigoCurso + '/edit';
+        var data = 'curso=' + codigoCurso;
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            data: data,
+            beforeSend: function(e){
+                $('#msg-upload-contenido').css('display', 'block');
+                $('#form-upload-contenido').css('display', 'none');
+            }
+        }).done(function (response){
+            $('#msg-upload-contenido').css('display', 'none');
+            $('#form-upload-contenido').css('display', 'block');
+            $('#form-upload-contenido').attr('data-id', codigoCurso);
+            if(response['curso']['contenido'] != null && response['curso']['contenido'] != ''){
+                $('#contenido-nombre').html(response['curso']['contenido']);
+                $('#contenido-success').html('Nombre del Archivo');
+            }else{
+                $('#contenido-nombre').html('');
+                $('#contenido-success').html('');
             }
         });
     });

@@ -188,6 +188,36 @@ class CursoController extends Controller
     }
 
     /**
+     * Upload Contenido
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadContenido(Request $request, $id)
+    {
+        $this->validate($request, [
+            'contenido' => 'required|file|mimes:pdf',
+        ]);
+        if ($request->ajax()){
+            try{
+                $curso = Curso::find($id);
+                $curso->contenido = $request->contenido;
+                $curso->update();
+                flash('Se modificó el curso: '.$curso->nombre, 'warning')->important();
+                return response()->json([
+                    'mensaje' => $curso->codigo,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al modificar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -285,5 +315,14 @@ class CursoController extends Controller
     public function verLogo($nombreLogo){
         $logo = \Storage::disk('local')->get($nombreLogo);
         return new Response($logo, 200);
+    }
+
+    /**
+     *
+     *
+     */
+    public function verContenido($nombreContenido){
+        $contenido = \Storage::disk('local')->get($nombreContenido);
+        return new Response($contenido, 200);
     }
 }
