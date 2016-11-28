@@ -73,9 +73,11 @@
                             <li><a href="{{ route('admin.carrera.index') }}"><i class="fa fa-btn fa-cubes"></i>Carreras</a></li>
                             <li><a href="{{ route('admin.curso.index') }}"><i class="fa fa-btn fa-cube"></i>Cursos</a></li>
                             <li><a href="{{ route('admin.docente.index') }}"><i class="fa fa-btn fa-user-plus"></i>Docentes</a></li>
+                            <li><a href="{{ route('admin.alumno.index') }}"><i class="fa fa-btn fa-user"></i>Alumnos</a></li>
                             <li><a href="{{ route('admin.cronograma.index') }}"><i class="fa fa-btn fa-calendar"></i>Cronogramas de Cursos</a></li>
                             <li><a href="{{ route('admin.cronograma_carrera.index') }}"><i class="fa fa-btn fa-calendar"></i>Cronogramas de Carreras</a></li>
-                            <li><a href="{{ route('admin.alumno.index') }}"><i class="fa fa-btn fa-user"></i>Alumnos</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ route('admin.ayuda.cursos') }}"><i class="fa fa-btn fa-question"></i>Ayuda</a></li>
                         </ul>
                     </li>
 
