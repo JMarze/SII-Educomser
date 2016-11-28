@@ -16,6 +16,7 @@ class CreateLanzamientoCarreraTable extends Migration
             $table->increments('id');
             $table->decimal('mensualidad', 6, 2)->default(0);
             $table->decimal('matricula', 6, 2)->default(0);
+            $table->boolean('confirmado')->default(true);
 
             // Foreign Keys
             $table->string('carrera_codigo', 15)->index();

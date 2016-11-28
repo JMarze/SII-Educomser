@@ -7,6 +7,7 @@
         <th>Mensualidad</th>
         <th>Matrícula</th>
         <th>¿Slider?</th>
+        <th>¿Inicio Confirmado?</th>
         <th>Inscritos</th>
         <th>Creación</th>
         <th>Modificación</th>
@@ -25,6 +26,13 @@
         <td>Bs {{ $lanzamientoCarrera->matricula }}</td>
         <td class="text-center">
             @if($lanzamientoCarrera->cronograma->slider)
+            Si
+            @else
+            No
+            @endif
+        </td>
+        <td class="text-center">
+            @if($lanzamientoCarrera->confirmado)
             Si
             @else
             No

@@ -6,6 +6,7 @@
         <th>Inicio</th>
         <th>Costo</th>
         <th>¿Slider?</th>
+        <th>¿Inicio Confirmado?</th>
         <th>Docente</th>
         <th>Inscritos</th>
         <th>Creación</th>
@@ -24,6 +25,13 @@
         <td>Bs {{ $lanzamientoCurso->costo }}</td>
         <td class="text-center">
             @if($lanzamientoCurso->cronograma->slider)
+            Si
+            @else
+            No
+            @endif
+        </td>
+        <td class="text-center">
+            @if($lanzamientoCurso->confirmado)
             Si
             @else
             No

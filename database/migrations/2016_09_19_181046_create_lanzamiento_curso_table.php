@@ -15,6 +15,7 @@ class CreateLanzamientoCursoTable extends Migration
         Schema::create('lanzamiento_curso', function (Blueprint $table) {
             $table->increments('id');
             $table->decimal('costo', 6, 2)->default(0);
+            $table->boolean('confirmado')->default(true);
 
             // Foreign Keys
             $table->string('curso_codigo', 15)->index();

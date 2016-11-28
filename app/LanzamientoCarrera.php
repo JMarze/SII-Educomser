@@ -11,7 +11,7 @@ class LanzamientoCarrera extends Model
 
     protected $table = 'lanzamiento_carrera';
 
-    protected $fillable = ['mensualidad', 'matricula', 'carrera_codigo', 'cronograma_id'];
+    protected $fillable = ['mensualidad', 'matricula', 'confirmado', 'carrera_codigo', 'cronograma_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

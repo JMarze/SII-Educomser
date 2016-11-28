@@ -11,7 +11,7 @@ class LanzamientoCurso extends Model
 
     protected $table = 'lanzamiento_curso';
 
-    protected $fillable = ['costo', 'docente_id', 'curso_codigo', 'cronograma_id'];
+    protected $fillable = ['costo', 'confirmado', 'docente_id', 'curso_codigo', 'cronograma_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

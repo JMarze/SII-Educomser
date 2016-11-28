@@ -68,6 +68,16 @@
     </div>
 </div>
 
+<div class="form-group wrapper-confirmado">
+    {!! Form::label('confirmado', '¿Inicio Confirmado?', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+    {!! Form::select('confirmado', ['1' => 'Si', '0' => 'No'], '0', ['class' => 'form-control']) !!}
+    <span class="help-block">
+        <strong></strong>
+    </span>
+    </div>
+</div>
+
 @section('script')
 @parent
 <script>
