@@ -17,8 +17,16 @@
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+Route::get('contacto', 'HomeController@contacto')->name('contacto');
+Route::get('cursos', 'HomeController@cursos')->name('curso.index');
+
 Route::get('curso/{codigoCurso}', 'HomeController@verCurso')->name('curso.ver');
 Route::get('cronograma', 'HomeController@verCronograma')->name('cronograma.ver');
+
+// Test Frontend
+/*Route::get('/', function(){
+    return view('index');
+});*/
 
 // Backend - Restful
 Route::group(['prefix' => 'admin'], function(){

@@ -12,6 +12,9 @@ use App\LanzamientoCurso;
 use App\LanzamientoCarrera;
 use App\Curso;
 use App\Carrera;
+use App\Alumno;
+use App\Docente;
+use App\Area;
 
 class HomeController extends Controller
 {
@@ -69,11 +72,30 @@ class HomeController extends Controller
         $cursos = Curso::orderBy('updated_at', 'DESC')->where('vigente', '=', '1')->take(4)->get();
         $carreras = Carrera::orderBy('updated_at', 'DESC')->where('vigente', '=', '1')->take(4)->get();
 
-        return view('welcome')
+        $totalCursos = Curso::get()->count();
+        $totalCursosVigentes = Curso::where('vigente', '=', '1')->get()->count();
+        $totalCarreras = Carrera::get()->count();
+        $totalCarrerasVigentes = Carrera::where('vigente', '=', '1')->get()->count();
+
+        $totalAlumnos = Alumno::get()->count();
+
+        return view('index')
             ->with('lanzamientosCurso', $lanzamientosCurso)->with('duraciones', $duraciones)
             ->with('lanzamientosCarrera', $lanzamientosCarrera)->with('duraciones_carrera', $duraciones_carrera)
             ->with('cursos', $cursos)
-            ->with('carreras', $carreras);
+            ->with('totalCursos', $totalCursos)->with('totalCursosVigentes', $totalCursosVigentes)
+            ->with('carreras', $carreras)
+            ->with('totalCarreras', $totalCarreras)->with('totalCarrerasVigentes', $totalCarrerasVigentes)
+            ->with('totalAlumnos', $totalAlumnos);
+    }
+
+    public function cursos(){
+        $cursos = Curso::where('vigente', '=', '1')->orderBy('nombre', 'ASC')->get();
+        $areas = Area::orderBy('nombre', 'ASC')->get();
+
+        return view('curso.index')
+            ->with('cursos', $cursos)
+            ->with('areas', $areas);
     }
 
     public function verCurso($codigoCurso){
@@ -121,5 +143,9 @@ class HomeController extends Controller
         return view('cronograma.show')
             ->with('lanzamientosCurso', $lanzamientosCurso)->with('duraciones', $duraciones)
             ->with('lanzamientosCarrera', $lanzamientosCarrera)->with('duraciones_carrera', $duraciones_carrera);
+    }
+
+    public function contacto(){
+        return view('contacto');
     }
 }
