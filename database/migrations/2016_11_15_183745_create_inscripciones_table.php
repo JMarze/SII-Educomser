@@ -16,6 +16,7 @@ class CreateInscripcionesTable extends Migration
             $table->increments('id');
             $table->text('observaciones')->nullable();
             $table->boolean('modulo_carrera')->default(false);
+            $table->enum('tipo_asistencia', ['hoja', 'qr'])->default('hoja');
 
             // Foreign Key
             $table->integer('publicidad_id')->unsigned();

@@ -11,7 +11,7 @@ class Inscripcion extends Model
 
     protected $table = 'inscripciones';
 
-    protected $fillable = ['observaciones', 'modulo_carrera', 'publicidad_id', 'alumno_id', 'lanzamiento_curso_id'];
+    protected $fillable = ['observaciones', 'modulo_carrera', 'tipo_asistencia', 'publicidad_id', 'alumno_id', 'lanzamiento_curso_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

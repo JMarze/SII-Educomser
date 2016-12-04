@@ -274,6 +274,7 @@ class AlumnoController extends Controller
         $this->validate($request, [
             'lanzamiento_curso_id' => 'required|exists:lanzamiento_curso,id',
             'publicidad_id' => 'required|exists:publicidades,id',
+            'tipo_asistencia' => 'required|in:hoja,qr',
         ]);
         if ($request->ajax()){
             try{
@@ -304,6 +305,7 @@ class AlumnoController extends Controller
         $this->validate($request, [
             'modulo_id' => 'required|exists:lanzamiento_curso,id',
             'publicidad_id' => 'required|exists:publicidades,id',
+            'tipo_asistencia' => 'required|in:hoja,qr',
         ]);
         if ($request->ajax()){
             try{
@@ -375,6 +377,7 @@ class AlumnoController extends Controller
             'tipo_id' => 'required|exists:tipos,id',
             'inicio' => 'required|date',
             'duracion_clase' => 'required|numeric|min:0|max:8',
+            'tipo_asistencia' => 'required|in:hoja,qr',
         ]);
         if ($request->ajax()){
             try{

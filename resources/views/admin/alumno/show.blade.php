@@ -218,11 +218,24 @@
                                         @endif
                                     </div>
                                     @else
-                                    <div class="col md 12">
+                                    <div class="col-md-6">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_historial" data-id="{{ $inscripcion->id }}" title="Finalizar Curso">
                                             <i class="fa fa-btn fa-check"></i>Finalizar Curso
                                         </button>
                                     </div>
+                                    @if($inscripcion->tipo_asistencia == 'hoja')
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default" target="_blank" href="{{ route('admin.reporte.seguimientoCurso', $inscripcion->id) }}">
+                                            <i class="fa fa-btn fa-file-text-o"></i>Imprimir Asistencia
+                                        </a>
+                                    </div>
+                                    @elseif($inscripcion->tipo_asistencia == 'qr')
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default" href="#">
+                                            <i class="fa fa-btn fa-qrcode"></i>Leer Qr
+                                        </a>
+                                    </div>
+                                    @endif
                                     @endif
                                 </div>
                                 <hr/>
@@ -308,10 +321,15 @@
                                 </div>
                                 <hr/>
                                 <div class="row text-center">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_modulo" data-id="{{ $alumno->id }}" data-lanzamiento="{{ $inscripcion->id }}" title="Agregar módulo">
                                             <i class="fa fa-btn fa-cube"></i>Agregar módulo <span class="badge">{{ $inscripcion->modulos()->count() }}</span>
                                         </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a class="btn btn-default" target="_blank" href="{{ route('admin.reporte.seguimientoCarrera', $inscripcion->id) }}">
+                                            <i class="fa fa-btn fa-file-text-o"></i>Imprimir Asistencia
+                                        </a>
                                     </div>
                                 </div>
                                 <hr/>
@@ -708,6 +726,13 @@
         }else{
             $('.wrapper-observaciones').removeClass('has-error');
             $('.wrapper-observaciones .help-block>strong').html('');
+        }
+        if(response.responseJSON['tipo_asistencia']){
+            $('.wrapper-tipo_asistencia').addClass('has-error');
+            $('.wrapper-tipo_asistencia .help-block>strong').html(response.responseJSON['tipo_asistencia']);
+        }else{
+            $('.wrapper-tipo_asistencia').removeClass('has-error');
+            $('.wrapper-tipo_asistencia .help-block>strong').html('');
         }
     }
 </script>

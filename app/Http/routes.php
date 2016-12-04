@@ -122,6 +122,8 @@ Route::group(['prefix' => 'admin'], function(){
     // Backend Reportes
     Route::get('boleta/{inscripcion}', 'ReporteController@boletaInscripcion')->name('admin.reporte.boletaInscripcion');
     Route::get('boleta/{inscripcion}/carrera', 'ReporteController@boletaInscripcionCarrera')->name('admin.reporte.boletaInscripcionCarrera');
+    Route::get('seguimiento/{inscripcion}', 'ReporteController@seguimientoCurso')->name('admin.reporte.seguimientoCurso');
+    Route::get('seguimiento/{inscripcion}/carrera', 'ReporteController@seguimientoCarrera')->name('admin.reporte.seguimientoCarrera');
 
     // Backend Ayuda
     Route::get('ayuda/cursos', 'AyudaController@cursos')->name('admin.ayuda.cursos');

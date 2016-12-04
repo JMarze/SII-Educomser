@@ -5,19 +5,21 @@
 @section('style')
 <style>
     table{
-        width: 100%;
+        width: 600px;
+        margin: auto;
     }
     h3{
         text-align: center;
     }
     table tr th, table tr td{
-        width: 16.666%;
+        width: 100px;
+        text-align: left;
     }
 </style>
 @endsection
 
 @section('content')
-<table style="width: 100%;">
+<table>
     <tr>
         <th colspan="6">
             <h3>Boleta de Inscripción de Carrera</h3>
@@ -25,9 +27,16 @@
     </tr>
 
     <tr>
-        <th colspan="6" style="text-align: right;">
-            Nro. {{ $inscripcion->id }}
+        <th colspan="5" style="text-align: right;">
+            Nro. Factura
         </th>
+    </tr>
+
+    <tr>
+        <th colspan="5" style="text-align: right;">
+            Nro.
+        </th>
+        <td>{{ $inscripcion->id }}</td>
     </tr>
 
     <tr>
@@ -74,11 +83,11 @@
 
     <tr>
         <th>Fecha de inicio:</th>
-        <td colspan="2">
+        <td colspan="3">
             {{ $inscripcion->lanzamientoCarrera->cronograma->inicio->formatLocalized('%A, %d de %B de %Y') }}
         </td>
         <th>Horario:</th>
-        <td colspan="2">
+        <td colspan="1">
             {{ $inscripcion->lanzamientoCarrera->cronograma->inicio->formatLocalized('%H:%M') }} a {{ $inscripcion->lanzamientoCarrera->cronograma->inicio->addMinute($inscripcion->lanzamientoCarrera->cronograma->duracion_clase * 60)->formatLocalized('%H:%M') }}
         </td>
     </tr>
@@ -104,14 +113,15 @@
     </tr>
 
     <tr>
-        <th colspan="2">
+        <th colspan="3" style="text-align: center;">
             <br/><br/><br/><br/><br/>
             ALUMNO
+            <br/><br/><br/>
         </th>
-        <td colspan="2"></td>
-        <th colspan="2">
+        <th colspan="3" style="text-align: center;">
             <br/><br/><br/><br/><br/>
             RECIBIDO POR
+            <br/><br/><br/>
         </th>
     </tr>
 

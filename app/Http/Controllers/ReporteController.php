@@ -13,6 +13,7 @@ use App\InscripcionCarrera;
 use App\Alumno;
 use App\Curso;
 use App\Carrera;
+use App\Docente;
 
 class ReporteController extends Controller
 {
@@ -41,5 +42,44 @@ class ReporteController extends Controller
             ->with('inscripcion', $inscripcionCarrera)
             ->with('alumno', $alumno)
             ->with('carrera', $carrera);
+    }
+
+    public function seguimientoCurso($idInscripcion){
+        $inscripcion = Inscripcion::find($idInscripcion);
+        $alumno = Alumno::find($inscripcion->alumno_id);
+        $docentes = $inscripcion->lanzamientoCurso->docentes;
+        $curso = Curso::find($inscripcion->lanzamientoCurso->curso->codigo);
+        $cantidadClases = $inscripcion->lanzamientoCurso->cronograma->duracion_clase;
+        if($inscripcion->lanzamientoCurso->cronograma->tipo->horas_reales != null){
+            $cantidadClases = $inscripcion->lanzamientoCurso->cronograma->tipo->horas_reales / $cantidadClases;
+        }else{
+            $cantidadClases = $inscripcion->lanzamientoCurso->curso->horas_reales / $cantidadClases;
+        }
+
+        return view('admin.reporte.seguimiento_curso')
+            ->with('inscripcion', $inscripcion)
+            ->with('alumno', $alumno)
+            ->with('docentes', $docentes)
+            ->with('curso', $curso)
+            ->with('cantidadClases', $cantidadClases);
+    }
+
+    public function seguimientoCarrera($idInscripcionCarrera){
+        $inscripcionCarrera = InscripcionCarrera::find($idInscripcionCarrera);
+        $alumno = Alumno::find($inscripcionCarrera->alumno_id);
+        //$docentes = $inscripcionCarrera->modulos[0]->inscripcion->lanzamientoCurso->docentes;
+        $carrera = Carrera::find($inscripcionCarrera->lanzamientoCarrera->carrera->codigo);
+        $cursos = $carrera->cursos;
+        $cantidadClases = 0;
+        foreach($cursos as $curso){
+            $cantidadClases += ($curso->horas_reales) / (1.5);
+        }
+
+        return view('admin.reporte.seguimiento_carrera')
+            ->with('inscripcion', $inscripcionCarrera)
+            ->with('alumno', $alumno)
+            //->with('docentes', $docentes)
+            ->with('carrera', $carrera)
+            ->with('cantidadClases', $cantidadClases);
     }
 }

@@ -13,6 +13,7 @@
             padding: 0;
         }
         body{
+            font-family: Arial;
             width: 100%;
         }
         h1{

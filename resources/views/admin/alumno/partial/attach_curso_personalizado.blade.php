@@ -48,6 +48,16 @@
                     </div>
                 </div>
 
+                <div class="form-group wrapper-tipo_asistencia">
+                    {!! Form::label('tipo_asistencia', 'Modo de control de asistencia', ['class' => 'col-md-4 control-label']) !!}
+                    <div class="col-md-6">
+                    {!! Form::select('tipo_asistencia', ['hoja' => 'Imprimir hoja para firmar', 'qr' => 'Lectura de código QR'], 'hoja', ['class' => 'form-control', 'placeholder' => 'Seleccione asistencia', 'style' => 'width:100%;']) !!}
+                    <span class="help-block">
+                        <strong></strong>
+                    </span>
+                    </div>
+                </div>
+
                 <div class="form-group wrapper-tipo_id">
                     {!! Form::label('tipo_id', 'Tipo', ['class' => 'col-md-4 control-label']) !!}
                     <div class="col-md-6">
