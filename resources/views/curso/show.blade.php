@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.frontend')
+
+@section('title', 'Educomser SRL')
 
 @section('content')
 

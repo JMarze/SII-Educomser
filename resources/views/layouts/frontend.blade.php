@@ -57,6 +57,10 @@
                     </div>
                     <div class="col-sm-6 col-xs-8">
                        <div class="social">
+                            @if (Auth::guest())
+                            <a href="{{ url('/login') }}">Iniciar Sesión&nbsp;&nbsp;&nbsp;</a>
+                            <a href="{{ url('/register') }}">Registrate&nbsp;&nbsp;&nbsp;</a>
+                            @endif
                             <ul class="social-share">
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>

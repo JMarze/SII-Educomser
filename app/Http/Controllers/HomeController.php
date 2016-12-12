@@ -110,6 +110,25 @@ class HomeController extends Controller
         return view('curso.show')->with('curso', $curso)->with('duracion', $duracion);
     }
 
+    public function carreras(){
+        $carreras = Carrera::where('vigente', '=', '1')->orderBy('nombre', 'ASC')->get();
+
+        return view('carrera.index')
+            ->with('carreras', $carreras);
+    }
+
+    public function verCarrera($codigoCarrera){
+        $carrera = Carrera::find($codigoCarrera);
+
+        $totalHoras = $carrera->cursos->sum('horas_reales');
+        $meses = floor($totalHoras/30);
+        $semanas = floor(($totalHoras-(30*$meses))/7.5);
+        $dias = ceil(($totalHoras-(30*$meses)-(7.5*$semanas))/1.5);
+        $duracion = CarbonInterval::create(0, $meses, $semanas, $dias, 0, 0, 0);
+
+        return view('carrera.show')->with('carrera', $carrera)->with('duracion', $duracion);
+    }
+
     public function verCronograma(){
         $lanzamientosCurso = LanzamientoCurso::join('cronogramas', 'lanzamiento_curso.cronograma_id', '=', 'cronogramas.id')->join('cursos', 'lanzamiento_curso.curso_codigo', '=', 'cursos.codigo')->join('tipos', 'cronogramas.tipo_id', '=', 'tipos.id')->orderBy('cronogramas.inicio', 'ASC')->where('tipos.mostrar_cronograma', '=', '1')->get();
 

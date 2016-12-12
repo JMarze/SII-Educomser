@@ -19,8 +19,10 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 Route::get('contacto', 'HomeController@contacto')->name('contacto');
 Route::get('cursos', 'HomeController@cursos')->name('curso.index');
+Route::get('carreras', 'HomeController@carreras')->name('carrera.index');
 
 Route::get('curso/{codigoCurso}', 'HomeController@verCurso')->name('curso.ver');
+Route::get('carrera/{codigoCarrera}', 'HomeController@verCarrera')->name('carrera.ver');
 Route::get('cronograma', 'HomeController@verCronograma')->name('cronograma.ver');
 
 // Test Frontend
@@ -30,40 +32,63 @@ Route::get('cronograma', 'HomeController@verCronograma')->name('cronograma.ver')
 
 // Backend - Restful
 Route::group(['prefix' => 'admin'], function(){
-    // Backend Area
-    Route::resource('area', 'AreaController');
 
-    // Backend Dificultad
-    Route::resource('dificultad', 'DificultadController');
+    Route::group(['middleware' => 'admin'], function(){
+        // Backend Area
+        Route::resource('area', 'AreaController');
 
-    // Backend Tipo
-    Route::resource('tipo', 'TipoController');
+        // Backend Dificultad
+        Route::resource('dificultad', 'DificultadController');
 
-    // Backend Cronograma
-    Route::resource('cronograma', 'CronogramaController');
-    Route::resource('cronograma_carrera', 'CronogramaCarreraController');
+        // Backend Tipo
+        Route::resource('tipo', 'TipoController');
 
-    Route::get('cronograma/listar/relaciones', 'CronogramaController@listar')->name('admin.cronograma.listar');
-    Route::get('cronograma_carrera/listar/relaciones', 'CronogramaCarreraController@listar')->name('admin.cronograma_carrera.listar');
+        // Backend Cronograma
+        Route::resource('cronograma', 'CronogramaController');
+        Route::resource('cronograma_carrera', 'CronogramaCarreraController');
 
-    Route::get('cronograma/{cronograma}/attach', 'CronogramaController@attach')->name('admin.cronograma.attach');
-    Route::put('cronograma/{cronograma}/attach', 'CronogramaController@postattach')->name('admin.cronograma.postattach');
+        Route::get('cronograma/listar/relaciones', 'CronogramaController@listar')->name('admin.cronograma.listar');
+        Route::get('cronograma_carrera/listar/relaciones', 'CronogramaCarreraController@listar')->name('admin.cronograma_carrera.listar');
 
-    Route::post('cronograma/curso', 'CronogramaController@storeCurso')->name('admin.cronograma.storeCurso');
-    Route::post('cronograma_carrera/carrera', 'CronogramaCarreraController@storeCarrera')->name('admin.cronograma_carrera.storeCarrera');
+        Route::get('cronograma/{cronograma}/attach', 'CronogramaController@attach')->name('admin.cronograma.attach');
+        Route::put('cronograma/{cronograma}/attach', 'CronogramaController@postattach')->name('admin.cronograma.postattach');
 
-    Route::get('cronograma/curso/{lanzamientoId}/edit', 'CronogramaController@editCurso')->name('admin.cronograma.editCurso');
-    Route::get('cronograma/carrera/{lanzamientoId}/edit', 'CronogramaCarreraController@editCarrera')->name('admin.cronograma_carrera.editCarrera');
+        Route::post('cronograma/curso', 'CronogramaController@storeCurso')->name('admin.cronograma.storeCurso');
+        Route::post('cronograma_carrera/carrera', 'CronogramaCarreraController@storeCarrera')->name('admin.cronograma_carrera.storeCarrera');
 
-    Route::put('cronograma/curso/{lanzamientoId}', 'CronogramaController@updateCurso')->name('admin.cronograma.updateCurso');
-    Route::put('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@updateCarrera')->name('admin.cronograma_carrera.updateCarrera');
+        Route::get('cronograma/curso/{lanzamientoId}/edit', 'CronogramaController@editCurso')->name('admin.cronograma.editCurso');
+        Route::get('cronograma/carrera/{lanzamientoId}/edit', 'CronogramaCarreraController@editCarrera')->name('admin.cronograma_carrera.editCarrera');
 
-    Route::delete('cronograma/curso/{lanzamientoId}', 'CronogramaController@destroyCurso')->name('admin.cronograma.destroyCurso');
-    Route::delete('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@destroyCarrera')->name('admin.cronograma_carrera.destroyCarrera');
+        Route::put('cronograma/curso/{lanzamientoId}', 'CronogramaController@updateCurso')->name('admin.cronograma.updateCurso');
+        Route::put('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@updateCarrera')->name('admin.cronograma_carrera.updateCarrera');
 
-    Route::get('cronograma/curso/disponible', 'CronogramaController@cursosdisponibles')->name('admin.cronograma.cursosdisponibles');
-    Route::get('cronograma/carrera/disponible', 'CronogramaCarreraController@carrerasdisponibles')->name('admin.cronograma.carrerasdisponibles');
-    Route::get('cronograma/curso/todos', 'CronogramaController@cursostodos')->name('admin.cronograma.cursostodos');
+        Route::delete('cronograma/curso/{lanzamientoId}', 'CronogramaController@destroyCurso')->name('admin.cronograma.destroyCurso');
+        Route::delete('cronograma_carrera/carrera/{lanzamientoId}', 'CronogramaCarreraController@destroyCarrera')->name('admin.cronograma_carrera.destroyCarrera');
+
+        Route::get('cronograma/curso/disponible', 'CronogramaController@cursosdisponibles')->name('admin.cronograma.cursosdisponibles');
+        Route::get('cronograma/carrera/disponible', 'CronogramaCarreraController@carrerasdisponibles')->name('admin.cronograma.carrerasdisponibles');
+        Route::get('cronograma/curso/todos', 'CronogramaController@cursostodos')->name('admin.cronograma.cursostodos');
+
+        // Backend Carrera
+        Route::resource('carrera', 'CarreraController');
+        Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
+        Route::get('carrera/listar/relaciones', 'CarreraController@listar')->name('admin.carrera.listar');
+        Route::get('carrera/{carrera}/attach', 'CarreraController@attach')->name('admin.carrera.attach');
+        Route::put('carrera/{carrera}/attach', 'CarreraController@postattach')->name('admin.carrera.postattach');
+
+        // Backend Curso
+        Route::resource('curso', 'CursoController');
+        Route::put('curso/upload/{curso}', 'CursoController@upload')->name('admin.curso.upload');
+        Route::put('curso/uploadcontenido/{curso}', 'CursoController@uploadContenido')->name('admin.curso.uploadcontenido');
+        Route::get('curso/listar/relaciones', 'CursoController@listar')->name('admin.curso.listar');
+        Route::get('curso/{curso}/show', 'CursoController@show')->name('admin.curso.getshow');
+        Route::post('curso/{curso}/create_capitulo', 'CursoController@create_capitulo')->name('admin.curso.create_capitulo');
+        Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
+
+    });
+    // Backend Curso
+    Route::get('curso/logo/{nombreLogo}', 'CursoController@verLogo')->name('admin.curso.verlogo');
+    Route::get('curso/contenido/{nombreContenido}', 'CursoController@verContenido')->name('admin.curso.vercontenido');
 
     // Backend Grado
     Route::resource('grado', 'GradoController');
@@ -78,25 +103,6 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('docente/{docente}/show', 'DocenteController@show')->name('admin.docente.getshow');
     Route::get('docente/{docente}/attach', 'DocenteController@attach')->name('admin.docente.attach');
     Route::put('docente/{docente}/attach', 'DocenteController@postattach')->name('admin.docente.postattach');
-
-    // Backend Carrera
-    Route::resource('carrera', 'CarreraController');
-    Route::put('carrera/upload/{carrera}', 'CarreraController@upload')->name('admin.carrera.upload');
-    Route::get('carrera/listar/relaciones', 'CarreraController@listar')->name('admin.carrera.listar');
-    Route::get('carrera/{carrera}/attach', 'CarreraController@attach')->name('admin.carrera.attach');
-    Route::put('carrera/{carrera}/attach', 'CarreraController@postattach')->name('admin.carrera.postattach');
-
-    // Backend Curso
-    Route::resource('curso', 'CursoController');
-    Route::put('curso/upload/{curso}', 'CursoController@upload')->name('admin.curso.upload');
-    Route::put('curso/uploadcontenido/{curso}', 'CursoController@uploadContenido')->name('admin.curso.uploadcontenido');
-    Route::get('curso/listar/relaciones', 'CursoController@listar')->name('admin.curso.listar');
-    Route::get('curso/{curso}/show', 'CursoController@show')->name('admin.curso.getshow');
-    Route::post('curso/{curso}/create_capitulo', 'CursoController@create_capitulo')->name('admin.curso.create_capitulo');
-    Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
-
-    Route::get('curso/logo/{nombreLogo}', 'CursoController@verLogo')->name('admin.curso.verlogo');
-    Route::get('curso/contenido/{nombreContenido}', 'CursoController@verContenido')->name('admin.curso.vercontenido');
 
     // Backend Alumno
     Route::resource('alumno', 'AlumnoController');

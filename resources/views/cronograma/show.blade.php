@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.frontend')
+
+@section('title', 'Educomser SRL - Cronograma Vigente')
 
 @section('content')
 
@@ -45,9 +47,13 @@
                     Lun. a Vie. de {{ $lanzamientoCarrera->cronograma->inicio->formatLocalized('%H:%M') }} a {{ $lanzamientoCarrera->cronograma->inicio->addMinute($lanzamientoCarrera->cronograma->duracion_clase * 60)->formatLocalized('%H:%M') }}
                 </td>
                 <td class="text-center">
+                    @if(!Auth::guest())
                     <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#preinscripcion" data-id="{{ $lanzamientoCarrera->carrera->codigo }}" title="Realizar preinscripción">
                         <i class="fa fa-btn fa-check"></i>Realizar preinscripción
                     </button>
+                    @else
+                    Debes iniciar sesión o registrarte
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -94,9 +100,13 @@
                     @endif
                 </td>
                 <td class="text-center">
+                    @if(!Auth::guest())
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#preinscripcion" data-id="{{ $lanzamientoCurso->curso->codigo }}" title="Realizar preinscripción">
                         <i class="fa fa-btn fa-check"></i>Realizar preinscripción
                     </button>
+                    @else
+                    Debes iniciar sesión o registrarte
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -106,4 +116,12 @@
     <hr/>
 </div>
 
+@endsection
+
+
+@section('script')
+@parent
+<script>
+    $('li#cronograma').addClass('active');
+</script>
 @endsection

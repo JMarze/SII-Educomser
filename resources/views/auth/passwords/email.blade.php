@@ -1,12 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.frontend')
+
+@section('title', 'Educomser SRL - Restaurar Contraseña')
 
 <!-- Main Content -->
 @section('content')
-<div class="container">
+<div class="container" style="height: 100vh;">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+            <div class="panel panel-default" style="margin-top: 20px;">
+                <div class="panel-heading" style="font-size: x-large; font-weight: bold; text-align: center; padding: 20px 0;">Restaurar Contraseña</div>
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -18,7 +20,7 @@
                         {!! csrf_field() !!}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
+                            <label class="col-md-4 control-label">Correo Electrónico</label>
 
                             <div class="col-md-6">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}">
@@ -34,7 +36,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-envelope"></i>Send Password Reset Link
+                                    <i class="fa fa-btn fa-envelope"></i>&nbsp;&nbsp;&nbsp;Enviar Link para restaurar contraseña
                                 </button>
                             </div>
                         </div>

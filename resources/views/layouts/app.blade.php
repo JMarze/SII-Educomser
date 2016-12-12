@@ -80,22 +80,6 @@
                             <li><a href="{{ route('admin.ayuda.cursos') }}"><i class="fa fa-btn fa-question"></i>Ayuda</a></li>
                         </ul>
                     </li>
-
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-btn fa-cube"></i>Cursos
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-btn fa-cubes"></i>Carreras
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('cronograma.ver') }}">
-                            <i class="fa fa-btn fa-calendar"></i>Cronograma
-                        </a>
-                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
