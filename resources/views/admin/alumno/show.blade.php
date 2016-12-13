@@ -145,6 +145,12 @@
                         <div class="panel-collapse collapse" role="tabpanel" id="collapse_curso_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
                             <div class="panel-body">
                                 <div class="row text-center">
+                                    <div class="col-md-12">
+                                        <h4><strong>Información del Curso</strong></h4>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
                                     <div class="col-md-4">
                                         <strong><i class="fa fa-btn fa-cube"></i>Tipo de Curso:</strong><br/>
                                         {{ $inscripcion->lanzamientoCurso->cronograma->tipo->nombre }}
@@ -237,8 +243,66 @@
                                     </div>
                                     @endif
                                     @endif
+                                    <hr/>
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#attach_pago" data-id="{{ $inscripcion->id }}" title="Registrar Pago">
+                                            <i class="fa fa-btn fa-money"></i>Registrar Pago
+                                        </button>
+                                    </div>
                                 </div>
                                 <hr/>
+                                <div class="row text-center">
+                                    <div class="col-md-12">
+                                        <h4><strong>Información de los Pagos</strong></h4>
+                                    </div>
+                                </div>
+                                <hr/>
+                                @if($inscripcion->pagos->count() > 0)
+                                @foreach($inscripcion->pagos as $pago)
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>Fecha</strong><br/>
+                                        {{ $pago->created_at->diffForHumans() }} <br/>
+                                        {{ $pago->created_at }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Concepto</strong><br/>
+                                        {{ $pago->concepto->descripcion }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Monto</strong><br/>
+                                        Bs {{ $pago->monto }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Factura</strong><br/>
+                                        {{ $pago->numero_factura }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Observaciones</strong><br/>
+                                        @if($pago->observaciones != null && $pago->observaciones != "")
+                                        {{ $pago->observaciones }}
+                                        @else
+                                        Sin Observaciones
+                                        @endif
+                                    </div>
+                                </div>
+                                @endforeach
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-4">
+                                        <strong>Total</strong>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong>Bs {{ $inscripcion->pagos->sum('monto') }}</strong>
+                                    </div>
+                                </div>
+                                @else
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong>* No se encontraron pagos...</strong>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
 
@@ -287,8 +351,14 @@
                         <div class="panel-collapse collapse" role="tabpanel" id="collapse_carrera_{{ $inscripcion->id }}" aria-labelledby="heading_{{ $inscripcion->id }}">
                             <div class="panel-body">
                                 <div class="row text-center">
+                                    <div class="col-md-12">
+                                        <h4><strong>Información de la Carrera</strong></h4>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row text-center">
                                     <div class="col-md-4">
-                                        <strong><i class="fa fa-btn fa-cube"></i>Tipo de Curso:</strong><br/>
+                                        <strong><i class="fa fa-btn fa-cube"></i>Tipo de Carrera:</strong><br/>
                                         {{ $inscripcion->lanzamientoCarrera->cronograma->tipo->nombre }}
                                     </div>
                                     <div class="col-md-4">
@@ -417,6 +487,7 @@
 @include('admin.alumno.partial.attach_curso_personalizado')
 @include('admin.alumno.partial.attach_historial')
 @include('admin.alumno.partial.attach_certificado')
+@include('admin.alumno.partial.attach_pago')
 
 @include('admin.alumno.partial.destroy_inscripcion_curso')
 @include('admin.alumno.partial.destroy_inscripcion_carrera')
@@ -557,6 +628,30 @@
         $('#msg-attach-historial').css('display', 'none');
         $('#form-postattachhistorial').css('display', 'block');
         $('#form-postattachhistorial').attr('data-id', idInscripcion);
+    });
+
+    // Llenar Form -> Attach Pago
+    $(document).on('click', 'button[data-target="#attach_pago"]', function(e){
+        var idInscripcion = $(this).attr('data-id');
+        var url = '{{ route('admin.alumno.conceptosdisponibles') }}';
+        $.ajax({
+            url: url,
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'GET',
+            dataType: 'JSON',
+            beforeSend: function(e){
+                $('#msg-attach-pago').css('display', 'block');
+                $('#form-postattachpago').css('display', 'none');
+            }
+        }).done(function (response){
+            var selectConceptos = $('select#concepto_id').empty().append("<option value=''>Seleccione un Concepto</option>");
+            $.each(response['conceptos'], function(key, value){
+                selectConceptos.append("<option value='"+key+"'>"+value+"</option>");
+            });
+            $('#msg-attach-pago').css('display', 'none');
+            $('#form-postattachpago').css('display', 'block');
+            $('#form-postattachpago').attr('data-id', idInscripcion);
+        });
     });
 
     // Llenar Form -> Attach Certificado
@@ -733,6 +828,20 @@
         }else{
             $('.wrapper-tipo_asistencia').removeClass('has-error');
             $('.wrapper-tipo_asistencia .help-block>strong').html('');
+        }
+        if(response.responseJSON['monto']){
+            $('.wrapper-monto').addClass('has-error');
+            $('.wrapper-monto .help-block>strong').html(response.responseJSON['monto']);
+        }else{
+            $('.wrapper-monto').removeClass('has-error');
+            $('.wrapper-monto .help-block>strong').html('');
+        }
+        if(response.responseJSON['numero_factura']){
+            $('.wrapper-numero_factura').addClass('has-error');
+            $('.wrapper-numero_factura .help-block>strong').html(response.responseJSON['numero_factura']);
+        }else{
+            $('.wrapper-numero_factura').removeClass('has-error');
+            $('.wrapper-numero_factura .help-block>strong').html('');
         }
     }
 </script>

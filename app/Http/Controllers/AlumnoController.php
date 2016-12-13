@@ -16,10 +16,12 @@ use App\Grado;
 use App\Inscripcion;
 use App\InscripcionCarrera;
 use App\Historial;
+use App\Pago;
 use App\LanzamientoCurso;
 use App\Curso;
 use App\LanzamientoCarrera;
 use App\Cronograma;
+use App\Concepto;
 use App\Http\Requests\AlumnoRequest;
 
 use DB;
@@ -438,6 +440,34 @@ class AlumnoController extends Controller
      *
      *
      */
+    public function postattachpago(Request $request, $id){
+        $this->validate($request, [
+            'monto' => 'required|min:1',
+            'numero_factura' => 'required|min:1',
+        ]);
+        if ($request->ajax()){
+            try{
+                $inscripcion = Inscripcion::find($id);
+                $pago = new Pago($request->all());
+                $pago->inscripcion_id = $inscripcion->id;
+                $pago->save();
+                flash('El alumno: '.$inscripcion->alumno->persona->primer_apellido.' '.$inscripcion->alumno->persona->segundo_apellido.' '.$inscripcion->alumno->persona->nombres.' realizó un pago por: '.$pago->concepto->descripcion.' con el monto de Bs '.$pago->monto, 'success')->important();
+                return response()->json([
+                    'mensaje' => $pago->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al realizar el pago... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
     public function postattachcertificado(Request $request, $id){
         $this->validate($request, [
             'certificado' => 'required',
@@ -464,6 +494,26 @@ class AlumnoController extends Controller
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al finalizar el curso... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public function conceptosdisponibles(Request $request){
+        if ($request->ajax()){
+            try{
+                $conceptos = Concepto::orderBy('descripcion', 'ASC')->lists('descripcion', 'id');
+                return response()->json([
+                    'conceptos' => $conceptos,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'conceptos' => null,
                     'mensaje' => $ex->getMessage(),
                 ]);
             }

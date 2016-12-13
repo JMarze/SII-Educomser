@@ -11,7 +11,7 @@ class Pago extends Model
 
     protected $table = 'pagos';
 
-    protected $fillable = ['monto', 'observacion', 'numero_factura', 'concepto_id', 'inscripcion_id'];
+    protected $fillable = ['monto', 'observacionse', 'numero_factura', 'concepto_id', 'inscripcion_id'];
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 

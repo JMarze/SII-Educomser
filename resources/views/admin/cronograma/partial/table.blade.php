@@ -55,7 +55,7 @@
         <td>{{ $lanzamientoCurso->cronograma->updated_at->diffForHumans() }}</td>
         <td>
             <div class="btn-group" role="group" aria-label="Center Align">
-                <a href="#" type="button" class="btn btn-sm btn-default" title="Ver Lanzamiento">
+                <a href="{{ route('admin.cronograma.showCurso', $lanzamientoCurso->id) }}" type="button" class="btn btn-sm btn-default" title="Ver Lanzamiento">
                     <i class="fa fa-eye"></i>
                     <span class="sr-only">Ver Lanzamiento</span>
                 </a>

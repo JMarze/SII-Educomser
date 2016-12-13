@@ -93,9 +93,11 @@ class CronogramaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showCurso($lanzamientoId)
     {
-        //
+        $lanzamientoCurso = LanzamientoCurso::find($lanzamientoId);
+
+        return view('admin.cronograma.showCurso')->with('lanzamientoCurso', $lanzamientoCurso);
     }
 
     /**

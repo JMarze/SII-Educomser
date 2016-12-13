@@ -25,14 +25,14 @@ class Inscripcion extends Model
     public function publicidad(){
         return $this->belongsTo('App\Publicidad');
     }
-    // 1 -> (1:N)
     public function alumno(){
         return $this->belongsTo('App\Alumno');
     }
-
-    // 1 -> (1:N)
     public function lanzamientoCurso(){
         return $this->belongsTo('App\LanzamientoCurso');
+    }
+    public function pagos(){
+        return $this->hasMany('App\Pago');
     }
 
     // 1 -> (1:1)
