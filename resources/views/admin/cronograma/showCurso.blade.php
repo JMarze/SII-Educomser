@@ -73,7 +73,9 @@
                         </td>
                         <td>{{ $inscrito->created_at }}</td>
                         <td>Bs {{ $inscrito->pagos->sum('monto') }}</td>
-                        <td></td>
+                        <td>
+                            <a href="{{ route('evaluacion.index', $inscrito->id) }}">Evaluar</a>
+                        </td>
                     </tr>
                     @endforeach
                 </table>

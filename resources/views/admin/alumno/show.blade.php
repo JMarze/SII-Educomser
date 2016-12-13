@@ -237,8 +237,8 @@
                                     </div>
                                     @elseif($inscripcion->tipo_asistencia == 'qr')
                                     <div class="col-md-6">
-                                        <a class="btn btn-default" href="#">
-                                            <i class="fa fa-btn fa-qrcode"></i>Leer Qr
+                                        <a class="btn btn-default" href="{{ route('admin.reporte.qrcode', $inscripcion->id) }}">
+                                            <i class="fa fa-btn fa-qrcode"></i>Generar Qr Code
                                         </a>
                                     </div>
                                     @endif

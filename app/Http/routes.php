@@ -25,6 +25,9 @@ Route::get('curso/{codigoCurso}', 'HomeController@verCurso')->name('curso.ver');
 Route::get('carrera/{codigoCarrera}', 'HomeController@verCarrera')->name('carrera.ver');
 Route::get('cronograma', 'HomeController@verCronograma')->name('cronograma.ver');
 
+Route::get('evaluacion/{inscripcion}', 'EvaluacionController@evaluar')->name('evaluacion.index');
+Route::post('evaluacion/{inscripcion}', 'EvaluacionController@registrarEvaluacion')->name('evaluacion.registrar');
+
 // Test Frontend
 /*Route::get('/', function(){
     return view('index');
@@ -135,6 +138,7 @@ Route::group(['prefix' => 'admin'], function(){
     Route::get('boleta/{inscripcion}/carrera', 'ReporteController@boletaInscripcionCarrera')->name('admin.reporte.boletaInscripcionCarrera');
     Route::get('seguimiento/{inscripcion}', 'ReporteController@seguimientoCurso')->name('admin.reporte.seguimientoCurso');
     Route::get('seguimiento/{inscripcion}/carrera', 'ReporteController@seguimientoCarrera')->name('admin.reporte.seguimientoCarrera');
+    Route::get('qrcode/{inscripcion}', 'ReporteController@qrcode')->name('admin.reporte.qrcode');
 
     // Backend Ayuda
     Route::get('ayuda/cursos', 'AyudaController@cursos')->name('admin.ayuda.cursos');

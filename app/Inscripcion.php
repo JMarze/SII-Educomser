@@ -34,6 +34,9 @@ class Inscripcion extends Model
     public function pagos(){
         return $this->hasMany('App\Pago');
     }
+    public function evaluaciones(){
+        return $this->hasMany('App\Evaluacion');
+    }
 
     // 1 -> (1:1)
     public function historial(){

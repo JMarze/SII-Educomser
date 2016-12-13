@@ -82,4 +82,17 @@ class ReporteController extends Controller
             ->with('carrera', $carrera)
             ->with('cantidadClases', $cantidadClases);
     }
+
+    public function qrcode($idInscripcion){
+        $inscripcion = Inscripcion::find($idInscripcion);
+
+        $qrCode = bcrypt($inscripcion->alumno->persona->codigo)
+            . "|EDU|" . bcrypt($inscripcion->id)
+            . "|EDU|" . $inscripcion->alumno->persona->primer_apellido
+            . "|EDU|" . $inscripcion->alumno->persona->segundo_apellido;
+
+        return view('admin.reporte.qr_code')
+            ->with('inscripcion', $inscripcion)
+            ->with('qrCode', $qrCode);
+    }
 }
