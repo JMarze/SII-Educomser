@@ -91,6 +91,9 @@ Route::group(['prefix' => 'admin'], function(){
         Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
 
     });
+    // Backend Carrera
+    Route::get('carrera/logo/{nombreLogo}', 'CarreraController@verLogo')->name('admin.carrera.verlogo');
+
     // Backend Curso
     Route::get('curso/logo/{nombreLogo}', 'CursoController@verLogo')->name('admin.curso.verlogo');
     Route::get('curso/contenido/{nombreContenido}', 'CursoController@verContenido')->name('admin.curso.vercontenido');

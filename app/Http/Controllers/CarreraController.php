@@ -231,6 +231,15 @@ class CarreraController extends Controller
      *
      *
      */
+    public function verLogo($nombreLogo){
+        $logo = \Storage::disk('local')->get($nombreLogo);
+        return new Response($logo, 200);
+    }
+
+    /**
+     *
+     *
+     */
     public function attach(Request $request, $id){
         if ($request->ajax()){
             try{
