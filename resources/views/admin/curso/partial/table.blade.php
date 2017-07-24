@@ -221,7 +221,7 @@
             $.each(response['curso'], function(key, value){
                 if(key == 'area_id' || key == 'dificultad_id' || key == 'vigente'){
                     $('select[name="'+key+'"]').val(value);
-                }else if(key != 'logo' && key != 'descripcion'){
+                }else if(key != 'logo' && key != 'descripcion' && key != 'contenido'){
                     $('input[name="'+key+'"]').val(value);
                 }else if(key == 'descripcion'){
                     $('textarea[name="'+key+'"]').val(value);
