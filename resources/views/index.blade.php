@@ -199,7 +199,11 @@
             @foreach($cursos as $curso)
             <div class="col-xs-12 col-sm-4 col-md-3">
                 <div class="recent-work-wrap">
+                    @if($curso->logo != null)
+                    <img class="img-responsive" src="{{ route('admin.curso.verlogo', ['nombreLogo' => $curso->logo]) }}" alt="">
+                    @else
                     <img class="img-responsive" src="images/portfolio/recent/item{{ $item }}.png" alt="">
+                    @endif
                     <div class="overlay">
                         <div class="recent-work-inner">
                             <h3><a href="#">Curso de {{ $curso->nombre }}</a> </h3>
@@ -221,7 +225,11 @@
             @foreach($carreras as $carrera)
             <div class="col-xs-12 col-sm-4 col-md-3">
                 <div class="recent-work-wrap">
+                    @if($carrera->logo != null)
+                    <img class="img-responsive" src="{{ route('admin.carrera.verlogo', ['nombreLogo' => $carrera->logo]) }}" alt="">
+                    @else
                     <img class="img-responsive" src="images/portfolio/recent/item{{ $item }}.png" alt="">
+                    @endif
                     <div class="overlay">
                         <div class="recent-work-inner">
                             <h3><a href="#">Carrera de {{ $carrera->nombre }}</a> </h3>
