@@ -115,7 +115,7 @@
                                                 <h5>{{ $topico->subtitulo }}<small>&nbsp;&nbsp;&nbsp;(Modificado: {{ $topico->updated_at->diffForHumans() }})</small></h5>
                                             </div>
                                             <div class="btn-group col-md-2" role="group" aria-label="Center Align">
-                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update_topico" data-id="{{ $topico->id }}" title="Editar tópico">
+                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#update_topico" data-id="{{ $topico->id }}" data-capitulo="{{ $capitulo->id }}" title="Editar tópico">
                                                     <i class="fa fa-edit"></i>
                                                     <span class="sr-only">Editar tópico</span>
                                                 </button>
@@ -139,7 +139,9 @@
     </div>
 </div>
 @include('admin.curso.partial.create_capitulo')
+@include('admin.curso.partial.update_capitulo')
 @include('admin.curso.partial.create_topico')
+@include('admin.curso.partial.update_topico')
 @endsection
 
 @section('script')

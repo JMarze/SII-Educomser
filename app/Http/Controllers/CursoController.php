@@ -266,6 +266,26 @@ class CursoController extends Controller
         }
     }
 
+    public function update_capitulo(CapituloRequest $request, $id){
+        if ($request->ajax()){
+            try{
+                $curso = Curso::find($id);
+                $capitulo = Capitulo::find($request->capitulo_id);
+                $capitulo->titulo = $request->titulo;
+                $capitulo->update();
+                flash('Se modificó el capítulo: '.$capitulo->titulo.' del curso: '.$curso->nombre, 'warning')->important();
+                return response()->json([
+                    'mensaje' => $capitulo->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
     public function create_topico(TopicoRequest $request, $id){
         if ($request->ajax()){
             try{
@@ -279,6 +299,60 @@ class CursoController extends Controller
             }catch(\Exception $ex){
                 flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
                 return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    public function update_topico(TopicoRequest $request, $id){
+        if ($request->ajax()){
+            try{
+                $capitulo = Capitulo::find($id);
+                $topico = Topico::find($request->topico_id);
+                $topico->subtitulo = $request->subtitulo;
+                $topico->update();
+                flash('Se modificó el subtítulo: '.$topico->subtitulo.' del capítulo: '.$capitulo->titulo, 'warning')->important();
+                return response()->json([
+                    'mensaje' => $topico->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al agregar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    public function getCapitulo(Request $request, $idCapitulo){
+        if ($request->ajax()){
+            try{
+                $capitulo = Capitulo::find($idCapitulo);
+
+                return response()->json([
+                    'capitulo' => $capitulo,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'capitulo' => null,
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    public function getTopico(Request $request, $idTopico){
+        if ($request->ajax()){
+            try{
+                $topcio = Topico::find($idTopico);
+
+                return response()->json([
+                    'topico' => $topcio,
+                ]);
+            }catch(\Exception $ex){
+                return response()->json([
+                    'topico' => null,
                     'mensaje' => $ex->getMessage(),
                 ]);
             }
