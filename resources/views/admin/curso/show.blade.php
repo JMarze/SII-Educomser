@@ -142,6 +142,7 @@
 @include('admin.curso.partial.update_capitulo')
 @include('admin.curso.partial.create_topico')
 @include('admin.curso.partial.update_topico')
+@include('admin.curso.partial.destroy_topico')
 @endsection
 
 @section('script')

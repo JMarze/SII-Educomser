@@ -325,6 +325,25 @@ class CursoController extends Controller
         }
     }
 
+    public function destroy_topico(Request $request, $id){
+        if ($request->ajax()){
+            try{
+                $capitulo = Capitulo::find($id);
+                $topico = Topico::find($request->topico_id);
+                $topico->delete();
+                flash('Se eliminó el subtítulo: '.$topico->subtitulo.' del capítulo: '.$capitulo->titulo, 'danger')->important();
+                return response()->json([
+                    'mensaje' => $topico->id,
+                ]);
+            }catch(\Exception $ex){
+                flash('Wow!!! se presentó un problema al eliminar... Intenta más tarde. El mensaje es el siguiente: '.$ex->getMessage(), 'danger')->important();
+                return response()->json([
+                    'mensaje' => $ex->getMessage(),
+                ]);
+            }
+        }
+    }
+
     public function getCapitulo(Request $request, $idCapitulo){
         if ($request->ajax()){
             try{

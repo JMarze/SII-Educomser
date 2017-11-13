@@ -92,6 +92,7 @@ Route::group(['prefix' => 'admin'], function(){
         Route::get('curso/{idCapitulo}/capitulo', 'CursoController@getCapitulo')->name('admin.curso.getCapitulo');
         Route::post('curso/{capitulo}/create_topico', 'CursoController@create_topico')->name('admin.curso.create_topico');
         Route::put('curso/{capitulo}/update_topico', 'CursoController@update_topico')->name('admin.curso.update_topico');
+        Route::put('curso/{capitulo}/destroy_topico', 'CursoController@destroy_topico')->name('admin.curso.destroy_topico');
         Route::get('curso/{idTopico}/topico', 'CursoController@getTopico')->name('admin.curso.getTopico');
     });
     // Backend Carrera
